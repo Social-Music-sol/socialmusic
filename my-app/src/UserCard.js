@@ -1,10 +1,10 @@
 import React from 'react';
-import './UserCard.css';
+import './UserCard.css'; // Import CSS
 
 const UserCard = ({ user }) => {
   return (
     <div className="user-card">
-      <p>{user.username}</p>
+      <p>{user.name}</p> // Assuming user object has a username property
     </div>
   );
 };

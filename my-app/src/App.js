@@ -1,12 +1,11 @@
 import React from 'react';
-//import UserList from './UserList';
-import UserCard from './UserCard';
+import UserList from './UserList';
 
 function App() {
   return (
     <div className="App">
-      <h1>Cards</h1>
-      <UserCard />
+      <h1>User List</h1>
+      <UserList />
     </div>
   );
 }

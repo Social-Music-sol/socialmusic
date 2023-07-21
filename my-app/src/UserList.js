@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import UserCard from './UserCard';
-import './UserList.css'; // import CSS for user list
+import './UserList.css'; // Import CSS
 
 function UserList() {
   const [users, setUsers] = useState([]); 
 
   useEffect(() => {
     fetch('/users')
-      .then(response => response.json())  
-      .then(data => setUsers(data)) 
+      .then(response => response.json())
+      .then(data => setUsers(data))
       .catch(error => console.error('Error:', error));
   }, []);
 
