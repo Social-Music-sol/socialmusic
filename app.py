@@ -23,6 +23,13 @@ def add_user(name):
     db.session.commit()
     return f"User {name} added successfully!"
 
+@app.route('/delete-user/<name>', methods=['DELETE'])
+def delete_user(name):
+    user_to_delete = User.query.filter_by(name=name).first()
+    db.session.delete(user_to_delete)
+    db.session.commit()
+    return f"User {name} deleted successfully!"
+
 @app.route('/users')
 def users():
 	users = User.query.all()
