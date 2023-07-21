@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function AddUserForm() {
+function AddUserForm({ onUserAdded }) {
   const [username, setUsername] = useState('');
 
   const handleSubmit = event => {
@@ -12,8 +12,8 @@ function AddUserForm() {
       .then(response => response.text())
       .then(message => {
         console.log(message);
-        setUsername(''); // Clear the input field
-        // You may want to fetch the updated list of users here
+        setUsername('');  // Clear the input field
+        onUserAdded();  // Fetch the updated list of users
       })
       .catch(error => console.error('Error:', error));
     }
