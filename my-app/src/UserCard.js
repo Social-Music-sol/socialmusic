@@ -4,7 +4,7 @@ import './UserCard.css'; // Import CSS
 const UserCard = ({ user }) => {
   return (
     <div className="user-card">
-      <p>{user.name}</p>
+      <p>{user}</p>
     </div>
   );
 };
