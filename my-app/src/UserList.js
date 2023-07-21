@@ -17,7 +17,6 @@ function UserList() {
       {users.map((user, index) => (
         <UserCard key={index} user={user} />
       ))}
-      <br></br>
     </div>
   );
 }
