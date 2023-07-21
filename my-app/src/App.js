@@ -33,7 +33,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>User List</h1>
+      <h1>JamJar</h1>
       <AddUserForm onUserAdd={handleAddUser} />
       <DeleteUserForm onUserDelete={handleDeleteUser} />
       <UserList users={users} />
