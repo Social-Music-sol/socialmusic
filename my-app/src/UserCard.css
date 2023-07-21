@@ -1,0 +1,23 @@
+.user-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px; /* adjust as needed */
+    height: 100px; /* adjust as needed */
+    margin: 10px;
+    border-radius: 50px; /* adjust as needed to get the roundness you want */
+    background-color: #f3f3f3; /* adjust as needed */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); /* optional */
+    text-align: center;
+  }
+  
+  .user-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 20px;
+    gap: 20px;
+  }
+  

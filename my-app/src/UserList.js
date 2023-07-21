@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from 'react';
+import UserCard from './UserCard';
+import './UserList.css'; // import CSS for user list
 
 function UserList() {
-  const [users, setUsers] = useState([]);  // Initialize state to hold user data
+  const [users, setUsers] = useState([]); 
 
-  // Fetch user data from Flask backend when component mounts
   useEffect(() => {
-    fetch('/users')  // Make a GET request to the Flask /users endpoint
-      .then(response => response.json())  // Parse the JSON response
-      .then(data => setUsers(data))  // Update state with user data
-      .catch(error => console.error('Error:', error));  // Log any errors
-  }, []);  // Empty dependency array means this effect runs once when the component mounts
+    fetch('/users')
+      .then(response => response.json())  
+      .then(data => setUsers(data)) 
+      .catch(error => console.error('Error:', error));
+  }, []);
 
-  // Render user data
   return (
-    <ul>
+    <div className="user-list">
       {users.map((user, index) => (
-        <li key={index}>{user}</li>
+        <UserCard key={index} user={user} />
       ))}
-    </ul>
+    </div>
   );
 }
 
