@@ -6,7 +6,7 @@
     height: 500px; /* adjust as needed */
     margin: 10px;
     border-radius: 50px; /* adjust as needed to get the roundness you want */
-    background-color: #ffffff; /* adjust as needed */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); /* optional */
+    background-color: rgb(255, 255, 255); /* adjust as needed */
+    
     text-align: center;
 }
