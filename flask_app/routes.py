@@ -29,6 +29,7 @@ def login():
          "expiration": int(expiration.timestamp())
     }
     token = jwt.encode(token_info, current_app.config['SECRET_KEY'], algorithm='HS256')
+    print(token)
     return jsonify({'message': 'Successfully logged in', 'token':token})
     # ... generate JWT and return it to the client ...
 
@@ -55,6 +56,9 @@ def register():
 @routes.route('/protected', methods=['GET'])
 @jwt_required()
 def protected():
+    print(current_app.config["JWT_IDENTITY_CLAIM"])
+    print(current_app.config["JWT_SECRET_KEY"])
+    print(current_app.config["JWT_ALGORITHM"])
     current_user = get_jwt_identity()
     return jsonify(logged_in_as=current_user), 200
 
