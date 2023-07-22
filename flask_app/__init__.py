@@ -1,9 +1,11 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_jwt_extended import JWTManager
 from dotenv import load_dotenv
 import os
 # Create the SQLAlchemy object
 db = SQLAlchemy()
+jwt = JWTManager()
 
 def create_app():
     # Create the Flask application
@@ -16,6 +18,8 @@ def create_app():
     app.config["JWT_TOKEN_LOCATION"] = ["headers"]
     app.config['JWT_HEADER_NAME'] = 'Authorization'
     app.config['JWT_HEADER_TYPE'] = 'Bearer'
+
+    jwt.init_app(app)
 
     # Now that we have the 'app' object, we can use it to initialize 'db'
     db.init_app(app)
