@@ -24,10 +24,6 @@ def create_app():
     # Now that we have the 'app' object, we can use it to initialize 'db'
     db.init_app(app)
 
-    print(app.config["JWT_IDENTITY_CLAIM"])
-    print(app.config["JWT_SECRET_KEY"])
-    print(app.config["JWT_ALGORITHM"])
-
     # Then we import and register blueprints
     from .routes import routes as routes_blueprint
     app.register_blueprint(routes_blueprint)
