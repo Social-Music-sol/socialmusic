@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import RegisterPage from './RegisterPage';
 import UserList from './UserList';
 import AddUserForm from './AddUserForm';
 import DeleteUserForm from './DeleteUserForm';
-import RegisterPage from './RegisterPage'; // Import the RegisterPage component
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 function App() {
   const [users, setUsers] = useState([]);
