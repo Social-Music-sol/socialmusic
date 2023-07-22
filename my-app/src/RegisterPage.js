@@ -1,42 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-class RegisterPage extends React.Component {
-  state = {
-    username: '',
-    password: '',
-    email: '',
+const RegisterPage = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Register with', { username, password, email });
+    // here you can call your API to register the user
   };
 
-  handleInputChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  handleSubmit = (event) => {
-    event.preventDefault();
-    // Handle the form submission here (e.g., send data to the server)
-  };
-
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Username:
-          <input type="text" name="username" onChange={this.handleInputChange} />
-        </label>
-        <label>
-          Password:
-          <input type="password" name="password" onChange={this.handleInputChange} />
-        </label>
-        <label>
-          Email:
-          <input type="email" name="email" onChange={this.handleInputChange} />
-        </label>
-        <button type="submit">Register</button>
-      </form>
-    );
-  }
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>
+        Username:
+        <input type="text" value={username} onChange={e => setUsername(e.target.value)} required />
+      </label>
+      <label>
+        Password:
+        <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
+      </label>
+      <label>
+        Email:
+        <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
+      </label>
+      <button type="submit">Register</button>
+    </form>
+  );
 }
 
 export default RegisterPage;

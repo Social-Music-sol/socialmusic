@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import RegisterPage from './RegisterPage';
 import UserList from './UserList';
 import AddUserForm from './AddUserForm';
@@ -37,15 +37,14 @@ function App() {
     <Router>
       <div className="App">
         <h1>JamJar</h1>
+        <Link to="/register">Register</Link>  {/* Add this line */}
         <Routes>
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/" element={
-            <>
-              <AddUserForm onUserAdd={handleAddUser} />
-              <DeleteUserForm onUserDelete={handleDeleteUser} />
-              <UserList users={users} />
-            </>
-          } />
+          <Route path="/" element={<>
+            <AddUserForm onUserAdd={handleAddUser} />
+            <DeleteUserForm onUserDelete={handleDeleteUser} />
+            <UserList users={users} />
+          </>} />
         </Routes>
       </div>
     </Router>
