@@ -36,15 +36,20 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <h1>JamJar</h1>
-        <Navigation />
         <Routes>
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/" element={<>
-            <AddUserForm onUserAdd={handleAddUser} />
-            <DeleteUserForm onUserDelete={handleDeleteUser} />
-            <UserList users={users} />
-          </>} />
+          <Route path="/" element={
+            <div>
+              <h1>JamJar</h1>
+              <a href="/RegisterPage">Register</a>
+              <br />
+              <a href="/LoginPage">Login</a>
+              <AddUserForm onUserAdd={handleAddUser} />
+              <DeleteUserForm onUserDelete={handleDeleteUser} />
+              <UserList users={users} />
+            </div>
+          }/>
+          <Route path="/RegisterPage" element={<RegisterPage />} />
+          <Route path="/LoginPage" element={<LoginPage />} /> {/* Add this line */}
         </Routes>
       </div>
     </Router>
