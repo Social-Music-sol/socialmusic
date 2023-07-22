@@ -22,12 +22,11 @@ def login():
     if user is None or not user.check_password(password):
         return jsonify({'message': 'Invalid username or password'}), 401
 
-    expiration = datetime.datetime.utcnow() + datetime.timedelta(hours=6)
-    token_info = {
-         "identity": str(user.id),
-         "expiration": int(expiration.timestamp())
-    }
-    token = create_access_token(token_info, current_app.config['SECRET_KEY'], algorithm='HS256')
+    token = create_access_token(
+        identity=str(user.id),
+        expires_delta=datetime.timedelta(hours=2)
+    
+    )
     return jsonify({'message': 'Successfully logged in', 'token':token})
 
 @routes.route('/register', methods=['POST'])
