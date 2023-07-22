@@ -14,6 +14,7 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET_KEY')
     app.config["JWT_TOKEN_LOCATION"] = ["headers"]
+    app.config['JWT_HEADER_NAME'] = 'Authorization'
 
     # Now that we have the 'app' object, we can use it to initialize 'db'
     db.init_app(app)
