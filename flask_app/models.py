@@ -51,7 +51,7 @@ class Comment(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
-    user = db.relationship('User', backref=db.backref('comments', lazy=True))
+    user = db.relationship('Users', backref=db.backref('comments', lazy=True))
     post = db.relationship('Post', backref=db.backref('comments', lazy='dynamic'))
 
 class Like(db.Model):
@@ -62,7 +62,7 @@ class Like(db.Model):
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-    user = db.relationship('User', backref=db.backref('likes', lazy=True))
+    user = db.relationship('Users', backref=db.backref('likes', lazy=True))
     post = db.relationship('Post', backref=db.backref('likes', lazy='dynamic'))
 
 class User(db.Model):
