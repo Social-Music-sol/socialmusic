@@ -1,6 +1,5 @@
-from flask import Flask
+from flask import Flask, jsonify, Blueprint
 from flask_sqlalchemy import SQLAlchemy
-from flask import jsonify
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://flaskuser:STARTER@localhost/socialmusic_starter_db'
@@ -31,7 +30,8 @@ def users():
 	users = User.query.all()
 	return jsonify([user.name for user in users])
 
-import login
+from login import login_bp
+app.register_blueprint(login_bp)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
