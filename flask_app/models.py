@@ -3,7 +3,12 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import uuid
 from datetime import datetime
-if __name__ != '__main__':
+if __name__ == '__main__':
+    app = Flask(__name__)
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://username:password@localhost/dbname'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    db = SQLAlchemy(app)
+else:
     from . import db
 
 
@@ -65,9 +70,5 @@ class User(db.Model):
 	name = db.Column(db.String(50), nullable=False)
 
 if __name__ == "__main__":  
-    app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://username:password@localhost/dbname'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    db = SQLAlchemy(app)
     with app.app_context():
         db.create_all()
