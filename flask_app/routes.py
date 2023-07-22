@@ -29,7 +29,7 @@ def login():
          "user_id": user.id,
          "expiration": expiration
     }
-    token = jwt.encode(token_info, current_app.config['SECRET_KEY'], algorithim='HS256')
+    token = jwt.encode(token_info, current_app.config['SECRET_KEY'], algorithm='HS256')
     return jsonify({'message': 'Successfully logged in', 'token':token})
     # ... generate JWT and return it to the client ...
 
