@@ -23,11 +23,10 @@ def login():
     if user is None or not user.check_password(password):
         return jsonify({'message': 'Invalid username or password'}), 401
 
-    expiration = datetime.datetime.now() + datetime.timedelta(hours=6)
-
+    expiration = datetime.datetime.utcnow() + datetime.timedelta(hours=6)
     token_info = {
          "user_id": user.id,
-         "expiration": expiration
+         "expiration": int(expiration.timestamp())
     }
     token = jwt.encode(token_info, current_app.config['SECRET_KEY'], algorithm='HS256')
     return jsonify({'message': 'Successfully logged in', 'token':token})
