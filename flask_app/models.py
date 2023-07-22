@@ -1,9 +1,10 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
 import uuid
 from datetime import datetime
+if __name__ != '__main__':
+    from . import db
 
 
 class Users(db.Model):
