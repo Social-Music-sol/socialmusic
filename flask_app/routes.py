@@ -1,8 +1,11 @@
 from flask import Flask, request, jsonify, Blueprint
 from flask_sqlalchemy import SQLAlchemy
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import Users, User
+import jwt
+import datetime
 
 routes = Blueprint('login', __name__)
 
@@ -12,12 +15,22 @@ def login():
     username = data.get('username')
     password = data.get('password')
 
+    if not (username and password):
+         return jsonify({'message': 'Cannot login without username and password'}), 400
+
     user = Users.query.filter_by(username=username).first()  # retrieve the user from the database
 
     if user is None or not user.check_password(password):
         return jsonify({'message': 'Invalid username or password'}), 401
 
-    return jsonify({'message': 'successfully connected!'}), 201
+    expiration = datetime.datetime.now() + datetime.timedelta(hours=6)
+
+    token_info = {
+         "user_id": user.id,
+         "expiration": expiration
+    }
+    token = jwt.encode(token_info, routes.config['SECRET_KEY'], algorithim='HS256')
+    return jsonify({'message': 'Successfully logged in', 'token':token})
     # ... generate JWT and return it to the client ...
 
 @routes.route('/register', methods=['POST'])
@@ -39,6 +52,12 @@ def register():
     db.session.commit()
 
     return jsonify({'message': 'User created successfully'}), 201
+
+@routes.route('/protected', methods=['GET'])
+@jwt_required()
+def protected():
+    current_user = get_jwt_identity()
+    return jsonify(logged_in_as=current_user), 200
 
 @routes.route('/')
 def home():
