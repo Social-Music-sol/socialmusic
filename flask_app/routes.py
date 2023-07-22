@@ -17,6 +17,7 @@ def login():
     if user is None or not user.check_password(password):
         return jsonify({'message': 'Invalid username or password'}), 401
 
+    return jsonify({'message': 'successfully connected!'}), 201
     # ... generate JWT and return it to the client ...
 
 @routes.route('/register', methods=['POST'])
