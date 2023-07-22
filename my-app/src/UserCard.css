@@ -1,3 +1,4 @@
+@import './fonts.css';
 .user-card {
     display: flex;
     justify-content: center;
@@ -6,13 +7,19 @@
     height: 500px; /* adjust as needed */
     margin: 10px;
     border-radius: 50px; /* adjust as needed to get the roundness you want */
-    background-color: rgb(255, 255, 255); /* adjust as needed */
+    background-color: rgb(245, 240, 240); /* adjust as needed */
     /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); /* optional */
     text-align: center;
-    border: 1px solid #000000;
+    border: 1px solid #050505;
 }
 .user-card img {
     max-width: 90%;  /* adjust as needed */
     max-height: 90%; /* adjust as needed */
     border-radius: 10px; /* adjust as needed */
+    position: absolute;
+    top: 10px; /* adjust as needed */
+    right: 10px; /* adjust as needed */
 }
+body {
+    font-family: 'PlusJakartaSans', fallback, sans-serif;
+  }
