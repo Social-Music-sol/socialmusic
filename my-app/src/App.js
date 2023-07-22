@@ -4,8 +4,6 @@ import AddUserForm from './AddUserForm';
 import DeleteUserForm from './DeleteUserForm';
 import homePage from './homePage'; // Adjust the import path according to your project structure
 //import ProfilePage from './ProfilePage'; // Create and import your ProfilePage as well
-
-import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import ProfilePage from './ProfilePage';  // import the component for the profile page
 function App() {
