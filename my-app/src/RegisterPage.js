@@ -8,7 +8,7 @@ function RegisterPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch('/api/endpoint', { // replace '/api/endpoint' with your real API endpoint
+    const response = await fetch('52.38.156.74:3000/register', { // replace '/api/endpoint' with your real API endpoint
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
