@@ -1,12 +1,13 @@
 from flask import Flask, request, jsonify, Blueprint
 from flask_sqlalchemy import SQLAlchemy
-from app import app, db
+from app import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import Users
 import uuid
 
+login_bp = Blueprint('login', __name__)
 
-@app.route('/login', methods=['POST'])
+@login_bp.route('/login', methods=['POST'])
 def login():
     data = request.get_json()  # get the data from the request
     username = data.get('username')
@@ -19,7 +20,7 @@ def login():
 
     # ... generate JWT and return it to the client ...
 
-@app.route('/register', methods=['POST'])
+@login_bp.route('/register', methods=['POST'])
 def register():
     data = request.get_json()  # get the data from the request
     username = data.get('username')
