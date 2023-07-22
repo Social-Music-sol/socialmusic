@@ -1,13 +1,12 @@
 from flask import Flask, request, jsonify, Blueprint
 from flask_sqlalchemy import SQLAlchemy
-from app import db
+from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import Users
-import uuid
+from models import Users, User
 
-login_bp = Blueprint('login', __name__)
+routes = Blueprint('login', __name__)
 
-@login_bp.route('/login', methods=['POST'])
+@routes.route('/login', methods=['POST'])
 def login():
     data = request.get_json()  # get the data from the request
     username = data.get('username')
@@ -20,7 +19,7 @@ def login():
 
     # ... generate JWT and return it to the client ...
 
-@login_bp.route('/register', methods=['POST'])
+@routes.route('/register', methods=['POST'])
 def register():
     data = request.get_json()  # get the data from the request
     username = data.get('username')
@@ -39,3 +38,26 @@ def register():
     db.session.commit()
 
     return jsonify({'message': 'User created successfully'}), 201
+
+@routes.route('/')
+def home():
+    return "Hello, World!"
+
+@routes.route('/add-user/<name>')
+def add_user(name):
+    new_user = User(name=name)
+    db.session.add(new_user)
+    db.session.commit()
+    return f"User {name} added successfully!"
+
+@routes.route('/delete-user/<name>', methods=['DELETE'])
+def delete_user(name):
+    user_to_delete = User.query.filter_by(name=name).first()
+    db.session.delete(user_to_delete)
+    db.session.commit()
+    return f"User {name} deleted successfully!"
+
+@routes.route('/users')
+def users():
+	users = User.query.all()
+	return jsonify([user.name for user in users])
