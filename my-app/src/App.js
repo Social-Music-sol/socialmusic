@@ -37,17 +37,16 @@ function App() {
     <Router>
       <div className="App">
         <h1>JamJar</h1>
-        <Link to="/register">Register</Link>
-        <Switch>
-          <Route path="/register">
-            <RegisterPage />
-          </Route>
-          <Route path="/">
-            <AddUserForm onUserAdd={handleAddUser} />
-            <DeleteUserForm onUserDelete={handleDeleteUser} />
-            <UserList users={users} />
-          </Route>
-        </Switch>
+        <Routes>
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/" element={
+            <>
+              <AddUserForm onUserAdd={handleAddUser} />
+              <DeleteUserForm onUserDelete={handleDeleteUser} />
+              <UserList users={users} />
+            </>
+          } />
+        </Routes>
       </div>
     </Router>
   );
