@@ -12,10 +12,6 @@ db = SQLAlchemy(app)
 def home():
     return "Hello, World!"
 
-class User(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
-	name = db.Column(db.String(50), nullable=False)
-
 @app.route('/add-user/<name>')
 def add_user(name):
     new_user = User(name=name)
@@ -34,6 +30,8 @@ def delete_user(name):
 def users():
 	users = User.query.all()
 	return jsonify([user.name for user in users])
+
+import login
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
