@@ -18,7 +18,7 @@ def create_app():
     app.config["JWT_TOKEN_LOCATION"] = ["headers"]
     app.config['JWT_HEADER_NAME'] = 'Authorization'
     app.config['JWT_HEADER_TYPE'] = 'Bearer'
-
+    raise os.getenv('FLASK_SECRET_KEY')
     jwt.init_app(app)
 
     # Now that we have the 'app' object, we can use it to initialize 'db'
