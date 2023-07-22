@@ -4,6 +4,8 @@ import RegisterPage from './RegisterPage';
 import UserList from './UserList';
 import AddUserForm from './AddUserForm';
 import DeleteUserForm from './DeleteUserForm';
+import LoginPage from './LoginPage'; // Don't forget to import LoginPage at the top
+
 
 function App() {
   const [users, setUsers] = useState([]);
