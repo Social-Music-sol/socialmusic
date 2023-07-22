@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, Blueprint
+from flask import Flask, request, jsonify, Blueprint, current_app
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from . import db
@@ -29,7 +29,7 @@ def login():
          "user_id": user.id,
          "expiration": expiration
     }
-    token = jwt.encode(token_info, routes.config['SECRET_KEY'], algorithim='HS256')
+    token = jwt.encode(token_info, current_app.config['SECRET_KEY'], algorithm='HS256')
     return jsonify({'message': 'Successfully logged in', 'token':token})
     # ... generate JWT and return it to the client ...
 
