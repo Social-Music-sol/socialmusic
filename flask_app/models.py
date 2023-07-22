@@ -27,43 +27,6 @@ class Users(db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, self.salt + password)
-    
-class Post(db.Model):
-    __tablename__ = 'posts'
-
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
-    text = db.Column(db.String, nullable=False)
-    image_url = db.Column(db.String, nullable=True)
-    like_count = db.Column(db.Integer, default=0)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-
-    user = db.relationship('Users', backref=db.backref('posts', lazy=True))
-
-class Comment(db.Model):
-    __tablename__ = 'comments'
-
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
-    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
-    text = db.Column(db.String, nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-
-    user = db.relationship('Users', backref=db.backref('comments', lazy=True))
-    post = db.relationship('Post', backref=db.backref('comments', lazy='dynamic'))
-
-class Like(db.Model):
-    __tablename__ = 'likes'
-
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
-    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-
-    user = db.relationship('Users', backref=db.backref('likes', lazy=True))
-    post = db.relationship('Post', backref=db.backref('likes', lazy='dynamic'))
 
 class User(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
