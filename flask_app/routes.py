@@ -1,8 +1,7 @@
 from flask import Flask, request, jsonify, Blueprint, current_app
 from flask_sqlalchemy import SQLAlchemy
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token
 from . import db
-from werkzeug.security import generate_password_hash, check_password_hash
 from .models import Users, User
 import jwt
 import datetime
@@ -28,9 +27,8 @@ def login():
          "identity": str(user.id),
          "expiration": int(expiration.timestamp())
     }
-    token = jwt.encode(token_info, current_app.config['SECRET_KEY'], algorithm='HS256')
+    token = create_access_token(token_info, current_app.config['SECRET_KEY'], algorithm='HS256')
     return jsonify({'message': 'Successfully logged in', 'token':token})
-    # ... generate JWT and return it to the client ...
 
 @routes.route('/register', methods=['POST'])
 def register():
