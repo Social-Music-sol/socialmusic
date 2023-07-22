@@ -13,6 +13,7 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://flaskuser:STARTER@localhost/socialmusic_starter_db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET_KEY')
+    app.config["JWT_TOKEN_LOCATION"] = ["headers"]
 
     # Now that we have the 'app' object, we can use it to initialize 'db'
     db.init_app(app)
