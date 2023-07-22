@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, Blueprint
 from flask_sqlalchemy import SQLAlchemy
 from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import Users, User
+from .models import Users, User
 
 routes = Blueprint('login', __name__)
 
