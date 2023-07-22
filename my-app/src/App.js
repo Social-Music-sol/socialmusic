@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react-router-dom';
 import RegisterPage from './RegisterPage';
 import UserList from './UserList';
 import AddUserForm from './AddUserForm';
@@ -37,7 +37,7 @@ function App() {
     <Router>
       <div className="App">
         <h1>JamJar</h1>
-        <Link to="/register">Register</Link>  {/* Add this line */}
+        <Navigation />
         <Routes>
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/" element={<>
@@ -49,6 +49,16 @@ function App() {
       </div>
     </Router>
   );
+}
+
+const Navigation = () => {
+  const location = useLocation();
+  
+  if (location.pathname === '/register') {
+    return <Link to="/">Go to Home</Link>
+  } else {
+    return <Link to="/register">Register</Link>
+  }
 }
 
 export default App;
