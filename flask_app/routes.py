@@ -43,7 +43,8 @@ def create_post():
         return jsonify({'error': 'User not found'}), 404
 
     post_data = request.get_json()
-    new_post = post_repository.create(user_id, post_data)
+    post_data['user_id'] = user_id
+    new_post = post_repository.create(post_data)
 
     return jsonify({'message': 'Post created successfully', 'post_id': new_post.id}), 201
 

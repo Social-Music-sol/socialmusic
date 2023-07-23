@@ -7,9 +7,9 @@ class PostRepository:
     def __init__(self, db):
         self.db = db
 
-    def create(self, user_id, post_data):
+    def create(self, post_data):
         # Create and save the new post
-        new_post = Post(user_id, **post_data)
+        new_post = Post(**post_data)
         self.db.session.add(new_post)
         self.db.session.commit()
 
