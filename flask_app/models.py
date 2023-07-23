@@ -46,7 +46,7 @@ class Like(db.Model):
 
     id = db.Column(db.UUID(as_uuid=True), primary_key=True, unique=True, default=uuid.uuid4) 
     user_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey('users.id'), nullable=False)
-    post_id = db.Columns(db.UUID(as_uuid=True), db.ForeignKey('posts.id'), nullable=False)
+    post_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey('posts.id'), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
 
