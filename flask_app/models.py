@@ -19,8 +19,8 @@ class User(db.Model):
     id = db.Column(db.UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     username = db.Column(db.String(64), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    password_hash = db.Column(db.String(64), nullable=False)
-    salt = db.Column(db.String(64), nullable=False)
+    password_hash = db.Column(db.String(128), nullable=False)
+    salt = db.Column(db.String(128), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     def set_password(self, password):
