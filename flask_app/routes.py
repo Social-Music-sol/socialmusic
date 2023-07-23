@@ -21,7 +21,7 @@ def login():
         return jsonify({'message': 'Username and password combination is incorrect'}), 400
     resp = make_response('Set Cookie')
     resp = make_response(jsonify({'message': 'Successfully logged in'}))
-    resp.set_cookie('Authorization', token, httponly=True, secure=True)
+    resp.set_cookie('Authorization', token, httponly=True, secure=False)
     return resp, 200
     #return jsonify({'message': 'Successfully logged in', 'token':token}), 201
 
