@@ -46,7 +46,7 @@ class Post(db.Model):
     parent_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey('posts.id'), nullable=True)
     content = db.Column(db.String(300), nullable=False)
     image_url = db.Column(db.String(500), nullable=True)
-    song_url = db.Column(db.String(500), nullable=False)
+    song_url = db.Column(db.String(500), nullable=True)
     replies = db.relationship('Post', backref=db.backref('parent', remote_side=[id]), lazy='dynamic')
     likes = db.relationship('Like', backref='post', lazy='dynamic')
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
