@@ -70,7 +70,7 @@ function App() {
         } />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/post" element={<PostPage />} />  {/* add this line */}
+        <Route path="/post" element={<PostForm />} />  {/* add this line */}
       </Routes>
     </div>
     </Router>
