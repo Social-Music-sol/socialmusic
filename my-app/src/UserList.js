@@ -1,5 +1,5 @@
 import React from 'react';
-import UserCard from './UserCard';
+import UserCard from './UserPost';
 import './UserList.css'; // Import CSS
 
 function UserList({ users }) {
