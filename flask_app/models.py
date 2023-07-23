@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import uuid
 from datetime import datetime
+
 if __name__ == '__main__':
     app = Flask(__name__)
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://flaskuser:STARTER@localhost/socialmusic_starter_db'
@@ -12,7 +13,7 @@ else:
     from . import db
 
 
-class Users(db.Model):
+class User(db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
@@ -27,10 +28,8 @@ class Users(db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, self.salt + password)
+    
 
-class User(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
-	name = db.Column(db.String(50), nullable=False)
 
 if __name__ == "__main__":  
     with app.app_context():
