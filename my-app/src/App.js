@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from "react-router-dom";
 import RegisterPage from './RegisterPage';
 import LoginPage from './LoginPage';
 import PostForm from './PostForm';
@@ -56,20 +56,23 @@ function App() {
 
   return (
     <Router>
-      <div className="App">
-        <Routes>
-          <Route path="/" element={
-            <div>
-              <h1>JamJar</h1>
-              <Link to="/RegisterPage">Register</Link>
-              <br />
-              <Link to="/LoginPage">Login</Link>
-            </div>
-          }/>
-          <Route path="/RegisterPage" element={<RegisterPage />} />
-          <Route path="/LoginPage" element={<LoginPage />} />
-        </Routes>
-      </div>
+    <div className="App">
+      <Routes>
+        <Route path="/" element={
+          <div>
+            <h1>JamJar</h1>
+            <Link to="/register">Register</Link>
+            <br />
+            <Link to="/login">Login</Link>
+            <br />
+            <Link to="/post">Create a Post</Link> {/* add this line */}
+          </div>
+        } />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/post" element={<PostPage />} />  {/* add this line */}
+      </Routes>
+    </div>
     </Router>
   );
 }
