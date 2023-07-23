@@ -5,7 +5,7 @@ import LoginPage from './LoginPage';
 import PostForm from './PostForm';
 import UserPost from './UserPost';
 
-
+/*
 // inside App component
 const handlePost = (postData) => {
   fetch('/http://52.38.156.74:3000/posts', { // replace with your real API endpoint
@@ -51,7 +51,7 @@ useEffect(fetchUsersAndPosts, []);
 
 // inside App return
 <PostForm onPost={handlePost} />
-
+*/
 function App() {
 
   return (
