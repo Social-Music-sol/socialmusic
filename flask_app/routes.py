@@ -13,10 +13,16 @@ post_repository = PostRepository(db)
 @app.route('/login', methods=['POST'])
 def login():
     post_data = request.get_json()  # get the data from the request
-    token = user_repository.login(post_data)
+    try:
+        token = user_repository.login(post_data)
+    except NameError:
+        return jsonify({'message': 'Username or password field is missing'}), 401
+    except ValueError:
+        return jsonify({'message': 'Username and password combination is incorrect'}), 400
     resp = make_response('Set Cookie')
+    resp = make_response(jsonify({'message': 'Successfully logged in'}))
     resp.set_cookie('Authorization', token, httponly=True, secure=True)
-    return resp
+    return resp, 200
     #return jsonify({'message': 'Successfully logged in', 'token':token}), 201
 
 @app.route('/register', methods=['POST'])

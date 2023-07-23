@@ -13,12 +13,12 @@ class UserRepository:
         username = post_data.get('username')
         password = post_data.get('password')
         if not (username and password):
-            return jsonify({'message': 'Cannot login without username and password'}), 400
+            raise NameError
 
         user = User.query.filter_by(username=username).first()  # retrieve the user from the database
 
         if user is None or not user.check_password(password):
-            return jsonify({'message': 'Invalid username or password'}), 401
+            raise ValueError
 
         token = create_access_token(
             identity=str(user.id),
