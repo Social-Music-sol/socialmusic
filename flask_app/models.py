@@ -37,9 +37,10 @@ class Post(db.Model):
     user_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey('users.id'), nullable=False)
     parent_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey('posts.id'), nullable=True)
     content = db.Column(db.String(300), nullable=False)
-    replies = db.relationship('Post', backref=db.backref('parent', remote_side=['id']), lazy='dynamic')
+    replies = db.relationship('Post', backref=db.backref('parent', remote_side=[id]), lazy='dynamic')
     likes = db.relationship('Like', backref='post', lazy='dynamic')
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
 
 class Like(db.Model):
     __tablename__ = 'likes'
@@ -52,4 +53,5 @@ class Like(db.Model):
 
 if __name__ == "__main__":  
     with app.app_context():
+        db.drop_all()
         db.create_all()
