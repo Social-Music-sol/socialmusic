@@ -6,7 +6,7 @@ function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    
+  
     const response = await fetch('http://52.38.156.74:3000/login', {
       method: 'POST',
       headers: {
@@ -19,6 +19,10 @@ function LoginPage() {
       credentials: 'include' // this line is new
     });
   
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+  
     const data = await response.json();
   
     if (data.message) {
@@ -27,6 +31,7 @@ function LoginPage() {
       setPassword('');
     }
   };
+  
   
 
 
