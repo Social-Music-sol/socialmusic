@@ -55,7 +55,10 @@ class Post(db.Model):
         return {
             'id': str(self.id),
             'user_id': str(self.user_id),
-            'content': str(self.content),
+            'parent_id': str(self.parent_id),
+            'content': self.content,
+            'image_url': self.image_url,
+            'song_url': self.song_url,
             'created_at': self.created_at
         }
 
