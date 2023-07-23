@@ -1,5 +1,6 @@
 from flask_app.models import User
 from flask import jsonify
+from sqlalchemy.exc import IntegrityError 
 from datetime import timedelta
 from flask_jwt_extended import create_access_token
 
@@ -8,7 +9,9 @@ class UserRepository:
     def __init__(self, db):
         self.db = db
 
-    def login(self, username, password):
+    def login(self, post_data):
+        username = post_data.get('username')
+        password = post_data.get('password')
         if not (username and password):
             return jsonify({'message': 'Cannot login without username and password'}), 400
 
@@ -22,19 +25,21 @@ class UserRepository:
             expires_delta=timedelta(hours=2)
         
         )
-        return jsonify({'message': 'Successfully logged in', 'token':token}), 201
+        return token
     
-    def create(self, username, password, email):
-        # Check if a user with this username or email already exists
-        existing_user = User.query.filter((User.username == username) | (User.email == email)).first()
-        if existing_user is not None:
-            return jsonify({'message': 'A user with this username or email already exists'}), 409
+    def create(self, post_data):
+        username = post_data.get('username')
+        email = post_data.get('email')
+        password = post_data.get('password')
+        try:
+            new_user = User(username=username, email=email)
+            new_user.set_password(password)
 
-        new_user = User(username=username, email=email)
-        new_user.set_password(password)
+            self.db.session.add(new_user)
+            self.db.session.commit()
 
-        self.db.session.add(new_user)
-        self.db.session.commit()
+            return new_user.to_dict()
+        except IntegrityError:
+            raise ValueError("Username is already taken")
 
-        return jsonify({'message': 'User created successfully'}), 201
 
