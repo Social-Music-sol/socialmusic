@@ -4,7 +4,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_tok
 from . import db
 from flask_app.repositories.user_repository import UserRepository
 from flask_app.repositories.post_repository import PostRepository
-from flask_app.models import User, Post
+from flask_app.models import User
 
 app = Blueprint('login', __name__)
 user_repository = UserRepository(db)
@@ -21,7 +21,7 @@ def login():
         return jsonify({'message': 'Username and password combination is incorrect'}), 400
     resp = make_response('Set Cookie')
     resp = make_response(jsonify({'message': 'Successfully logged in'}))
-    resp.set_cookie('Authorization', token, httponly=True, secure=True)
+    resp.set_cookie('Authorization', token, httponly=True, secure=False)
     return resp, 200
     #return jsonify({'message': 'Successfully logged in', 'token':token}), 201
 
