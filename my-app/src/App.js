@@ -5,25 +5,35 @@ import LoginPage from './LoginPage';
 import PostForm from './PostForm';
 import UserPost from './UserPost';
 
-/*
+
 // inside App component
-const handlePost = (postData) => {
-  fetch('/http://52.38.156.74:3000/posts', { // replace with your real API endpoint
+const handlePost = async (e) => {
+  e.preventDefault();
+  
+  const response = await fetch('http://52.38.156.74:5000/post', { 
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify(postData)
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.message) {
-      alert(data.message);
-    }
-  })
-  .catch(error => console.error('Error:', error));
+    credentials: 'include', // to ensure that cookies are included in the request
+    body: JSON.stringify({
+      content,
+      image_url,
+      song_url
+    })
+  });
+
+  const data = await response.json();
+
+  if (data.message) {
+    alert(data.message);
+    setContent('');
+    setImageUrl('');
+    setSongUrl('');
+  }
 };
 
+/*
 // inside App return
 {posts.map(post => {
   const user = user.find(user => user.id === post.userId);
@@ -35,7 +45,7 @@ const [posts, setPosts] = useState([]);
 
 const fetchUsersAndPosts = () => {
   Promise.all([
-    fetch('/users'),  // replace with your real API endpoint
+    fetch('/user/user_id'),  // replace with your real API endpoint
     fetch('/posts')   // replace with your real API endpoint
   ])
   .then(([usersRes, postsRes]) => Promise.all([usersRes.json(), postsRes.json()]))
@@ -49,9 +59,11 @@ const fetchUsersAndPosts = () => {
 // call fetchUsersAndPosts in useEffect
 useEffect(fetchUsersAndPosts, []);
 
+*/
 // inside App return
 <PostForm onPost={handlePost} />
-*/
+
+
 function App() {
 
   return (
