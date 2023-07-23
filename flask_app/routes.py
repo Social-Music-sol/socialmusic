@@ -54,8 +54,7 @@ def create_post():
     post_data = request.get_json()
     post_data['user_id'] = user_id
     new_post = post_repository.create(post_data)
-
-    return jsonify({'message': 'Post created successfully', 'post_id': new_post.id}), 201
+    return jsonify(new_post), 201
 
 @app.route('/')
 def home():
