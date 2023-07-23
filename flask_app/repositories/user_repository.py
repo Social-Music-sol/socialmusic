@@ -1,6 +1,6 @@
 from flask_app.models import User
 from flask import jsonify
-from datetime import datetime
+from datetime import timedelta
 from flask_jwt_extended import create_access_token
 
 class UserRepository:
@@ -19,7 +19,7 @@ class UserRepository:
 
         token = create_access_token(
             identity=str(user.id),
-            expires_delta=datetime.timedelta(hours=2)
+            expires_delta=timedelta(hours=2)
         
         )
         return jsonify({'message': 'Successfully logged in', 'token':token}), 201
