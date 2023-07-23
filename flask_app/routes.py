@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, Blueprint, current_app
+from flask import Flask, request, jsonify, Blueprint, make_response
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token
 from . import db
@@ -14,7 +14,10 @@ post_repository = PostRepository(db)
 def login():
     post_data = request.get_json()  # get the data from the request
     token = user_repository.login(post_data)
-    return jsonify({'message': 'Successfully logged in', 'token':token}), 201
+    resp = make_response('Set Cookie')
+    resp.set_cookie('Authorization', token, httponly=True, secure=True)
+    return resp
+    #return jsonify({'message': 'Successfully logged in', 'token':token}), 201
 
 @app.route('/register', methods=['POST'])
 def register():
