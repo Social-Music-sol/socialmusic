@@ -30,6 +30,14 @@ class User(db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, self.salt + password)
     
+    def to_dict(self):
+        return {
+            'id': str(self.id),
+            'username': self.username,
+            'email': self.email,
+            'created_at': self.created_at
+        }
+    
 class Post(db.Model):
     __tablename__ = 'posts'
 
@@ -42,6 +50,14 @@ class Post(db.Model):
     replies = db.relationship('Post', backref=db.backref('parent', remote_side=[id]), lazy='dynamic')
     likes = db.relationship('Like', backref='post', lazy='dynamic')
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    def to_dict(self):
+        return {
+            'id': str(self.id),
+            'user_id': str(self.user_id),
+            'content': str(self.content),
+            'created_at': self.created_at
+        }
 
 
 class Like(db.Model):
