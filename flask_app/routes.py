@@ -36,8 +36,7 @@ def protected():
 def create_post():
     # Get the JWT token from the Authorization header
     user_id = get_jwt_identity()
-    user = User.query.get()
-
+    
     # Get the user from the database
     user = User.query.get(user_id)
     if user is None:
