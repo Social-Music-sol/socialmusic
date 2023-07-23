@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token
 from . import db
 from flask_app.repositories.user_repository import UserRepository
-from models import User, Post
+from flask_app.models import User, Post
 
 app = Blueprint('login', __name__)
 user_repository = UserRepository(db)
