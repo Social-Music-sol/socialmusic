@@ -25,7 +25,7 @@ def create_app():
     db.init_app(app)
 
     # Then we import and register blueprints
-    import flask_app.routes as routes
-    app.register_blueprint(routes)
+    from routes import routes as routes_blueprint
+    app.register_blueprint(routes_blueprint)
 
     return app
