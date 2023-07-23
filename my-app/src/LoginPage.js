@@ -6,8 +6,8 @@ function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    
-    const response = await fetch('http://52.38.156.74:3000/login', { // replace with your real API endpoint
+  
+    const response = await fetch('http://52.38.156.74:3000/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -15,17 +15,25 @@ function LoginPage() {
       body: JSON.stringify({
         username,
         password
-      })
+      }),
+      credentials: 'include' // this line is new
     });
-
+  
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+  
     const data = await response.json();
-
+  
     if (data.message) {
       alert(data.message);
       setUsername('');
       setPassword('');
     }
   };
+  
+  
+
 
   return (
     <div>
