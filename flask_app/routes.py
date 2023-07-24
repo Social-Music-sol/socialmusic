@@ -21,7 +21,7 @@ def login():
     except ValueError:
         return jsonify({'message': 'Username and password combination is incorrect'}), 400
     resp = make_response(jsonify({'message': 'Successfully logged in'}))
-    resp.set_cookie('Authentication', str(token), domain='http://52.38.156.74', path='/', httponly=True, secure=False)
+    resp.set_cookie('access_token_cookie', str(token), domain='http://52.38.156.74', path='/', httponly=True, secure=False)
     return resp, 200
     #return jsonify({'message': 'Successfully logged in', 'token':token}), 201
 
