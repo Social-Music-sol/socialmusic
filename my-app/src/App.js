@@ -16,8 +16,8 @@ function App() {
       credentials: 'include',
       body: JSON.stringify({
         content: caption,
-        imageUrl: pictureUrl,
-        songUrl: songLink
+        image_url: pictureUrl,
+        song_url: songLink
       })
     });
   

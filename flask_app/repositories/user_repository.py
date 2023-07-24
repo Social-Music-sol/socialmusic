@@ -41,5 +41,16 @@ class UserRepository:
             return new_user.to_dict()
         except IntegrityError:
             raise ValueError("Username is already taken")
+        
+    def get_data(self, user_id):
+        user = User.query.get(user_id)
+        if not user:
+            raise NameError
+
+        user_data = {
+            'username': user.username,
+            'created_at': user.created_at.strftime('%m/%d/%Y, %H:%M:%S')
+        }
+        return user_data
 
 

@@ -56,6 +56,15 @@ def create_post():
     new_post = post_repository.create(post_data)
     return jsonify(new_post), 201
 
+@app.route('/user/<user_id>', methods=['GET'])
+@jwt_required()
+def get_user(user_id):
+    try:
+        user_data = user_repository.get_user(user_id)
+        return jsonify(user_data), 200
+    except NameError:
+        return jsonify({'message': 'User not found'}), 404
+
 @app.route('/')
 def home():
     return "Whoops, looks like you used the wrong port. Try port 3000!"
