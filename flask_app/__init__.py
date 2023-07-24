@@ -32,6 +32,6 @@ def create_app():
     CORS(app, resources={r"/*": {"origins": "https://findingnasa.xyz"}}, supports_credentials=True)
     # Then we import and register blueprints
     from flask_app.routes import app as routes_blueprint
-    app.register_blueprint(routes_blueprint)
+    app.register_blueprint(routes_blueprint, url_prefix='/api')
 
     return app
