@@ -10,7 +10,7 @@ import { getLoggedInUser } from './utils'; // import the utility function
 
 
 function App() {
-  const loggedInUser = getLoggedInUser();
+  const username = getLoggedInUser();
 
   return (
     <Router>
@@ -19,12 +19,13 @@ function App() {
           <Route path="/" element={
             <div>
               <h1>JamJar</h1>
-              {loggedInUser && <div><Link to={`/users/${loggedInUser}`}>My Profile</Link><br /></div>}
               <Link to="/register">Register</Link>
               <br />
               <Link to="/login">Login</Link>
               <br />
-              <Link to="/post">Create a Post</Link>
+              {username && <Link to="/post">Create a Post</Link>}
+              <br />
+              {username && <Link to={`/users/${username}`}>Go to Profile</Link>}
             </div>
           } />
           <Route path="/register" element={<RegisterPage />} />
