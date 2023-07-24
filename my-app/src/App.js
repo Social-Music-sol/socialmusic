@@ -79,12 +79,12 @@ function App() {
             <br />
             <Link to="/login">Login</Link>
             <br />
-            <Link to="/post">Create a Post</Link> {/* add this line */}
+            <Link to="/post">Create a Post</Link>
           </div>
         } />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/post" element={<PostForm />} />  {/* add this line */}
+        <Route path="/post" element={<PostForm onPost={handlePost} />} /> 
       </Routes>
     </div>
     </Router>
