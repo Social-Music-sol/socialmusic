@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function RegisterPage() {
   const [username, setUsername] = useState("");
@@ -36,8 +37,9 @@ function RegisterPage() {
         <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
         <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
         <button type="submit">Register</button>
-      </form>
-    </div>
+    </form>
+    <Link to="/">Go To Homepage</Link>
+  </div>
   );
 }
 
