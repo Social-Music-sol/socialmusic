@@ -20,9 +20,8 @@ def login():
         return jsonify({'message': 'Username or password field is missing'}), 401
     except ValueError:
         return jsonify({'message': 'Username and password combination is incorrect'}), 400
-    resp = make_response('Set Cookie')
     resp = make_response(jsonify({'message': 'Successfully logged in'}))
-    resp.set_cookie('Authorization', str(token), domain='http://52.38.156.74', path='/', httponly=True, secure=False)
+    resp.set_cookie('access_token_cookie', str(token), domain='52.38.156.74', path='/', httponly=True, secure=False)
     return resp, 200
     #return jsonify({'message': 'Successfully logged in', 'token':token}), 201
 
