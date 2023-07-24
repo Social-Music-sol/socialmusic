@@ -8,11 +8,13 @@ const PostForm = ({ onPost }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    onPost({ songLink, pictureUrl, caption });
+    // We pass the songLink, pictureUrl, and caption as separate arguments, not as an object
+    onPost(songLink, pictureUrl, caption);
     setSongLink('');
     setPictureUrl('');
     setCaption('');
   }
+  
 
   return (
     <form onSubmit={handleSubmit}>

@@ -6,13 +6,8 @@ import PostForm from './PostForm';
 
 
 function App() {
-  const [content, setContent] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
-  const [songUrl, setSongUrl] = useState('');
-
-  // inside App component
-  const handlePost = async (e) => {
-    e.preventDefault();
+  const handlePost = async (songLink, pictureUrl, caption) => {
+    // We don't need preventDefault() here anymore
     
     const response = await fetch('http://52.38.156.74:5000/post', { 
       method: 'POST',
@@ -21,14 +16,14 @@ function App() {
       },
       credentials: 'include', // to ensure that cookies are included in the request
       body: JSON.stringify({
-        content,
-        imageUrl,
-        songUrl
+        content: caption, // Here, we're assuming that caption corresponds to content in your backend
+        imageUrl: pictureUrl,
+        songUrl: songLink
       })
     });
-
+  
     const data = await response.json();
-
+  
     if (data.message) {
       alert(data.message);
       setContent('');
@@ -36,6 +31,7 @@ function App() {
       setSongUrl('');
     }
   };
+  
 
   /*
   // inside App return
