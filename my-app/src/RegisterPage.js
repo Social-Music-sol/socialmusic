@@ -9,7 +9,7 @@ function RegisterPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch(process.env.API_DOMAIN + "/register", { // replace '/api/endpoint' with your real API endpoint
+    const response = await fetch(`${process.env.API_DOMAIN}/register`, { // replace '/api/endpoint' with your real API endpoint
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

@@ -9,7 +9,7 @@ const PostForm = () => {
   const [caption, setCaption] = useState('');
 
   const handlePost = async (songLink, pictureUrl, caption) => {
-    const response = await fetch(process.env.API_DOMAIN + "/post", { 
+    const response = await fetch(`${process.env.API_DOMAIN}/post`, { 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
