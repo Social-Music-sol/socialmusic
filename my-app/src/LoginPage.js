@@ -7,7 +7,7 @@ function LoginPage() {
   const handleLogin = async (e) => {
     e.preventDefault();
   
-    const response = await fetch('https://findingnasa.xyz/api/login', {
+    const response = await fetch(process.env.API_DOMAIN + "/login", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
