@@ -24,6 +24,7 @@ def create_app():
     app.config['JWT_HEADER_TYPE'] = 'Bearer'
     app.config["JWT_COOKIE_DOMAIN"] = "http://52.38.156.74"
     app.config["JWT_COOKIE_PATH"] = "/"
+    app.config["JWT_COOKIE_CSRF_PROTECT"] = False
     jwt.init_app(app)
 
     # Now that we have the 'app' object, we can use it to initialize 'db'
