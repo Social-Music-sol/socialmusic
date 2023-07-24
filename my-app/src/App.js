@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import RegisterPage from './RegisterPage';
 import LoginPage from './LoginPage';
 import PostForm from './PostForm';
+import UserProfile from './UserProfile'; // import the new component
+
 
 function App() {
   return (
@@ -23,6 +25,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/post" element={<PostForm />} /> 
+          <Route path="/users/:username" element={<UserProfile />} /> {/* new route for user profiles */}
         </Routes>
       </div>
     </Router>
