@@ -17,12 +17,13 @@ post_repository = PostRepository(db)
 def login():
     post_data = request.get_json()  # get the data from the request
     try:
-        token = user_repository.login(post_data)
+        token, response = user_repository.login(post_data)
     except NameError:
         return jsonify({'message': 'Username or password field is missing'}), 401
     except ValueError:
         return jsonify({'message': 'Username and password combination is incorrect'}), 400
-    resp = make_response(jsonify({'message': 'Successfully logged in'}))
+    
+    resp = make_response(jsonify(response))
     resp.set_cookie('access_token_cookie', str(token), domain=getenv('BASE_DOMAIN'), path='/', httponly=True, samesite='None', secure=True)
     return resp, 200
     #return jsonify({'message': 'Successfully logged in', 'token':token}), 201
@@ -59,14 +60,22 @@ def create_post():
     new_post = post_repository.create(post_data)
     return jsonify(new_post), 201
 
-@app.route('/user/<user_id>', methods=['GET'])
-@jwt_required()
-def get_user(user_id):
+@app.route('/user_by_id/<user_id>', methods=['GET'])
+def get_user_by_id(user_id):
     try:
-        user_data = user_repository.get_user(user_id)
+        user_data = user_repository.get_user(user_id=user_id)
         return jsonify(user_data), 200
     except NameError:
         return jsonify({'message': 'User not found'}), 404
+    
+@app.route('/user_by_name/<username>', methods=['GET'])
+def get_user_by_name(username):
+    try:
+        user_data = user_repository.get_user(username=username)
+        return jsonify(user_data), 200
+    except NameError:
+        return jsonify({'message': 'User not found'}, 404)
+
 
 @app.route('/')
 def home():

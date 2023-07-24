@@ -25,7 +25,7 @@ class UserRepository:
             expires_delta=timedelta(hours=2)
         
         )
-        return token
+        return token, {'user_id': user.id, 'username': username}
     
     def create(self, post_data):
         username = post_data.get('username')
