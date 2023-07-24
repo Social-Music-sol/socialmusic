@@ -8,7 +8,7 @@ import PostForm from './PostForm';
 function App() {
   const handlePost = async (songLink, pictureUrl, caption) => {
 
-    const response = await fetch('http://52.38.156.74:3000/post', { 
+    const response = await fetch('http://52.38.156.74:5000/post', { 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
