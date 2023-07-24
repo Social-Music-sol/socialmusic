@@ -7,16 +7,15 @@ import PostForm from './PostForm';
 
 function App() {
   const handlePost = async (songLink, pictureUrl, caption) => {
-    // We don't need preventDefault() here anymore
-    
+
     const response = await fetch('http://52.38.156.74:5000/post', { 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      credentials: 'include', // to ensure that cookies are included in the request
+      credentials: 'include',
       body: JSON.stringify({
-        content: caption, // Here, we're assuming that caption corresponds to content in your backend
+        content: caption,
         imageUrl: pictureUrl,
         songUrl: songLink
       })
@@ -26,11 +25,9 @@ function App() {
   
     if (data.message) {
       alert(data.message);
-      setContent('');
-      setImageUrl('');
-      setSongUrl('');
     }
   };
+  
   
 
   /*
