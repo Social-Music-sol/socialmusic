@@ -22,11 +22,13 @@ def create_app():
     app.config["JWT_COOKIE_CSRF_PROTECT"] = True  # CSRF protection
     app.config['JWT_HEADER_NAME'] = 'Authorization'
     app.config['JWT_HEADER_TYPE'] = 'Bearer'
+    app.config["JWT_COOKIE_DOMAIN"] = "http://52.38.156.74:3000"
+    app.config["JWT_COOKIE_PATH"] = "/"
     jwt.init_app(app)
 
     # Now that we have the 'app' object, we can use it to initialize 'db'
     db.init_app(app)
-    CORS(app)
+    CORS(app, supports_credentials=True)
     # Then we import and register blueprints
     from flask_app.routes import app as routes_blueprint
     app.register_blueprint(routes_blueprint)
