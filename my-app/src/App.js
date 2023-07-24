@@ -1,11 +1,8 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link, useState } from "react-router-dom";
 import RegisterPage from './RegisterPage';
 import LoginPage from './LoginPage';
 import PostForm from './PostForm';
-import UserPost from './UserPost';
-
-
 
 
 function App() {
