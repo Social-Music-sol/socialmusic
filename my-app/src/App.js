@@ -27,40 +27,8 @@ function App() {
       alert(data.message);
     }
   };
-  
-  
 
-  /*
-  // inside App return
-  {posts.map(post => {
-    const user = user.find(user => user.id === post.userId);
-    return <UserPost key={post.id} post={post} user={user} />
-  })}
-
-  // inside App component
-  const [posts, setPosts] = useState([]);
-
-  const fetchUsersAndPosts = () => {
-    Promise.all([
-      fetch('/user/user_id'),  // replace with your real API endpoint
-      fetch('/posts')   // replace with your real API endpoint
-    ])
-    .then(([usersRes, postsRes]) => Promise.all([usersRes.json(), postsRes.json()]))
-    .then(([usersData, postsData]) => {
-      setUsers(usersData);
-      setPosts(postsData);
-    })
-    .catch(error => console.error('Error:', error));
-  };
-
-  // call fetchUsersAndPosts in useEffect
-  useEffect(fetchUsersAndPosts, []);
-
-  */
-  // inside App return
   <PostForm onPost={handlePost} />
-
-
   return (
     <Router>
     <div className="App">
