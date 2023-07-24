@@ -4,6 +4,9 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import RegisterPage from './RegisterPage';
 import LoginPage from './LoginPage';
 import PostForm from './PostForm';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 function App() {
   return (
