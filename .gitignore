@@ -1,2 +1,8 @@
 /keys/*
 /.env
+/__pycache__/*
+/flask_app/__pycache__/*
+/node_modules/*
+/my-app/build/*
+/my-app/node_modles/*
+/.DS_Store
