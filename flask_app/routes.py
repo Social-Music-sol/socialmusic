@@ -6,10 +6,12 @@ from flask_app.repositories.user_repository import UserRepository
 from flask_app.repositories.post_repository import PostRepository
 from flask_app.models import User
 from flask_cors import cross_origin
+from os import getenv
 
 app = Blueprint('login', __name__)
 user_repository = UserRepository(db)
 post_repository = PostRepository(db)
+
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -21,7 +23,7 @@ def login():
     except ValueError:
         return jsonify({'message': 'Username and password combination is incorrect'}), 400
     resp = make_response(jsonify({'message': 'Successfully logged in'}))
-    resp.set_cookie('access_token_cookie', str(token), domain='findingnasa.xyz', path='/', httponly=True, samesite='None', secure=True)
+    resp.set_cookie('access_token_cookie', str(token), domain=getenv('BASE_DOMAIN'), path='/', httponly=True, samesite='None', secure=True)
     return resp, 200
     #return jsonify({'message': 'Successfully logged in', 'token':token}), 201
 
