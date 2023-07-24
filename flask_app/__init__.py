@@ -17,7 +17,9 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET_KEY')
     app.config['JWT_SECRET_KEY'] = app.config['SECRET_KEY']
-    app.config["JWT_TOKEN_LOCATION"] = ["headers"]
+    app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
+    app.config["JWT_COOKIE_SECURE"] = False  # Set to True in a production environment with HTTPS!
+    app.config["JWT_COOKIE_CSRF_PROTECT"] = True  # CSRF protection
     app.config['JWT_HEADER_NAME'] = 'Authorization'
     app.config['JWT_HEADER_TYPE'] = 'Bearer'
     jwt.init_app(app)
