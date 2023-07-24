@@ -1,7 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
-from dotenv import load_dotenv
 from flask_cors import CORS
 import os
 # Create the SQLAlchemy object
@@ -10,7 +9,6 @@ jwt = JWTManager()
 
 def create_app():
     # Create the Flask application
-    load_dotenv()
 
     app = Flask(__name__)
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://flaskuser:STARTER@localhost/socialmusic_starter_db'
