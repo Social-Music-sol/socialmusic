@@ -29,7 +29,7 @@ def create_app():
 
     # Now that we have the 'app' object, we can use it to initialize 'db'
     db.init_app(app)
-    CORS(app, resources={r"/*": {"origins": os.getenv('HTTPS_DOMAIN')}}, supports_credentials=True)
+    CORS(app, resources={r"/api/*": {"origins": os.getenv('HTTPS_DOMAIN')}}, supports_credentials=True)
     # Then we import and register blueprints
     from flask_app.routes import app as routes_blueprint
     app.register_blueprint(routes_blueprint, url_prefix='/api')
