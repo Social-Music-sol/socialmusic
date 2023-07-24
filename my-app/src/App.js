@@ -5,9 +5,13 @@ import RegisterPage from './RegisterPage';
 import LoginPage from './LoginPage';
 import PostForm from './PostForm';
 import UserProfile from './UserProfile'; // import the new component
+import { getLoggedInUser } from './utils'; // import the utility function
+
 
 
 function App() {
+  const loggedInUser = getLoggedInUser();
+
   return (
     <Router>
       <div className="App">
@@ -15,6 +19,7 @@ function App() {
           <Route path="/" element={
             <div>
               <h1>JamJar</h1>
+              {loggedInUser && <div><Link to={`/users/${loggedInUser}`}>My Profile</Link><br /></div>}
               <Link to="/register">Register</Link>
               <br />
               <Link to="/login">Login</Link>
@@ -24,8 +29,8 @@ function App() {
           } />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/post" element={<PostForm />} /> 
-          <Route path="/users/:username" element={<UserProfile />} /> {/* new route for user profiles */}
+          <Route path="/post" element={<PostForm />} />
+          <Route path="/users/:username" element={<UserProfile />} />
         </Routes>
       </div>
     </Router>
