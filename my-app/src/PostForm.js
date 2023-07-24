@@ -15,7 +15,29 @@ const PostForm = ({ onPost }) => {
     setCaption('');
   }
   
+  const handlePost = async (songLink, pictureUrl, caption) => {
 
+    const response = await fetch('https://findingnasa.xyz/api/post', { 
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify({
+        content: caption,
+        image_url: pictureUrl,
+        song_url: songLink
+      })
+    });
+  
+    const data = await response.json();
+  
+    if (data.message) {
+      alert(data.message);
+    }
+  };
+
+  <PostForm onPost={handlePost} />
   return (
     <form onSubmit={handleSubmit}>
       <input type="url" placeholder="Song Link" value={songLink} onChange={e => setSongLink(e.target.value)} required />

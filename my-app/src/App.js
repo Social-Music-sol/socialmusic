@@ -6,29 +6,7 @@ import PostForm from './PostForm';
 
 
 function App() {
-  const handlePost = async (songLink, pictureUrl, caption) => {
-
-    const response = await fetch('https://findingnasa.xyz/api/post', { 
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify({
-        content: caption,
-        image_url: pictureUrl,
-        song_url: songLink
-      })
-    });
   
-    const data = await response.json();
-  
-    if (data.message) {
-      alert(data.message);
-    }
-  };
-
-  <PostForm onPost={handlePost} />
   return (
     <Router>
     <div className="App">
@@ -45,7 +23,7 @@ function App() {
         } />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/post" element={<PostForm onPost={handlePost} />} /> 
+        <Route path="/post" element={<PostForm />} /> 
       </Routes>
     </div>
     </Router>
