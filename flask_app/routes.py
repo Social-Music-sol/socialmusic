@@ -5,6 +5,7 @@ from . import db
 from flask_app.repositories.user_repository import UserRepository
 from flask_app.repositories.post_repository import PostRepository
 from flask_app.models import User
+from flask_cors import cross_origin
 
 app = Blueprint('login', __name__)
 user_repository = UserRepository(db)
@@ -41,6 +42,7 @@ def protected():
     return jsonify(logged_in_as=current_user), 200
 
 @app.route('/post', methods=['POST'])
+@cross_origin(origin='*', headers=['Content-Type','Authorization'])
 @jwt_required()
 def create_post():
     # Get the JWT token from the Authorization header

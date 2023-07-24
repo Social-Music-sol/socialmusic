@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 from dotenv import load_dotenv
+from flask_cors import CORS
 import os
 # Create the SQLAlchemy object
 db = SQLAlchemy()
@@ -23,8 +24,7 @@ def create_app():
 
     # Now that we have the 'app' object, we can use it to initialize 'db'
     db.init_app(app)
-
-
+    CORS(app)
     # Then we import and register blueprints
     from flask_app.routes import app as routes_blueprint
     app.register_blueprint(routes_blueprint)
