@@ -7,7 +7,6 @@ from flask_app.repositories.post_repository import PostRepository
 from flask_app.models import User
 from flask_cors import cross_origin
 from os import getenv
-from datetime import datetime, timedelta
 
 app = Blueprint('login', __name__)
 user_repository = UserRepository(db)
@@ -28,13 +27,6 @@ def login():
     resp.set_cookie('access_token_cookie', str(token), domain=getenv('BASE_DOMAIN'), path='/', httponly=True, samesite='None', secure=True)
     return resp, 200
     #return jsonify({'message': 'Successfully logged in', 'token':token}), 201
-
-@app.route('/logout', methods=['POST'])
-@jwt_required()
-def logout():
-    resp = make_response(jsonify({"message": "Logged out"}))
-    resp.set_cookie('access_token_cookie', '', expires=datetime.utcnow() - timedelta(days=1), domain=getenv('BASE_DOMAIN'), path='/', httponly=True, samesite='None', secure=True)
-    return resp, 200
 
 @app.route('/register', methods=['POST'])
 def register():
