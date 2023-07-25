@@ -9,6 +9,7 @@ const handleLogout = async () => {
   if (response.ok) {
     localStorage.removeItem('username');
     localStorage.removeItem('user_id');
+    window.location.reload(); // refresh the page
   }
 };
 
