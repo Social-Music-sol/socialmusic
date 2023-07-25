@@ -8,6 +8,8 @@ function LoginPage() {
   const handleLogin = async (e) => {
     e.preventDefault();
   
+    const history = useHistory(); // get the history object
+
     const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/login`, {
       method: 'POST',
       headers: {
