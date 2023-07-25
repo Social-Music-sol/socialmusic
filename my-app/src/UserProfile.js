@@ -7,8 +7,17 @@ export default function UserProfile() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
+    const getUserID = async () => {
+      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/user-by-name/${username}`);
+
+      if (response.ok) {
+        const postData = await response.json();
+        return postData.user_id;
+      }
+    };
+
     const getUserPosts = async () => {
-      const userId = localStorage.getItem('user_id');
+      const userId = await getUserID();
 
       console.log("userId:", userId);
 

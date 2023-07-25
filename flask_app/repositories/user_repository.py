@@ -55,6 +55,7 @@ class UserRepository:
 
         user_data = {
             'username': user.username,
+            'user_id': user.id,
             'created_at': user.created_at.strftime('%m/%d/%Y, %H:%M:%S')
         }
         return user_data
