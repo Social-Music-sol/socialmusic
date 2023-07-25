@@ -14,16 +14,14 @@ class PostRepository:
         self.db.session.commit()
 
         return new_post.to_dict()
-    
-    def get_by_user_id(self, user_id:UUID, amount=5, sort_by='time', descending=True):
-        #descending=True : Newest posts first
-        #descending=False : Oldest posts first
-        user = User.query.get(user_id)
+        
+    def get_by_user_id(self, user_id, amount=5, descending=True):
+        user = User.query.filter_by(id=user_id).first()
         if user:
-            if sort_by == 'time':
-                posts = \
-                    user.posts_order_by(Post.created_at.desc().limit(amount).all()) if descending \
-                    else user.posts_order_by(Post.created_at.asc().limit(amount).all())
-                return [post.as_dict() for post in posts]
+            if descending:
+                posts = user.posts.order_by(Post.created_at.desc()).limit(amount).all()
+            else:
+                posts = user.posts.order_by(Post.created_at.asc()).limit(amount).all()
+            return [post.to_dict() for post in posts]
         else:
             raise NameError

@@ -83,7 +83,7 @@ def get_posts(user_id):
         posts = post_repository.get_by_user_id(user_id, amount=limit)
         return jsonify(posts), 200
     except NameError:
-        return jsonify({'messgae': 'User not found'})
+        return jsonify({'messgae': 'User not found'}), 404
 
 
 @app.route('/')
