@@ -31,6 +31,7 @@ function LoginPage() {
       setPassword("");
 
       navigate('/'); // navigate to homepage
+      window.location.reload(); // refresh the page
     } else {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
