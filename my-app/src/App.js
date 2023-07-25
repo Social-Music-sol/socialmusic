@@ -5,9 +5,13 @@ import RegisterPage from './RegisterPage';
 import LoginPage from './LoginPage';
 import PostForm from './PostForm';
 import UserProfile from './UserProfile'; // import the new component
+import { getLoggedInUser } from './utils'; // import the utility function
+
 
 
 function App() {
+  const username = getLoggedInUser();
+
   return (
     <Router>
       <div className="App">
@@ -19,13 +23,15 @@ function App() {
               <br />
               <Link to="/login">Login</Link>
               <br />
-              <Link to="/post">Create a Post</Link>
+              {username && <Link to="/post">Create a Post</Link>}
+              <br />
+              {username && <Link to={`/users/${username}`}>Go to Profile</Link>}
             </div>
           } />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/post" element={<PostForm />} /> 
-          <Route path="/users/:username" element={<UserProfile />} /> {/* new route for user profiles */}
+          <Route path="/post" element={<PostForm />} />
+          <Route path="/users/:username" element={<UserProfile />} />
         </Routes>
       </div>
     </Router>

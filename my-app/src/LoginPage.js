@@ -18,8 +18,16 @@ function LoginPage() {
       }),
       credentials: 'include' // this line is new
     });
-  
-    if (!response.ok) {
+    if (response.ok) {
+      const data = await response.json();
+
+      // Store user id and username in local storage
+      localStorage.setItem('user_id', data.user_id);
+      localStorage.setItem('username', data.username);
+
+      setUsername("");
+      setPassword("");
+    } else {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
   
