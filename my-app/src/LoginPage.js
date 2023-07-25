@@ -27,14 +27,11 @@ function LoginPage() {
 
       setUsername("");
       setPassword("");
-    } else {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    
-    if (data.message) {
       alert(data.message);
       setUsername('');
       setPassword('');
+    } else {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
   };
   
