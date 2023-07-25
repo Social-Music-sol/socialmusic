@@ -14,7 +14,7 @@ function App() {
 
   const handleLogout = () => {
     localStorage.clear(); // clear all local storage
-    Cookies.remove('cookie_name'); // replace 'cookie_name' with the name of your cookie
+    Cookies.remove('access_token_cookie'); // replace 'cookie_name' with the name of your cookie
     window.location.reload(); // refresh the page
   };
 
@@ -33,7 +33,7 @@ function App() {
               <br />
               {username && <Link to={`/users/${username}`}>Go to Profile</Link>}
               <br />
-              {username && <button onClick={handleLogout}>Logout</button>} // Add Logout button only if user is logged in
+              {username && <button onClick={handleLogout}>Logout</button>}
             </div>
           } />
           <Route path="/register" element={<RegisterPage />} />
