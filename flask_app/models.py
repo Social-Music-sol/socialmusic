@@ -22,6 +22,7 @@ class User(db.Model):
     password_hash = db.Column(db.String(128), nullable=False)
     salt = db.Column(db.String(128), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    posts = db.relationship('Post', backref='user', lazy='dynamic')
 
     def set_password(self, password):
         self.salt = uuid.uuid4().hex
