@@ -6,9 +6,17 @@ import LoginPage from './LoginPage';
 import PostForm from './PostForm';
 import UserProfile from './UserProfile'; // import the new component
 import { getLoggedInUser } from './utils'; // import the utility function
+import Cookies from 'js-cookie'; // import js-cookie for cookie management
+
 
 function App() {
   const username = getLoggedInUser();
+
+  const handleLogout = () => {
+    localStorage.clear(); // clear all local storage
+    Cookies.remove('cookie_name'); // replace 'cookie_name' with the name of your cookie
+    window.location.reload(); // refresh the page
+  };
 
   return (
     <Router>
@@ -24,6 +32,8 @@ function App() {
               {username && <Link to="/post">Create a Post</Link>}
               <br />
               {username && <Link to={`/users/${username}`}>Go to Profile</Link>}
+              <br />
+              {username && <button onClick={handleLogout}>Logout</button>} // Add Logout button only if user is logged in
             </div>
           } />
           <Route path="/register" element={<RegisterPage />} />
