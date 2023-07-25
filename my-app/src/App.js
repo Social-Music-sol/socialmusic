@@ -12,16 +12,6 @@ import Cookies from 'js-cookie'; // import js-cookie for cookie management
 function App() {
   const username = getLoggedInUser();
 
-  const handleLogout = async () => {
-    localStorage.clear(); // clear all local storage
-    const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/logout`);
-    if (response.ok) {
-      const data = await response.json();
-      console.log(data); // log the response data
-      window.location.reload(); // refresh the page
-    }
-  };
-
   return (
     <Router>
       <div className="App">
