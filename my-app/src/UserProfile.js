@@ -47,6 +47,7 @@ export default function UserProfile() {
           <h3>Post {index + 1}</h3>
           <p>{post.content}</p>
           <p>{post.song_url}</p>
+          <p><link rel="alternate" type="application/json+oembed" href={post.song_url}/></p>
           <p>{post.image_url}</p>
           <p>{post.created_at}</p>
         </div>

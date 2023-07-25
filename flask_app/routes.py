@@ -12,8 +12,6 @@ from os import getenv
 app = Blueprint('login', __name__)
 user_repository = UserRepository(db)
 post_repository = PostRepository(db)
-#hello!
-
 
 @app.route('/login', methods=['POST'])
 def login():
