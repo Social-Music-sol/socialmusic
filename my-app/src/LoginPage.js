@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom'; // import the useHistory hook
 
 function LoginPage() {
   const [username, setUsername] = useState('');
@@ -27,9 +28,7 @@ function LoginPage() {
 
       setUsername("");
       setPassword("");
-      alert(data.message);
-      setUsername('');
-      setPassword('');
+      history.push('/'); // navigate to homepage
     } else {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -56,7 +55,7 @@ function LoginPage() {
         />
         <button type="submit">Login</button>
       </form>
-      <a href="/">Go to Homepage</a>
+      <a href="/register">Register an Account</a>
     </div>
   );
 }
