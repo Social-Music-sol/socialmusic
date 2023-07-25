@@ -7,8 +7,6 @@ import PostForm from './PostForm';
 import UserProfile from './UserProfile'; // import the new component
 import { getLoggedInUser } from './utils'; // import the utility function
 
-
-
 function App() {
   const username = getLoggedInUser();
 
