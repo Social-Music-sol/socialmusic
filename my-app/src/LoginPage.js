@@ -30,9 +30,7 @@ function LoginPage() {
     } else {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-  
-    const data = await response.json();
-  
+    
     if (data.message) {
       alert(data.message);
       setUsername('');
