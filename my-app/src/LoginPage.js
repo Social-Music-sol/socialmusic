@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom'; // import the useHistory hook
+import { useNavigate } from 'react-router-dom'; // import the useNavigate hook
 
 function LoginPage() {
   const [username, setUsername] = useState('');
@@ -8,7 +8,7 @@ function LoginPage() {
   const handleLogin = async (e) => {
     e.preventDefault();
   
-    const history = useHistory(); // get the history object
+    const navigate = useNavigate(); // get the navigate function
 
     const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/login`, {
       method: 'POST',
@@ -30,7 +30,7 @@ function LoginPage() {
 
       setUsername("");
       setPassword("");
-      history.push('/'); // navigate to homepage
+      navigate('/'); // navigate to homepage
     } else {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
