@@ -42,7 +42,7 @@ class UserRepository:
         except IntegrityError:
             raise ValueError("Username is already taken")
         
-    def get_data(self, user_id=None, username=None):
+    def get(self, user_id=None, username=None):
         if user_id:
             user = User.query.get(user_id)
         elif username:

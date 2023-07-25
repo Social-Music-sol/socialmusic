@@ -71,7 +71,7 @@ def get_user_by_id(user_id):
 @app.route('/user-by-name/<username>', methods=['GET'])
 def get_user_by_name(username):
     try:
-        user_data = user_repository.get_user(username=username)
+        user_data = user_repository.get(username=username)
         return jsonify(user_data), 200
     except NameError:
         return jsonify({'message': 'User not found'}, 404)
@@ -80,7 +80,7 @@ def get_user_by_name(username):
 def get_posts(user_id):
     limit = request.args.get('limit', default=5, type=int)
     try:
-        posts = post_repository.get_by_user_id(user_id, amount=limit)
+        posts = post_repository.get(user_id, amount=limit)
         return jsonify(posts), 200
     except NameError:
         return jsonify({'messgae': 'User not found'}), 404
