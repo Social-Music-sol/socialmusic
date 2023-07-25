@@ -6,17 +6,12 @@ import LoginPage from './LoginPage';
 import PostForm from './PostForm';
 import UserProfile from './UserProfile'; // import the new component
 import { getLoggedInUser } from './utils'; // import the utility function
-import Cookies from 'js-cookie'; // import js-cookie for cookie management
+import handleLogout from './handleLogout'; // import the logout function
+
 
 
 function App() {
   const username = getLoggedInUser();
-
-  const handleLogout = () => {
-    localStorage.clear(); // clear all local storage
-    Cookies.remove('access_token_cookie'); // replace 'cookie_name' with the name of your cookie
-    window.location.reload(); // refresh the page
-  };
 
   return (
     <Router>
