@@ -10,12 +10,17 @@ export default function UserProfile() {
     const getUserPosts = async () => {
       const userId = localStorage.getItem('userId');
 
+      console.log("userId:", userId);
+
       if (!userId) return;
 
       const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-posts/${userId}`);
 
+      console.log("response:", response);
+
       if (response.ok) {
         const postsData = await response.json();
+        console.log("postsData:", postsData);
         setPosts(postsData);
       }
     };
