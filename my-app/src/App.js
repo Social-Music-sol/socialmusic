@@ -20,9 +20,9 @@ function App() {
           <Route path="/" element={
             <div>
               <h1>JamJar</h1>
-              <Link to="/register">Register</Link>
+              {!username && <Link to="/register">Register</Link>}
               <br />
-              <Link to="/login">Login</Link>
+              {!username && <Link to="/login">Login</Link>}
               <br />
               {username && <Link to="/post">Create a Post</Link>}
               <br />
