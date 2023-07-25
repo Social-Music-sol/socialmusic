@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // import the useNavigate hook
+import { useNavigate } from 'react-router-dom';
 
 function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
   
-    const navigate = useNavigate(); // get the navigate function
-
     const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/login`, {
       method: 'POST',
       headers: {
@@ -19,7 +18,7 @@ function LoginPage() {
         username,
         password
       }),
-      credentials: 'include' // this line is new
+      credentials: 'include'
     });
     if (response.ok) {
       const data = await response.json();
@@ -30,15 +29,13 @@ function LoginPage() {
 
       setUsername("");
       setPassword("");
+
       navigate('/'); // navigate to homepage
     } else {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
   };
   
-  
-
-
   return (
     <div>
       <h2>Login</h2>
@@ -57,7 +54,7 @@ function LoginPage() {
         />
         <button type="submit">Login</button>
       </form>
-      <a href="/register">Register an Account</a>
+      <a href="/">Go to Homepage</a>
     </div>
   );
 }
