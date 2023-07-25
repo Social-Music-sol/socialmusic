@@ -35,7 +35,7 @@ export default function UserProfile() {
     };
 
     getUserPosts();
-  }, []); // <-- This ensures the function inside useEffect is only called once when the component mounts
+}, [username]); // <-- This ensures the function inside useEffect is only called once when the component mounts
 
   return (
     <div>
