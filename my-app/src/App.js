@@ -12,14 +12,10 @@ import Cookies from 'js-cookie'; // import js-cookie for cookie management
 function App() {
   const username = getLoggedInUser();
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
     localStorage.clear(); // clear all local storage
-    const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/logout`);
-    if (response.ok) {
-      const data = await response.json();
-      console.log(data); // log the response data
-      window.location.reload(); // refresh the page
-    }
+    Cookies.remove('access_token_cookie'); // replace 'cookie_name' with the name of your cookie
+    window.location.reload(); // refresh the page
   };
 
   return (
