@@ -15,7 +15,7 @@ class PostRepository:
 
         return new_post.to_dict()
         
-    def get_by_user_id(self, user_id, amount=5, descending=True):
+    def get(self, user_id, amount=5, descending=True):
         user = User.query.filter_by(id=user_id).first()
         if user:
             if descending:
