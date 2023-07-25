@@ -12,13 +12,22 @@ import Cookies from 'js-cookie'; // import js-cookie for cookie management
 function App() {
   const username = getLoggedInUser();
 
+  const getUserID = async () => {
+    const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/user-by-name/${username}`, 
+    {method:'POST', credentials:'include'});
+
+    if (response.ok) {
+      const postData = await response.json();
+      return postData.user_id;
+    }
+  };
+
   const handleLogout = async () => {
     localStorage.clear(); // clear all local storage
     const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/logout`);
     if (response.ok) {
-      const data = await response.json();
-      console.log(data); // log the response data
       window.location.reload(); // refresh the page
+      console.log('logged out!')
     }
   };
 
