@@ -7,6 +7,8 @@ import PostForm from './PostPage';
 import UserProfile from './ProfilePage'; 
 import { getLoggedInUser, handleLogout } from './utils';
 import './App.css'; // Import your CSS file
+import textlogo from './images/textlogo.png'
+import pfp from './images/circle.png';  // import the profile icon image
 //import SearchBar from './Searchbar'; // import the SearchBar component
 
 function HomePage() {
@@ -28,18 +30,22 @@ function HomePage() {
 
   return (
     <div>
-      <h1>JamJar</h1>
-      {username && <Link to="/post"><button>Create a Post</button></Link>}
-      <br />
+      <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
+      {username && 
+        <div className="pfp-container">
+          <Link to={`/users/${username}`}>
+            <img src={pfp} alt="Profile Icon" className="pfp" />
+          </Link>
+        </div>
+      }
       {!username && <Link to="/register">Register</Link>}
       <br />
       {!username && <Link to="/login">Login</Link>}
       <br />
-      {username && <Link to={`/users/${username}`}>Go to Profile</Link>}
+      {username && <Link to="/post">Create a Post</Link>}
       <br />
       {username && <button onClick={handleLogout}>Logout</button>}
-      <br />
-      <h2>Recent Posts:</h2>
+      <h2>Recent Jams:</h2>
       {posts.map((post, index) => (
         <div key={index} className="post-box">
           <Link to={`/users/${post.username}`}>
