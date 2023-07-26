@@ -4,6 +4,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_tok
 from . import db
 from flask_app.repositories.user_repository import UserRepository
 from flask_app.repositories.post_repository import PostRepository
+from flask_app.repositories.like_repository import LikeRepository
 from flask_app.models import User
 from flask_cors import cross_origin
 from datetime import datetime, timedelta
@@ -12,6 +13,7 @@ from os import getenv
 app = Blueprint('login', __name__)
 user_repository = UserRepository(db)
 post_repository = PostRepository(db)
+like_repository = LikeRepository(db)
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -100,6 +102,17 @@ def get_posts(user_id):
 def get_feed():
     posts = post_repository.get_feed()
     return jsonify(posts), 201
+
+@app.route('/like-post', methods=['POST'])
+@jwt_required()
+def like_post():
+    post_id = request.args.get('post_id', default=None, type=str)
+    if not post_id:
+        return jsonify({'error': 'post_id not passed into arguments'}), 404
+    like_response = LikeRepository.create(post_id=post_id, user_id=get_jwt_identity())
+    return jsonify(like_response), 201
+    
+    
 
 @app.route('/')
 def home():
