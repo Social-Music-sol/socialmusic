@@ -2,11 +2,14 @@ from flask_app.models import Post, User
 from flask import jsonify
 import re
 from uuid import UUID
+from flask_app.repositories.user_repository import UserRepository
 
 class PostRepository:
 
     def __init__(self, db):
         self.db = db
+        self.user_repository = UserRepository(db)
+
         regex_statement = r'https:\/\/open\.spotify\.com\/track\/([^\?]+)'
         self.link_grabber = re.compile(regex_statement)
 
@@ -36,3 +39,11 @@ class PostRepository:
             return [post.to_dict() for post in posts]
         else:
             raise NameError
+        
+    def get_feed(self, amount=10):
+        posts = Post.query.order_by(Post.created_at.desc()).limit(amount).all()
+        for i, post in posts:
+            posts[i] = post.to_dict()
+            user_id = posts[i]['user_id']
+            posts[i]['username'] = self.user_repository.get(user_id=user_id)
+        return posts
