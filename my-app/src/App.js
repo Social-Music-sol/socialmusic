@@ -41,7 +41,7 @@ function HomePage() {
       {posts.map((post, index) => (
         <div key={index}>
           <Link to={`/users/${post.username}`}>
-            <h3>{post.username}'s Post</h3>
+            <h3>{post.username}</h3>
           </Link>
           <p>{post.content}</p>
           <p>{post.image_url}</p>
