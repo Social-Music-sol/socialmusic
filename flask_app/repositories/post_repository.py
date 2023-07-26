@@ -2,14 +2,11 @@ from flask_app.models import Post, User
 from flask import jsonify
 import re
 from uuid import UUID
-from flask_app.repositories.user_repository import UserRepository
 
 class PostRepository:
 
     def __init__(self, db):
         self.db = db
-        self.user_repository = UserRepository(db)
-
         regex_statement = r'https:\/\/open\.spotify\.com\/track\/([^\?]+)'
         self.link_grabber = re.compile(regex_statement)
 
@@ -45,5 +42,5 @@ class PostRepository:
         for i, post in enumerate(posts):
             posts[i] = post.to_dict()
             user_id = posts[i]['user_id']
-            posts[i]['username'] = User.get(user_id=user_id).username
+            posts[i]['username'] = User.query.get(user_id=user_id).username
         return posts
