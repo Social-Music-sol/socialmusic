@@ -48,7 +48,7 @@ export default function UserProfile() {
           <p>{post.content}</p>
           <p>{post.image_url}</p>
           <p>{post.created_at}</p>
-          <div style={{left: 0, width: '100%', height: 152, position: 'relative'}} dangerouslySetInnerHTML={{
+          <div style={{left: 0, width: 900, height: 180, position: 'relative'}} dangerouslySetInnerHTML={{
             __html: `<iframe src=${post.song_embed_url} style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" allowfullscreen allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture;"></iframe>`
           }}>
           </div>
