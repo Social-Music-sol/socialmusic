@@ -107,20 +107,20 @@ def get_feed():
 @jwt_required()
 def like_post():
     post_id = request.args.get('post_id', default=None, type=str)
-    if not post_id:
-        return jsonify({'error': 'post_id not passed into arguments'}), 400
+    user_id = get_jwt_identity()
     try:
         if request.method == 'POST':
-            like_response = like_repository.create(post_id=post_id, user_id=get_jwt_identity())
+            response = like_repository.create(post_id, user_id)
         elif request.method == 'DELETE':
-            like_response = like_repository.delete(post_id=post_id, user_id=get_jwt_identity())
-    except ValueError:
-        return jsonify({'error': 'post_id or user_id are invalid'}), 404
-    except FileExistsError:
-        return jsonify({'error': 'Like already exists'}), 400
-    except FileNotFoundError:
-        return jsonify({'error': 'Like does not exist'}), 400
-    return jsonify(like_response), 201
+            response = like_repository.delete(post_id, user_id)
+        else:
+            return jsonify({'error': 'Unsupported method'}), 405
+        return jsonify(response), 201
+    except KeyError:
+        return jsonify({'error': 'User or post not found'}), 404
+    except NameError:
+        return jsonify({'Trying to delete/create a post that doesnt/does exist'}), 404
+    
 
 @app.route('/')
 def home():

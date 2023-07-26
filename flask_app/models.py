@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import UniqueConstraint
 from werkzeug.security import generate_password_hash, check_password_hash
 import uuid
 from datetime import datetime
@@ -74,11 +75,14 @@ class Like(db.Model):
     post_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey('posts.id'), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
+    __table_args__ = (UniqueConstraint('user_id', 'post_id', name='unique_user_post'),)
+
     def to_dict(self):
         return {
             'id': str(self.id),
             'user_id': str(self.user_id),
-            'post_id': str(self.post_id)
+            'post_id': str(self.post_id),
+            'created_at': self.created_at
         }
 
 if __name__ == "__main__":  
