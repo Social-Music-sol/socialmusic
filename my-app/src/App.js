@@ -8,7 +8,6 @@ import UserProfile from './ProfilePage';
 import { getLoggedInUser, handleLogout, handleLike } from './utils';
 import './App.css'; // Import your CSS file
 import textlogo from './images/textlogo.png'
-import './fonts.css'
 import pfp from './images/circle.png';  // import the profile icon image
 
 function HomePage() {
