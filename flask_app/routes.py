@@ -103,14 +103,17 @@ def get_feed():
     posts = post_repository.get_feed()
     return jsonify(posts), 201
 
-@app.route('/like-post', methods=['POST'])
+@app.route('/like-post', methods=['POST', 'DELETE'])
 @jwt_required()
 def like_post():
     post_id = request.args.get('post_id', default=None, type=str)
     if not post_id:
         return jsonify({'error': 'post_id not passed into arguments'}), 400
     try:
-        like_response = like_repository.create(post_id=post_id, user_id=get_jwt_identity())
+        if request.method == 'POST':
+            like_response = like_repository.create(post_id=post_id, user_id=get_jwt_identity())
+        elif request.method == 'DELETE':
+            like_response = like_repository.delete(post_id=post_id, user_id=get_jwt_identity())
     except ValueError:
         return jsonify({'error': 'post_id or user_id are invalid'}), 404
     except FileExistsError:

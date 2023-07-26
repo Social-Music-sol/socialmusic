@@ -18,4 +18,21 @@ class LikeRepository:
             return FileExistsError
 
         new_like = Like(user_id=user.id, post_id=post.id)
+        self.db.session.add(new_like)
+        self.db.session.commit()
         return new_like.to_dict()
+    
+    def delete(self, post_id, user_id):
+        post = Post.query.get(post_id)
+        if not post:
+            return ValueError
+        user = User.query.get(user_id)
+        if not user:
+            return ValueError
+        existing_like = Like.query.filter_by(user_id=user.id, post_id=post.id).first()
+        if not existing_like:
+            return FileNotFoundError
+        self.db.session.delete(existing_like)
+        self.db.session.commit()
+        return {'message': 'Deleted successfully'}
+        
