@@ -14,7 +14,7 @@ function HomePage() {
 
   useEffect(() => {
     const getRecentPosts = async () => {
-      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-feed`);
+      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/recent-feed`);
 
       if (response.ok) {
         const postsData = await response.json();
