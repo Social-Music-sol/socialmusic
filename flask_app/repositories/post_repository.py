@@ -14,7 +14,7 @@ class PostRepository:
         # Create and save the new post
         
         if 'song_url' in post_data.keys():
-            links = self.link_grabber.search(post_data['song_url'])
+            links = self.link_grabber.findall(post_data['song_url'])
             if len(links) < 1:
                 raise ValueError
             else:
