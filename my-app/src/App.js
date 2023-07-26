@@ -42,8 +42,13 @@ function HomePage() {
       <br />
       {!username && <Link to="/login">Login</Link>}
       <br />
-      {username && <Link to="/post">Create a Post</Link>}
-      <br />
+      {username && 
+    <div className="create-post-button">
+        <Link to="/post">
+            <button>Create a Post</button>
+        </Link>
+    </div>
+      }
       {username && <button onClick={handleLogout}>Logout</button>}
       <h2>Recent Jams:</h2>
       {posts.map((post, index) => (
