@@ -14,7 +14,6 @@ import pfp from './images/circle.png';  // import the profile icon image
 function HomePage() {
   const username = getLoggedInUser();
   const [posts, setPosts] = useState([]);
-  const [likedPosts, setLikedPosts] = useState([]);
 
   useEffect(() => {
     const getRecentPosts = async () => {
@@ -69,8 +68,8 @@ function HomePage() {
           }}>
           </div>
           <p>Likes: {post.like_count}</p>
-          <button onClick={() => handleLike(post.id, likedPosts, setLikedPosts)}>
-            {likedPosts.includes(post.id) ? 'Unlike' : 'Like'}
+          <button onClick={() => handleLike(post.id, posts, setPosts)}>
+            {post.liked_by_requester ? 'Unlike' : 'Like'}
           </button>
         </div>
       ))}

@@ -19,15 +19,15 @@ if (response.ok) {
 };
 
 export const handleLike = async (postId, posts, setPosts) => {
-    const postIndex = posts.findIndex(({ post }) => post.id === postId);
-    const { post, likes } = posts[postIndex];
+    const postIndex = posts.findIndex(post => post.id === postId);
+    const post = posts[postIndex];
     const isAlreadyLiked = post.liked_by_requester;
     
     const newPosts = [...posts]; // Copy the posts array
     if (isAlreadyLiked) {
-      newPosts[postIndex] = { post: { ...post, liked_by_requester: false }, likes: likes - 1 };
+      newPosts[postIndex] = { ...post, liked_by_requester: false, like_count: post.like_count - 1 };
     } else {
-      newPosts[postIndex] = { post: { ...post, liked_by_requester: true }, likes: likes + 1 };
+      newPosts[postIndex] = { ...post, liked_by_requester: true, like_count: post.like_count + 1 };
     }
   
     const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/like-post?post_id=${postId}`, {
@@ -43,6 +43,7 @@ export const handleLike = async (postId, posts, setPosts) => {
       setPosts(newPosts);
     }
   };
+  
   
   
         
