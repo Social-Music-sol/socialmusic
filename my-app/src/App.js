@@ -40,7 +40,9 @@ function HomePage() {
       <h2>Recent Posts:</h2>
       {posts.map((post, index) => (
         <div key={index}>
-          <h3>Post {index + 1}</h3>
+          <Link to={`/users/${post.username}`}>
+            <h3>{post.username}'s Post</h3>
+          </Link>
           <p>{post.content}</p>
           <p>{post.image_url}</p>
           <p>{post.created_at}</p>
