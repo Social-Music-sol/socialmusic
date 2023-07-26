@@ -7,7 +7,7 @@ import PostForm from './PostPage';
 import UserProfile from './ProfilePage'; 
 import { getLoggedInUser, handleLogout } from './utils';
 import './App.css'; // Import your CSS file
-import logo from './images/textlogo.png'
+import textlogo from './images/textlogo.png'
 //import SearchBar from './Searchbar'; // import the SearchBar component
 
 function HomePage() {
