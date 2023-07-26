@@ -6,7 +6,6 @@ import LoginPage from './LoginPage';
 import PostForm from './PostPage';
 import UserProfile from './ProfilePage'; 
 import { getLoggedInUser, handleLogout, handleLike } from './utils';
-import { getLoggedInUser, handleLogout } from './utils';
 import './App.css'; // Import your CSS file
 import textlogo from './images/textlogo.png'
 import pfp from './images/circle.png';  // import the profile icon image
