@@ -15,6 +15,7 @@ class PostRepository:
         
         if 'song_url' in post_data.keys():
             links = self.link_grabber.findall(post_data['song_url'])
+            del post_data['song_url']
             if len(links) < 1:
                 raise ValueError
             else:
