@@ -109,7 +109,7 @@ def like_post():
     post_id = request.args.get('post_id', default=None, type=str)
     if not post_id:
         return jsonify({'error': 'post_id not passed into arguments'}), 404
-    like_response = LikeRepository.create(post_id=post_id, user_id=get_jwt_identity())
+    like_response = like_repository.create(post_id=post_id, user_id=get_jwt_identity())
     return jsonify(like_response), 201
     
     

@@ -7,10 +7,10 @@ class LikeRepository:
         self.db = db
 
     def create(self, post_id, user_id):
-        post = Post.get(post_id)
+        post = Post.query.get(post_id)
         if not post:
             return ValueError
-        user = User.get(user_id)
+        user = User.query.get(user_id)
         if not user:
             return ValueError
         
