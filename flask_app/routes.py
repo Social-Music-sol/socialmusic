@@ -95,7 +95,7 @@ def get_posts(user_id):
     except NameError:
         return jsonify({'messgae': 'User not found'}), 404
 
-@app.route('/recent-feed/', methods=['GET'])
+@app.route('/recent-feed', methods=['GET'])
 @jwt_required()
 def get_feed():
     posts = post_repository.get_feed()
