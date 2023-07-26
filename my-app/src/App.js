@@ -35,7 +35,7 @@ function HomePage() {
         {username && 
   <div className="create-post-button">
     <Link to="/post">
-      <button className="post-button">Create a Post</button>
+      <button className="post-button">+Post</button>
     </Link>
   </div>
 }
