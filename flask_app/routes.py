@@ -78,7 +78,7 @@ def get_user_by_id(user_id):
         user_data = user_repository.get_user(user_id=user_id)
         return jsonify(user_data), 200
     except NameError:
-        return jsonify({'message': 'User not found'}), 404
+        return jsonify({'error': 'User not found'}), 404
     
 @app.route('/user-by-name/<username>', methods=['GET'])
 def get_user_by_name(username):
@@ -86,7 +86,7 @@ def get_user_by_name(username):
         user_data = user_repository.get(username=username)
         return jsonify(user_data), 200
     except NameError:
-        return jsonify({'message': 'User not found'}, 404)
+        return jsonify({'error': 'User not found'}, 404)
     
 @app.route('/get-posts/<user_id>', methods=['GET'])
 def get_posts(user_id):
@@ -95,13 +95,17 @@ def get_posts(user_id):
         posts = post_repository.get(user_id, amount=limit)
         return jsonify(posts), 200
     except NameError:
-        return jsonify({'messgae': 'User not found'}), 404
+        return jsonify({'error': 'User not found'}), 404
 
 @app.route('/recent-feed', methods=['GET'])
 @jwt_required()
 def get_feed():
-    posts = post_repository.get_feed()
-    return jsonify(posts), 201
+    user_id = get_jwt_identity()
+    try:
+        posts = post_repository.get_feed(user_id)
+        return jsonify(posts), 201
+    except KeyError:
+        return jsonify({'error': 'User not found'}), 404
 
 @app.route('/like-post', methods=['POST', 'DELETE'])
 @jwt_required()

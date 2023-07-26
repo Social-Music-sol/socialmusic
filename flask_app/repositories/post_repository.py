@@ -1,4 +1,4 @@
-from flask_app.models import Post, User
+from flask_app.models import Post, User, Like
 from flask import jsonify
 import re
 from uuid import UUID
@@ -37,10 +37,15 @@ class PostRepository:
         else:
             raise NameError
         
-    def get_feed(self, amount=10):
+    def get_feed(self, requester_id, amount=10):
+        if not User.query.get(requester_id):
+            raise KeyError
         posts = Post.query.order_by(Post.created_at.desc()).limit(amount).all()
         for i, post in enumerate(posts):
             posts[i] = post.to_dict()
             user_id = posts[i]['user_id']
+            post_id = posts[i]['id']
             posts[i]['username'] = User.query.get(user_id).username
+            existing_like = Like.query.filter_by(user_id=requester_id, post_id=post_id)
+            posts[i]['liked_by_user'] = True if existing_like else False
         return posts
