@@ -28,15 +28,6 @@ function HomePage() {
   return (
     <div>
       <h1>JamJar</h1>
-      {!username && <Link to="/register">Register</Link>}
-      <br />
-      {!username && <Link to="/login">Login</Link>}
-      <br />
-      {username && <Link to="/post">Create a Post</Link>}
-      <br />
-      {username && <Link to={`/users/${username}`}>Go to Profile</Link>}
-      <br />
-      {username && <button onClick={handleLogout}>Logout</button>}
       <h2>Recent Posts:</h2>
       {posts.map((post, index) => (
         <div key={index}>
