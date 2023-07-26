@@ -17,3 +17,19 @@ if (response.ok) {
     window.location.reload(); // refresh the page
 }
 };
+
+export const handleLike = async (postId) => {
+    const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/like-post?post_id=${postId}`, {
+      method: 'POST', // The request method is POST
+      credentials: 'include', // Include cookies in the request
+    });
+  
+    // Check if the request was successful
+    if (response.ok) {
+      console.log(`Post ${postId} has been liked successfully!`);
+      // Here, you might want to refresh the feed or update the state to reflect the new like
+      window.location.reload(); // refresh the page
+    } else {
+      console.error(`Failed to like post ${postId}`);
+    }
+  };  
