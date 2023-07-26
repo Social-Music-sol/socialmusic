@@ -30,7 +30,16 @@ function HomePage() {
 
   return (
     <div>
-      <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
+      <div className="header">
+        <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
+        {username && 
+          <div className="create-post-button">
+            <Link to="/post">
+              <button>Create a Post</button>
+            </Link>
+          </div>
+        }
+      </div>
       {username && 
         <div className="pfp-container">
           <Link to={`/users/${username}`}>
@@ -42,13 +51,6 @@ function HomePage() {
       <br />
       {!username && <Link to="/login">Login</Link>}
       <br />
-      {username && 
-    <div className="create-post-button">
-        <Link to="/post">
-            <button>Create a Post</button>
-        </Link>
-    </div>
-      }
       {username && <button onClick={handleLogout}>Logout</button>}
       <h2>Recent Jams:</h2>
       {posts.map((post, index) => (

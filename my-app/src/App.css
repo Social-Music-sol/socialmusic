@@ -69,8 +69,14 @@ body {
   height: 50px  ;  
   margin: 10px;
 }
-.create-post-button {
+.header {
+  display: flex;
+  align-items: center;
   position: absolute;
   top: 10px;
-  right: 10px; /* adjust this to your liking */
+  left: 10px;
+}
+
+.create-post-button {
+  margin-left: 10px; /* adjust as needed */
 }
