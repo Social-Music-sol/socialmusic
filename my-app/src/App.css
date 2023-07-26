@@ -58,14 +58,12 @@ body {
   top: 10px;
   width: 100%;
 }
-
 .textlogo {
   width: 100px;
   height: auto;
   display: block;
-  margin: 10px;
+  margin: 5px;
 }
-
 .line {
   width: 100%;
   border-top: 2px solid #000; /* change color as needed */
@@ -75,7 +73,6 @@ body {
   top: 10px;
   right: 10px;
 }
-
 .pfp {
   width: 50px; 
   height: 50px  ;  
