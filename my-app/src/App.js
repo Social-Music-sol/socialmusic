@@ -30,7 +30,7 @@ function HomePage() {
 
   return (
     <div>
-      <link to="/"><img src={textlogo} alt="JamJar Text Logo" className="textlogo" /></link>
+      <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
       {username && 
         <div className="pfp-container">
           <Link to={`/users/${username}`}>
