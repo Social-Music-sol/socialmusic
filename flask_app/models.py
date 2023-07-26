@@ -77,6 +77,12 @@ class Like(db.Model):
     post_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey('posts.id'), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
+    def to_dict(self):
+        return {
+            'id': str(self.id),
+            'user_id': str(self.user_id),
+            'post_id': str(self.post_id)
+        }
 
 if __name__ == "__main__":  
     with app.app_context():
