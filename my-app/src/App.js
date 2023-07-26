@@ -8,6 +8,7 @@ import UserProfile from './ProfilePage';
 import { getLoggedInUser, handleLogout } from './utils';
 import './App.css'; // Import your CSS file
 import textlogo from './images/textlogo.png'
+import pfp from './images/pfp.png';  // import the profile icon image
 //import SearchBar from './Searchbar'; // import the SearchBar component
 
 function HomePage() {
@@ -30,14 +31,18 @@ function HomePage() {
   return (
     <div>
       <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
-    
+      {username && 
+        <div className="pfp-container">
+          <Link to={`/users/${username}`}>
+            <img src={pfp} alt="Profile Icon" className="pfp" />
+          </Link>
+        </div>
+      }
       {!username && <Link to="/register">Register</Link>}
       <br />
       {!username && <Link to="/login">Login</Link>}
       <br />
       {username && <Link to="/post">Create a Post</Link>}
-      <br />
-      {username && <Link to={`/users/${username}`}>Go to Profile</Link>}
       <br />
       {username && <button onClick={handleLogout}>Logout</button>}
       <h2>Recent Jams:</h2>
