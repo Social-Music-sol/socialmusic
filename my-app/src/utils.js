@@ -18,18 +18,29 @@ if (response.ok) {
 }
 };
 
-export const handleLike = async (postId) => {
+export const handleLike = async (postId, likedPosts, setLikedPosts) => {
+    const isAlreadyLiked = likedPosts.includes(postId);
+  
+    if (isAlreadyLiked) {
+      setLikedPosts(likedPosts.filter(id => id !== postId));
+    } else {
+      setLikedPosts([...likedPosts, postId]);
+    }
+  
     const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/like-post?post_id=${postId}`, {
-      method: 'POST', // The request method is POST
-      credentials: 'include', // Include cookies in the request
+      method: isAlreadyLiked ? 'DELETE' : 'POST',
+      credentials: 'include',
     });
   
-    // Check if the request was successful
-    if (response.ok) {
-      console.log(`Post ${postId} has been liked successfully!`);
-      // Here, you might want to refresh the feed or update the state to reflect the new like
-      window.location.reload(); // refresh the page
-    } else {
-      console.error(`Failed to like post ${postId}`);
+    if (!response.ok) {
+      console.error(`Failed to ${isAlreadyLiked ? 'unlike' : 'like'} post ${postId}`);
+      // If the request failed, revert the like state
+      if (isAlreadyLiked) {
+        setLikedPosts([...likedPosts, postId]);
+      } else {
+        setLikedPosts(likedPosts.filter(id => id !== postId));
+      }
     }
-  };  
+};
+  
+        
