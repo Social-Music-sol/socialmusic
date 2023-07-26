@@ -47,5 +47,5 @@ class PostRepository:
             post_id = posts[i]['id']
             posts[i]['username'] = User.query.get(user_id).username
             existing_like = Like.query.filter_by(user_id=requester_id, post_id=post_id)
-            posts[i]['liked_by_user'] = True if existing_like else False
+            posts[i]['liked_by_requester'] = True if existing_like else False
         return posts
