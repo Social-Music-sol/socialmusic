@@ -8,7 +8,7 @@ import UserProfile from './ProfilePage';
 import { getLoggedInUser, handleLogout } from './utils';
 import SearchBar from './Searchbar';
 import './App.css'; // Import your CSS file
-import textlogo from './images/textJamJar.png'
+
 function HomePage() {
   const username = getLoggedInUser();
   const [posts, setPosts] = useState([]);
@@ -28,7 +28,7 @@ function HomePage() {
 
   return (
     <div>
-      <img src={logo} alt="JamJar Logo" className="logo" />
+      <h1>JamJar</h1>
       <div className="search-bar-container">
         <SearchBar />
       </div>
