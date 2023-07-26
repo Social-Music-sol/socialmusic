@@ -33,12 +33,12 @@ function HomePage() {
       <div className="header">
         <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
         {username && 
-          <div className="create-post-button">
-            <Link to="/post">
-              <button>Create a Post</button>
-            </Link>
-          </div>
-        }
+  <div className="create-post-button">
+    <Link to="/post">
+      <button className="post-button">Create a Post</button>
+    </Link>
+  </div>
+}
       </div>
       {username && 
         <div className="pfp-container">
