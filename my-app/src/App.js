@@ -5,7 +5,7 @@ import RegisterPage from './RegisterPage';
 import LoginPage from './LoginPage';
 import PostForm from './PostPage';
 import UserProfile from './ProfilePage'; 
-import HomePage from './HomePage';
+import HomePage from './HomePageScroll';
 
 
 function App() {
