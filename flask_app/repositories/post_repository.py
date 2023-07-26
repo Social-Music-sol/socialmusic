@@ -18,7 +18,7 @@ class PostRepository:
             if len(links) < 1:
                 raise ValueError
             else:
-                post_data['song_id'] = self.link_builder(links[0])
+                post_data['song_id'] = links[0]
         new_post = Post(**post_data)
         self.db.session.add(new_post)
         self.db.session.commit()
