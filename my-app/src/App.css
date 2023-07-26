@@ -50,24 +50,27 @@ body {
   overflow-y: auto;
 }
 .textlogo {
+  width: 100px;
   height: auto;
-  margin-right: 10px; /* creates some space between the logo and the button */
+  display: block;
+  margin: 10px;
+  position: absolute;  
+  left: 10px; 
+  top: 10px;  
 }
 .pfp-container {
   position: absolute;
   top: 10px;
   right: 10px;
 }
+
 .pfp {
   width: 50px; 
   height: 50px  ;  
   margin: 10px;
 }
-.header {
-  display: flex;
-  align-items: center; /* aligns items vertically in the center */
+.create-post-button {
   position: absolute;
   top: 10px;
-  left: 10px;
+  right: 10px; /* adjust this to your liking */
 }
-
