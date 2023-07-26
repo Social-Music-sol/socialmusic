@@ -13,5 +13,9 @@
   }
   @font-face {
     font-family: 'Satoshi Regular';
-    src: url('./fonts/Satoshi-Regular.otf') format('opentype');
+    src: url('/fonts/Satoshi-Regular.otf') format('opentype');
+  }
+  @font-face {
+    font-family: 'robot test';
+    src: url('./fonts/Handjet-VariableFont_ELGR,ELSH,wght.ttf') format('woff2');
   }

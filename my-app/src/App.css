@@ -69,6 +69,9 @@ body {
 }
 .create-post-button {
   margin-left: 10px; /* adjust as needed */
+  background-color: rgb(240, 239, 239);
+  border: 1px solid rgb(255, 240, 240);
+  border-radius: 20px;
 }
 .pfp {
   width: 50px; 
@@ -80,9 +83,9 @@ body {
   top: 10px;
   right: 10px;
 }
-.create-post-button {
-  .create-post-button {
-    /* removed absolute positioning, only margin-left is needed */
-    margin-left: 10px;
-  }
+.post-button {
+  background-color: rgb(240, 239, 239);
+  border: 1px solid rgb(255, 240, 240);
+  border-radius: 20px;
+  padding: 10px 20px; 
 }
