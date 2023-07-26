@@ -1,5 +1,6 @@
 // UserPost.js
 import React from 'react';
+import './UserPost.css';
 
 const UserPost = ({ post, user }) => {
   return (
