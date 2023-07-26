@@ -18,13 +18,16 @@ if (response.ok) {
 }
 };
 
-export const handleLike = async (postId, likedPosts, setLikedPosts) => {
-    const isAlreadyLiked = likedPosts.includes(postId);
-  
+export const handleLike = async (postId, posts, setPosts) => {
+    const postIndex = posts.findIndex(({ post }) => post.id === postId);
+    const { post, likes } = posts[postIndex];
+    const isAlreadyLiked = post.liked_by_requester;
+    
+    const newPosts = [...posts]; // Copy the posts array
     if (isAlreadyLiked) {
-      setLikedPosts(likedPosts.filter(id => id !== postId));
+      newPosts[postIndex] = { post: { ...post, liked_by_requester: false }, likes: likes - 1 };
     } else {
-      setLikedPosts([...likedPosts, postId]);
+      newPosts[postIndex] = { post: { ...post, liked_by_requester: true }, likes: likes + 1 };
     }
   
     const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/like-post?post_id=${postId}`, {
@@ -35,12 +38,11 @@ export const handleLike = async (postId, likedPosts, setLikedPosts) => {
     if (!response.ok) {
       console.error(`Failed to ${isAlreadyLiked ? 'unlike' : 'like'} post ${postId}`);
       // If the request failed, revert the like state
-      if (isAlreadyLiked) {
-        setLikedPosts([...likedPosts, postId]);
-      } else {
-        setLikedPosts(likedPosts.filter(id => id !== postId));
-      }
+      setPosts(posts);
+    } else {
+      setPosts(newPosts);
     }
-};
+  };
+  
   
         
