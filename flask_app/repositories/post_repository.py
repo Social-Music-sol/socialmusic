@@ -42,7 +42,7 @@ class PostRepository:
         
     def get_feed(self, amount=10):
         posts = Post.query.order_by(Post.created_at.desc()).limit(amount).all()
-        for i, post in posts:
+        for i, post in enumerate(posts):
             posts[i] = post.to_dict()
             user_id = posts[i]['user_id']
             posts[i]['username'] = self.user_repository.get(user_id=user_id)
