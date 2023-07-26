@@ -63,8 +63,12 @@ def create_post():
 
     post_data = request.get_json()
     post_data['user_id'] = user_id
-    new_post = post_repository.create(post_data)
-    return jsonify(new_post), 201
+    try:
+        new_post = post_repository.create(post_data)
+        return jsonify(new_post), 201
+    except ValueError:
+        return jsonify({'error': 'Invalid spotify link'}), 400
+    
 
 @app.route('/user-by-id/<user_id>', methods=['GET'])
 def get_user_by_id(user_id):

@@ -12,6 +12,7 @@ if __name__ == '__main__':
 else:
     from . import db
 
+embed_link_builder = lambda track_id: r'https://open.spotify.com/embed/track/' + track_id + r'?utm_source=oembed'
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -47,10 +48,13 @@ class Post(db.Model):
     parent_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey('posts.id'), nullable=True)
     content = db.Column(db.String(300), nullable=False)
     image_url = db.Column(db.String(500), nullable=True)
-    song_url = db.Column(db.String(500), nullable=True)
+    song_id = db.Column(db.String(500), nullable=True)
     replies = db.relationship('Post', backref=db.backref('parent', remote_side=[id]), lazy='dynamic')
     likes = db.relationship('Like', backref='post', lazy='dynamic')
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+
+    
 
     def to_dict(self):
         return {
@@ -59,7 +63,8 @@ class Post(db.Model):
             'parent_id': str(self.parent_id),
             'content': self.content,
             'image_url': self.image_url,
-            'song_url': self.song_url,
+            'song_id': self.song_id,
+            'song_embed_url': embed_link_builder(self.song_id),
             'created_at': self.created_at
         }
 
