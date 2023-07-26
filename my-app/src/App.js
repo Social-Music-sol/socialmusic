@@ -28,7 +28,7 @@ function HomePage() {
 
   return (
     <div>
-      <img src={textlogo} alt="JamJar Logo" className="textlogo" />
+      <img src={logo} alt="JamJar Logo" className="logo" />
       <div className="search-bar-container">
         <SearchBar />
       </div>
