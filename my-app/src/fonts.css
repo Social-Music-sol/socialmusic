@@ -1,21 +1,21 @@
 @font-face {
-    font-family: 'PlusJakartaSans';
-    src: url('./fonts/PlusJakartaSans-Medium.ttf') format('woff2'),
-         url('./fonts/PlusJakartaSans-Italic-VariableFont_wght.ttf') format('woff');
-    font-weight: normal;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'Lora';
-    src: url('./fonts/Lora-VariableFont_wght.ttf') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'Satoshi Regular';
-    src: url('/fonts/Satoshi-Regular.otf') format('opentype');
-  }
-  @font-face {
-    font-family: 'robot test';
-    src: url('./fonts/Handjet-VariableFont_ELGR,ELSH,wght.ttf') format('woff2');
-  }
+  font-family: 'PlusJakartaSans';
+  src: url('/fonts/PlusJakartaSans-Medium.ttf') format('woff2'),
+       url('/fonts/PlusJakartaSans-Italic-VariableFont_wght.ttf') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Lora';
+  src: url('/fonts/Lora-VariableFont_wght.ttf') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Satoshi Regular';
+  src: url('/fonts/Satoshi-Regular.otf') format('opentype');
+}
+@font-face {
+  font-family: 'robot test';
+  src: url('/fonts/Handjet-VariableFont_ELGR,ELSH,wght.ttf') format('woff2');
+}
