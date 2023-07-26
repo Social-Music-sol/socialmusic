@@ -108,8 +108,13 @@ def get_feed():
 def like_post():
     post_id = request.args.get('post_id', default=None, type=str)
     if not post_id:
-        return jsonify({'error': 'post_id not passed into arguments'}), 404
-    like_response = like_repository.create(post_id=post_id, user_id=get_jwt_identity())
+        return jsonify({'error': 'post_id not passed into arguments'}), 400
+    try:
+        like_response = like_repository.create(post_id=post_id, user_id=get_jwt_identity())
+    except ValueError:
+        return jsonify({'error': 'post_id or user_id are invalid'}), 404
+    except FileExistsError:
+        return jsonify({'error': 'like already exists'}), 400
     return jsonify(like_response), 201
     
     
