@@ -42,5 +42,5 @@ class PostRepository:
         for i, post in enumerate(posts):
             posts[i] = post.to_dict()
             user_id = posts[i]['user_id']
-            posts[i]['username'] = User.query.get(user_id=user_id).username
+            posts[i]['username'] = User.query.get(user_id).username
         return posts
