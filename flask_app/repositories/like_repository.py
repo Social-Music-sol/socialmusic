@@ -10,7 +10,7 @@ class LikeRepository:
         post = Post.query.get(post_id)
         user = User.query.get(user_id)
         if not user or not post:
-            return KeyError
+            raise KeyError
         
         existing_like = Like.query.filter_by(user_id=user_id, post_id=post_id).first()
         if existing_like:
@@ -25,11 +25,11 @@ class LikeRepository:
         post = Post.query.get(post_id)
         user = User.query.get(user_id)
         if not user or not post:
-            return KeyError
+            raise KeyError
 
         existing_like = Like.query.filter_by(user_id=user.id, post_id=post.id).first()
         if not existing_like:
-            return ValueError
+            raise ValueError
         response = existing_like.to_dict()
         self.db.session.delete(existing_like)
         self.db.session.commit()

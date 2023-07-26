@@ -118,7 +118,7 @@ def like_post():
         return jsonify(response), 201
     except KeyError:
         return jsonify({'error': 'User or post not found'}), 404
-    except NameError:
+    except ValueError:
         return jsonify({'Trying to delete/create a post that doesnt/does exist'}), 404
     
 
