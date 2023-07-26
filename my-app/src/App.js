@@ -58,7 +58,7 @@ function HomePage() {
             __html: `<iframe src=${post.song_embed_url} style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" allowfullscreen allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture; autoplay;"></iframe>`
           }}>
           </div>
-          <button onClick={() => handleLike(post.id)}>
+          <button onClick={() => handleLike(post.id, likedPosts, setLikedPosts)}>
             {likedPosts.includes(post.id) ? 'Unlike' : 'Like'}
           </button>
         </div>
