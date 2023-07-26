@@ -47,7 +47,6 @@ body {
   margin: 20px auto;
   padding: 10px;
   background-color: rgb(240, 239, 239);  
-  overflow-y: auto;
 }
 .textlogo {
   width: 100px;

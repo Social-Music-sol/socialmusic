@@ -23,6 +23,8 @@ function HomePage() {
       if (response.ok) {
         const postsData = await response.json();
         setPosts(postsData);
+
+        setLikedPosts(postsData.filter(post => post.liked_by_requester).map(post => post.id));
       }
     };
 
