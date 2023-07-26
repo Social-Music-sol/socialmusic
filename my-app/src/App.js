@@ -6,8 +6,7 @@ import LoginPage from './LoginPage';
 import PostForm from './PostPage';
 import UserProfile from './ProfilePage'; 
 import { getLoggedInUser, handleLogout } from './utils';
-import SearchBar from './Searchbar';
-import './App.css'; // Import your CSS file
+import SearchBar from './Searchbar'; // import the SearchBar component
 
 function HomePage() {
   const username = getLoggedInUser();
@@ -29,9 +28,7 @@ function HomePage() {
   return (
     <div>
       <h1>JamJar</h1>
-      <div className="search-bar-container">
-        <SearchBar />
-      </div>
+      <SearchBar /> {/* place the SearchBar here, or wherever you'd like it to appear */}
       {!username && <Link to="/register">Register</Link>}
       <br />
       {!username && <Link to="/login">Login</Link>}
@@ -43,7 +40,7 @@ function HomePage() {
       {username && <button onClick={handleLogout}>Logout</button>}
       <h2>Recent Posts:</h2>
       {posts.map((post, index) => (
-        <div key={index} className="post-container">
+        <div key={index}>
           <Link to={`/users/${post.username}`}>
             <h3>{post.username}</h3>
           </Link>
