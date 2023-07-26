@@ -51,10 +51,7 @@ class Post(db.Model):
     song_id = db.Column(db.String(500), nullable=True)
     replies = db.relationship('Post', backref=db.backref('parent', remote_side=[id]), lazy='dynamic')
     likes = db.relationship('Like', backref='post', lazy='dynamic')
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-
-
-    
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)    
 
     def to_dict(self):
         return {

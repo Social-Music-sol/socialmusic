@@ -117,10 +117,10 @@ def like_post():
     except ValueError:
         return jsonify({'error': 'post_id or user_id are invalid'}), 404
     except FileExistsError:
-        return jsonify({'error': 'like already exists'}), 400
+        return jsonify({'error': 'Like already exists'}), 400
+    except FileNotFoundError:
+        return jsonify({'error': 'Like does not exist'}), 400
     return jsonify(like_response), 201
-    
-    
 
 @app.route('/')
 def home():
