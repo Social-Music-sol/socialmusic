@@ -8,7 +8,7 @@ import UserProfile from './ProfilePage';
 import { getLoggedInUser, handleLogout } from './utils';
 import './App.css'; // Import your CSS file
 import textlogo from './images/textlogo.png'
-import pfp from './images/pfplogo.png';  // import the profile icon image
+import pfp from './images/pfp.png';  // import the profile icon image
 //import SearchBar from './Searchbar'; // import the SearchBar component
 
 function HomePage() {
