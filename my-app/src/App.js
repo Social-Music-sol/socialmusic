@@ -7,6 +7,7 @@ import PostForm from './PostPage';
 import UserProfile from './ProfilePage'; 
 import { getLoggedInUser, handleLogout } from './utils';
 import './App.css'; // Import your CSS file
+import logo from './images/textlogo.png'
 //import SearchBar from './Searchbar'; // import the SearchBar component
 
 function HomePage() {
@@ -28,7 +29,7 @@ function HomePage() {
 
   return (
     <div>
-      <h1>JamJar</h1>
+      <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
     
       {!username && <Link to="/register">Register</Link>}
       <br />
