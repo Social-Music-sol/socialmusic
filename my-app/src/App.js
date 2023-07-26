@@ -5,16 +5,12 @@ import RegisterPage from './RegisterPage';
 import LoginPage from './LoginPage';
 import PostForm from './PostPage';
 import UserProfile from './ProfilePage'; 
-<<<<<<< HEAD
 import { getLoggedInUser, handleLogout, handleLike } from './utils';
-
-=======
 import { getLoggedInUser, handleLogout } from './utils';
 import './App.css'; // Import your CSS file
 import textlogo from './images/textlogo.png'
 import pfp from './images/circle.png';  // import the profile icon image
 //import SearchBar from './Searchbar'; // import the SearchBar component
->>>>>>> f59168404fc3342d8c309e7bafbd069e073e4079
 
 function HomePage() {
   const username = getLoggedInUser();
