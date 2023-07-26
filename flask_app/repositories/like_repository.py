@@ -30,8 +30,8 @@ class LikeRepository:
         existing_like = Like.query.filter_by(user_id=user.id, post_id=post.id).first()
         if not existing_like:
             return ValueError
-        
+        response = existing_like.to_dict()
         self.db.session.delete(existing_like)
         self.db.session.commit()
-        return {'message': 'Deleted successfully'}
+        return response
         
