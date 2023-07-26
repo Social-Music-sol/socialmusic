@@ -24,7 +24,7 @@ function App() {
               <br />
               {username && <Link to="/post">Create a Post</Link>}
               <br />
-              {username && <Link to={`/users/${username}`}>Go to Profile</Link>}
+              {username && <Link to={`/users/${username}`}>Profile</Link>}
               <br />
               {username && <button onClick={handleLogout}>Logout</button>}
             </div>
