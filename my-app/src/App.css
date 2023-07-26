@@ -83,9 +83,3 @@ body {
   top: 10px;
   right: 10px;
 }
-.create-post-button {
-  .create-post-button {
-    /* removed absolute positioning, only margin-left is needed */
-    margin-left: 10px;
-  }
-}
