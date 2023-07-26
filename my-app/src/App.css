@@ -53,10 +53,7 @@ body {
   width: 100px;
   height: auto;
   display: block;
-  margin: 10px;
-  position: absolute;  
-  left: 10px; 
-  top: 10px;  
+  margin-right: 10px; /* creates some space between the logo and the button */
 }
 .pfp-container {
   position: absolute;
@@ -78,8 +75,14 @@ body {
   height: 50px  ;  
   margin: 10px;
 }
-.create-post-button {
+.pfp-container {
   position: absolute;
   top: 10px;
-  right: 10px; /* adjust this to your liking */
+  right: 10px;
+}
+.create-post-button {
+  .create-post-button {
+    /* removed absolute positioning, only margin-left is needed */
+    margin-left: 10px;
+  }
 }
