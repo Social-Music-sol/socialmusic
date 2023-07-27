@@ -115,9 +115,7 @@ body {
   cursor: pointer;
 }
 .like-container {
-  position: absolute;
-  bottom: 1%;
-  left: 1%;
+  margin-top: 1em; /* adjust as needed */
 }
 .post-content {
   display: flex;
