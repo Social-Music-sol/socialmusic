@@ -10,7 +10,6 @@ import './FrontPage.css'; // Import your CSS file
 function HomePage() {
     const username = getLoggedInUser();
     const [posts, setPosts] = useState([]);
-    const [loading, setLoading] = useState(true); // <-- Add this line
   
     useEffect(() => {
       const getRecentPosts = async () => {
@@ -23,7 +22,6 @@ function HomePage() {
       };
   
       getRecentPosts();
-      setTimeout(() => setLoading(false), 6000); // <-- Add this line
     }, []);
     
     return (
@@ -88,7 +86,5 @@ function HomePage() {
       </div>
     );
 }
-
-if (loading) return <div>Loading...</div>; // <-- Add this line
 
 export default HomePage;
