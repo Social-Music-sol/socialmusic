@@ -72,8 +72,8 @@ body {
 }
 .pfp-link {
   display: inline-block;
-  width: 5vh; /* specify a responsive size */
-  height: 5vh; /* specify a responsive size */
+  width: 2vw; /* specify a responsive size */
+  height: 2vw; /* specify a responsive size */
 }
 
 .header {
@@ -97,10 +97,8 @@ body {
   margin: auto 0;
 }
 .pfp {
-  width: 2vw; /* specify a responsive size */
-  height: 2vw; /* specify a responsive size */
-  margin-right: 1vw;
-  
+  width: 10vw; /* specify a responsive size */
+  height: 10vw; /* specify a responsive size */
 }
 .post-button {
   background-color: rgb(240, 239, 239);
