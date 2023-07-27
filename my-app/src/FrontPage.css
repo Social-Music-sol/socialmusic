@@ -177,7 +177,7 @@ body {
   width: 100%; /* Takes up the full width of the header */
 }
 .create-post-button-container {
-  position: center;
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
@@ -186,4 +186,13 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 1000; /* Increase z-index if the button is still not visible */
+}
+.header-center {
+  margin: 0 1em;
+}
+.header-left,
+.header-center,
+.header-right {
+  display: flex;
+  align-items: center;
 }
