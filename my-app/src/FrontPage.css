@@ -73,13 +73,14 @@ body {
 .header {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* This will push the children elements to the edges */
-  position: absolute;
-  top: 2vh; /* Use vh for responsive positioning */
-  left: 2vw; /* Use vw for responsive positioning */
-  width: 96vw; /* Use vw for responsive width, subtracting the left and right padding */
-  padding: 0 2vw; /* Use vw for responsive padding */
-  height: 20vw;
+  justify-content: space-between;
+  position: fixed; /* Changed from 'absolute' to 'fixed' */
+  top: 2vh;
+  left: 2vw;
+  width: 96vw;
+  padding: 0 2vw;
+  height: 10vh; /* Adjusted from '20vw' to '10vh' to make it relative to viewport height */
+  z-index: 1; /* Added to ensure the header is always on top */
 }
 .create-post-button {
   margin-left: 10px; /* adjust as needed */
