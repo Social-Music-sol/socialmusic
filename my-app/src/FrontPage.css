@@ -63,10 +63,8 @@ body {
 }
 .pfp-container {
   position: sticky;
-  top: 2vh;
-  display: inline-block; /* Add this line */
-  flex-direction: column;
-  align-items: flex-end;
+  top: 2vh; 
+  align-self: flex-end; /* This will align the container to the end of the parent flex container */
 }
 .header {
   display: flex;
@@ -82,9 +80,8 @@ body {
   border-radius: 20px;
 }
 .pfp {
-  width: 25%; 
-  height: 25%;  
-  margin: 1%;
+  width: 10vw; /* specify a responsive size */
+  height: 10vw; /* specify a responsive size */
 }
 .post-button {
   background-color: rgb(240, 239, 239);
