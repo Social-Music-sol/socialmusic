@@ -49,43 +49,39 @@ function HomePage() {
         {!username && <Link to="/login">Login</Link>}
         <br />
         <div className="posts-container">
-    {posts.map((post, index) => (
-      <div key={index} className="post-box">
-        <div className="post-content">
-          <div className="post-embed">
-            <div style={{width: '100%', height: '100%', position: 'relative'}} dangerouslySetInnerHTML={{
-              __html: `<iframe src=${post.song_embed_url} style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" allowfullscreen allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture; autoplay;"></iframe>`
-            }}>
+          {posts.map((post, index) => (
+            <div key={index} className="post-box">
+              <div className="post-content">
+                <div className="post-embed">
+                  <div style={{width: '100%', height: '100%', position: 'relative'}} dangerouslySetInnerHTML={{
+                    __html: `<iframe src=${post.song_embed_url} style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" allowfullscreen allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture; autoplay;"></iframe>`
+                  }}>
+                  </div>
+                </div>
+                <div className="post-text">
+                  <Link to={`/users/${post.username}`}>
+                    <h3>{post.username}</h3>
+                  </Link>
+                  <div className="caption-container">
+                    <p>{post.content}</p>
+                  </div>
+                  <p>{post.image_url}</p>
+                </div>
+              </div>
+              <div className="like-container">
+                <FontAwesomeIcon 
+                  icon={post.liked_by_requester ? faHeart : faHeart} 
+                  className="like-button" 
+                  style={{ color: post.liked_by_requester ? 'pink' : 'black' }}
+                  onClick={() => handleLike(post.id, posts, setPosts)}
+                />
+                <p>Likes: {post.like_count}</p>
+              </div>
             </div>
-          </div>
-          <div className="post-text">
-            <Link to={`/users/${post.username}`}>
-              <h3>{post.username}</h3>
-            </Link>
-            <p>{post.content}</p>
-            <p>{post.image_url}</p>
-          </div>
+          ))}
         </div>
-        <div className="like-container">
-          <FontAwesomeIcon 
-            icon={post.liked_by_requester ? faHeart : faHeart} 
-            className="like-button" 
-            style={{ color: post.liked_by_requester ? 'pink' : 'black' }}
-            onClick={() => handleLike(post.id, posts, setPosts)}
-          />
-          <p>Likes: {post.like_count}</p>
-        </div>
-        {post.comments && post.comments.map((comment, index) => (
-          <div key={index} className="comment-container">
-            <p>{comment.content}</p>
-          </div>
-        ))}
       </div>
-    ))}
-  </div>
-</div>
     );
-  }
-
+}
 
 export default HomePage;
