@@ -164,6 +164,9 @@ body {
   border-radius: 1em; /* 1em = 16px */
   padding: 1em; /* 1em = 16px */
   margin-top: 1em; /* 1em = 16px */
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
 }
 .profile-link {
   position: absolute;
@@ -172,8 +175,8 @@ body {
 }
 .profile-icon {
   color: black;
-  height:2vw;
-  width:2vw;
+  height:3vw;
+  width:3vw;
 }
 .app-container {
   position: relative;

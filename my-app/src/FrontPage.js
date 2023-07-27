@@ -63,11 +63,11 @@ function HomePage() {
                   </div>
                 </div>
                 <div className="post-text">
-                  <Link to={`/users/${post.username}`}>
-                    <h3>{post.username}</h3>
-                  </Link>
                   <div className="caption-container">
                     <p>{post.content}</p>
+                    <Link to={`/users/${post.username}`}>
+                      <h3>{post.username}</h3>
+                    </Link>
                   </div>
                   <p>{post.image_url}</p>
                 </div>
