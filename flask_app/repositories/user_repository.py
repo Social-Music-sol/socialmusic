@@ -65,7 +65,7 @@ class UserRepository:
         }
         if requester_id:
             user_data['requester_following'] = True if \
-                Follow.query.filter_by(follower_id=requester_id, followed_id=user.id) \
+                Follow.query.filter_by(follower_id=requester_id, followed_id=user.id).first() \
                 else False
         return user_data
     
