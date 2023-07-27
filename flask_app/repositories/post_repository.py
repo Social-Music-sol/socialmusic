@@ -50,6 +50,8 @@ class PostRepository:
         requester = User.query.get(requester_id)
         if post_id:
             post = Post.query.get(post_id)
+        else:
+            post_id = post.id
         if not post or not requester:
             raise NameError
         
