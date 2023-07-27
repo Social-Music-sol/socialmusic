@@ -58,7 +58,7 @@ body {
 .post-box {
   /* Other styles as before... */
   width: 100%;
-  max-width: 40em; /* This will set a max width to your post card. Adjust as needed. */
+  max-width: 60em; /* This will set a max width to your post card. Adjust as needed. */
   display: flex;
   flex-direction: column;
   align-items: stretch;
