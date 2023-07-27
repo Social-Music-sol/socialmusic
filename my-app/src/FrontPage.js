@@ -51,26 +51,32 @@ function HomePage() {
         <div className="posts-container">
           {posts.map((post, index) => (
             <div key={index} className="post-box">
-              <Link to={`/users/${post.username}`}>
-                <h3>{post.username}</h3>
-              </Link>
-              <p>{post.content}</p>
-              <p>{post.image_url}</p>
-              <p>{post.created_at}</p>
-              <div style={{left: 0, width: 900, height: 180, position: 'relative'}} dangerouslySetInnerHTML={{
-                __html: `<iframe src=${post.song_embed_url} style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" allowfullscreen allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture; autoplay;"></iframe>`
-              }}>
+            <div className="post-content">
+              <div className="post-embed">
+                <div style={{width: '100%', height: '100%', position: 'relative'}} dangerouslySetInnerHTML={{
+                  __html: `<iframe src=${post.song_embed_url} style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" allowfullscreen allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture; autoplay;"></iframe>`
+                }}>
+                </div>
               </div>
-              <div className="like-container">
-                <FontAwesomeIcon 
-                  icon={post.liked_by_requester ? faHeart : faHeart} 
-                  className="like-button" 
-                  style={{ color: post.liked_by_requester ? 'red' : 'black' }}
-                  onClick={() => handleLike(post.id, posts, setPosts)}
-                />
-                <p>Likes: {post.like_count}</p>
+              <div className="post-text">
+                <Link to={`/users/${post.username}`}>
+                  <h3>{post.username}</h3>
+                </Link>
+                <p>{post.content}</p>
+                <p>{post.image_url}</p>
+                <p>{post.created_at}</p>
               </div>
             </div>
+            <div className="like-container">
+              <FontAwesomeIcon 
+                icon={post.liked_by_requester ? faHeart : faHeart} 
+                className="like-button" 
+                style={{ color: post.liked_by_requester ? 'red' : 'black' }}
+                onClick={() => handleLike(post.id, posts, setPosts)}
+              />
+              <p>Likes: {post.like_count}</p>
+            </div>
+          </div>
           ))}
         </div>
       </div>
