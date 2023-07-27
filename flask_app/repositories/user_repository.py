@@ -42,7 +42,7 @@ class UserRepository:
         except IntegrityError:
             raise ValueError("Username is already taken")
         
-    def get(self, user_id=None, username=None):
+    def get(self, user_id=None, username=None, requester_id=None):
         if user_id:
             user = User.query.get(user_id)
         elif username:
@@ -63,6 +63,10 @@ class UserRepository:
             'followers': followers,
             'following': following
         }
+        if requester_id:
+            user_data['requester_following'] = True if \
+                Follow.query.filter_by(follower_id=requester_id, followed_id=user.id) \
+                else False
         return user_data
     
     def exists(self, user_id):
