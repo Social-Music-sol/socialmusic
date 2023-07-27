@@ -1,4 +1,4 @@
-from flask_app.models import User
+from flask_app.models import User, Follow
 from flask import jsonify
 from sqlalchemy.exc import IntegrityError 
 from datetime import timedelta
@@ -53,10 +53,15 @@ class UserRepository:
         if not user:
             raise NameError
 
+        followers = Follow.query.filter_by(followed_id=user.id).count()
+        following = Follow.query.filter_by(follower_id=user.id).count()
+
         user_data = {
             'username': user.username,
             'user_id': user.id,
-            'created_at': user.created_at.strftime('%m/%d/%Y, %H:%M:%S')
+            'created_at': user.created_at.strftime('%m/%d/%Y, %H:%M:%S'),
+            'followers': followers,
+            'following': following
         }
         return user_data
     
