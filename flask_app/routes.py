@@ -70,6 +70,8 @@ def create_post():
         return jsonify(new_post), 201
     except ValueError:
         return jsonify({'error': 'Invalid spotify link'}), 400
+    except MemoryError:
+        return jsonify({'error': 'Content field was over 1,000 characters'}), 400
     
 
 @app.route('/user-by-id/<user_id>', methods=['GET'])

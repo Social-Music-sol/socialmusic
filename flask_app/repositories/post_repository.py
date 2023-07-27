@@ -20,6 +20,8 @@ class PostRepository:
                 raise ValueError
             else:
                 post_data['song_id'] = links[0]
+        if len(post_data['content']) > 1000:
+            return MemoryError
         new_post = Post(**post_data)
         self.db.session.add(new_post)
         self.db.session.commit()

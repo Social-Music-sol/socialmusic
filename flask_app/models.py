@@ -76,7 +76,6 @@ class Like(db.Model):
 
     def to_dict(self):
         return {
-            'id': str(self.id),
             'user_id': str(self.user_id),
             'post_id': str(self.post_id),
             'created_at': self.created_at
