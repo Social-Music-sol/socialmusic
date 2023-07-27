@@ -23,7 +23,7 @@ function HomePage() {
       };
   
       getRecentPosts();
-      setTimeout(() => setLoading(false), 2000); // <-- Add this line
+      setTimeout(() => setLoading(false), 6000); // <-- Add this line
     }, []);
   
     if (loading) return <div>Loading...</div>; // <-- Add this line
