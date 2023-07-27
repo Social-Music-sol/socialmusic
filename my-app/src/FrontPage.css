@@ -79,6 +79,7 @@ body {
   left: 2vw; /* Use vw for responsive positioning */
   width: 96vw; /* Use vw for responsive width, subtracting the left and right padding */
   padding: 0 2vw; /* Use vw for responsive padding */
+  height: 20vw;
 }
 .create-post-button {
   margin-left: 10px; /* adjust as needed */
