@@ -68,7 +68,7 @@ function HomePage() {
                   </div>
                   <div className="username-container">
                     <Link to={`/users/${post.username}`}>
-                      <h3>{post.username}</h3>
+                      <h3>{"-" + post.username}</h3>
                     </Link>
                   </div>
                   <p>{post.image_url}</p>
