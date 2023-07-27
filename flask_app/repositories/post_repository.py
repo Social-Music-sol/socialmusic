@@ -1,4 +1,4 @@
-from flask_app.models import Post, User, Like
+from flask_app.models import Post, User, Like, Follow
 from flask import jsonify
 import re
 from uuid import UUID
@@ -48,9 +48,13 @@ class PostRepository:
             user_id = posts[i]['user_id']
             post_id = posts[i]['id']
             posts[i]['username'] = User.query.get(user_id).username
+
             likes = Like.query.filter_by(post_id=post_id)
             existing_like = likes.filter_by(user_id=requester_id).first()
             total_likes = likes.count()
             posts[i]['liked_by_requester'] = True if existing_like else False
             posts[i]['like_count'] = total_likes
+
+            following_poster = Follow.query.filter_by(follower_id=requester_id, followed_id=user_id).first()
+            posts[i]['following_poster'] = True if following_poster else False
         return posts
