@@ -10,7 +10,6 @@ import './App.css'; // Import your CSS file
 import textlogo from './images/textlogo.png'
 import pfp from './images/circle.png';  // import the profile icon image
 
-
 function HomePage() {
   const username = getLoggedInUser();
   const [posts, setPosts] = useState([]);
@@ -45,13 +44,13 @@ function HomePage() {
           <Link to={`/users/${username}`}>
             <img src={pfp} alt="Profile Icon" className="pfp" />
           </Link>
+          <button className="logout-button" onClick={handleLogout}>Logout</button>
         </div>
       }
       {!username && <Link to="/register">Register</Link>}
       <br />
       {!username && <Link to="/login">Login</Link>}
       <br />
-      {username && <button onClick={handleLogout}>Logout</button>}
       <div className="posts-container">
         {posts.map((post, index) => (
           <div key={index} className="post-box">
@@ -75,7 +74,6 @@ function HomePage() {
     </div>
   );
 }
-
 
 function App() {
   return (
