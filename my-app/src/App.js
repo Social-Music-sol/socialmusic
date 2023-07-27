@@ -1,14 +1,13 @@
 // App.js
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Add this line
-import { faHeart } from '@fortawesome/free-solid-svg-icons'; // Add this line
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import RegisterPage from './RegisterPage';
 import LoginPage from './LoginPage';
 import PostForm from './PostPage';
 import UserProfile from './ProfilePage'; 
 import { getLoggedInUser, handleLogout, handleLike } from './utils';
-import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 import './App.css'; // Import your CSS file
 import textlogo from './images/textlogo.png'
 import pfp from './images/circle.png';  // import the profile icon image
@@ -67,13 +66,15 @@ function HomePage() {
               __html: `<iframe src=${post.song_embed_url} style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" allowfullscreen allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture; autoplay;"></iframe>`
             }}>
             </div>
-            <p>Likes: {post.like_count}</p>
-            <FontAwesomeIcon 
-            icon={post.liked_by_requester ? faHeart : farHeart} 
-            className="like-button" 
-            style={{ color: post.liked_by_requester ? 'red' : 'black' }}
-            onClick={() => handleLike(post.id, posts, setPosts)}
-          />
+            <div className="like-container">
+              <FontAwesomeIcon 
+                icon={post.liked_by_requester ? faHeart : farHeart} 
+                className="like-button" 
+                style={{ color: post.liked_by_requester ? 'red' : 'black' }}
+                onClick={() => handleLike(post.id, posts, setPosts)}
+              />
+              <p>Likes: {post.like_count}</p>
+            </div>
           </div>
         ))}
       </div>
