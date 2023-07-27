@@ -112,7 +112,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 10vh; /* Adjust this to match the height of your header */
 }
 .logout-button {
   margin-top: 1%;
