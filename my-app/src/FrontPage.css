@@ -62,7 +62,7 @@ body {
   margin-right: 10px; /* creates some space between the logo and the button */
 }
 .pfp-container {
-  position: absolute;
+  position: sticky;
   top: 2%;
   right: 2%;
   display: flex;
