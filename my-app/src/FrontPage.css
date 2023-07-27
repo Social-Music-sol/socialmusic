@@ -157,6 +157,9 @@ body {
 
 .post-text {
   flex: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .caption-container {
   background-color: rgb(255, 255, 255);
@@ -206,4 +209,8 @@ body {
 .header-right {
   display: flex;
   align-items: center;
+}
+.username-container {
+  align-self: center;
+  margin-top: 10px; /* adjust as needed */
 }
