@@ -61,14 +61,12 @@ body {
   display: block;
   margin-right: 10px; /* creates some space between the logo and the button */
 }
-
 .pfp-container {
-  position: absolute; /* Change this from sticky to absolute */
-  top: 2vh;
-  right: 2vw; /* Add this to position the container from the right */
+  position: sticky;
+  top: 2vh; /* Use viewport height units for responsive positioning */
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-end; /* Align items to the right */
 }
 .header {
   display: flex;
@@ -95,12 +93,11 @@ body {
   padding: 10px 20px; 
 }
 .container {
-  position: relative; /* Add this to establish a new positioning context */
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 2vw;
+  padding: 0 2vw; /* Use viewport width units for responsive padding */
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* This will push children elements to the edges */
   flex-direction: column;
 }
 .posts-container {
