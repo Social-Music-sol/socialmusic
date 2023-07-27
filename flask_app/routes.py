@@ -5,6 +5,7 @@ from . import db
 from flask_app.repositories.user_repository import UserRepository
 from flask_app.repositories.post_repository import PostRepository
 from flask_app.repositories.like_repository import LikeRepository
+from flask_app.repositories.follow_repository import FollowRepository
 from flask_app.models import User
 from flask_cors import cross_origin
 from datetime import datetime, timedelta
@@ -14,6 +15,7 @@ app = Blueprint('login', __name__)
 user_repository = UserRepository(db)
 post_repository = PostRepository(db)
 like_repository = LikeRepository(db)
+follow_repository = FollowRepository(db)
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -48,20 +50,21 @@ def register():
 @app.route('/protected', methods=['GET'])
 @jwt_required()
 def protected():
-    current_user = get_jwt_identity()
-    return jsonify(logged_in_as=current_user), 200
+    user_id = get_jwt_identity()
+    try:
+        resp = user_repository.get(user_id)
+        return jsonify(resp), 200
+    except NameError:
+        return jsonify({'error': 'User not found', 'user_id': user_id}), 404 
 
 @app.route('/post', methods=['POST'])
-@cross_origin(origin='*', headers=['Content-Type','Authorization'])
 @jwt_required()
 def create_post():
     # Get the JWT token from the Authorization header
     user_id = get_jwt_identity()
 
     # Get the user from the database
-    user = User.query.get(user_id)
-    if user is None:
-        return jsonify({'error': 'User not found'}), 404
+    #TODO : ENSURE USER ID IS VALID IN POST_REPOSITORY
 
     post_data = request.get_json()
     post_data['user_id'] = user_id
@@ -128,6 +131,30 @@ def like_post():
     except ValueError:
         return jsonify({'error': 'Trying to delete/create a post that doesnt/does exist'}), 404
     
+@app.route('/follow-user', methods=['POST', 'DELETE'])
+@jwt_required()
+def follow_user():
+    follower_id = get_jwt_identity()
+    followed_id = request.args.get('id', default=None, type=str)
+
+    if not followed_id:
+        return jsonify({'error': 'missing id arg'}), 404
+
+    try:
+        if request.method == 'POST':
+            resp = follow_repository.create(follower_id=follower_id, followed_id=followed_id)
+        elif request.method == 'DELETE':
+            resp = follow_repository.delete(follower_id=follower_id, followed_id=followed_id)
+        else:
+            return jsonify({'error': 'unkown method'}), 405
+        return jsonify(resp), 201
+    except NameError:
+        return jsonify({'error': 'follower_id or followed_id not found'}), 404
+    except ValueError:
+        return jsonify({'error': 'follow cannot be deleted/created because it doesn\'t/does exist'})
+    
+    
+
 
 @app.route('/')
 def home():

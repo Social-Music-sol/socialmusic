@@ -22,7 +22,7 @@ class UserRepository:
 
         token = create_access_token(
             identity=str(user.id),
-            expires_delta=timedelta(hours=2)
+            expires_delta=timedelta(days=7)
         
         )
         return token, {'user_id': user.id, 'username': username}
@@ -59,5 +59,9 @@ class UserRepository:
             'created_at': user.created_at.strftime('%m/%d/%Y, %H:%M:%S')
         }
         return user_data
+    
+    def exists(self, user_id):
+        user = User.query.get(user_id)
+        return True if user else False
 
 
