@@ -64,7 +64,6 @@ function HomePage() {
                 </Link>
                 <p>{post.content}</p>
                 <p>{post.image_url}</p>
-                <p>{post.created_at}</p>
               </div>
             </div>
             <div className="like-container">
