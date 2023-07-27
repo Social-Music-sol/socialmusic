@@ -41,7 +41,7 @@ function HomePage() {
             <Link to={`/users/${username}`}>
               <img src={pfp} alt="Profile Icon" className="pfp" />
             </Link>
-            <button className="logout-button" onClick={handleLogout}>Logout</button>
+            <button className="logout-button" onClick={handleLogout}>Log-out</button>
           </div>
         }
         {!username && <Link to="/register">Register</Link>}

@@ -24,3 +24,7 @@
   font-family: 'Helvetica Neu';
   src: url('/fonts/Helvetica Neue Regular.otf') format('opentype');
 }
+@font-face {
+  font-family: "Taj";
+  src: url('fonts/AlQalam Taj Nastaleeq 1.01_Shipped.ttf') format('woff2');
+}
