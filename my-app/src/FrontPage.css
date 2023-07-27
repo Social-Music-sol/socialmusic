@@ -74,13 +74,14 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: fixed; /* Changed from 'absolute' to 'fixed' */
+  position: fixed;
   top: 2vh;
   left: 2vw;
   width: 96vw;
   padding: 0 2vw;
-  height: 10vh; /* Adjusted from '20vw' to '10vh' to make it relative to viewport height */
-  z-index: 1; /* Added to ensure the header is always on top */
+  height: 10vh;
+  z-index: 1;
+  flex-wrap: wrap; /* Allow the children to wrap onto multiple lines */
 }
 .create-post-button {
   margin-left: 10px; /* adjust as needed */
@@ -166,4 +167,14 @@ body {
 .app-container {
   position: relative;
   /* rest of your styles */
+}
+.button-container {
+  display: flex;
+  flex-direction: row-reverse; /* Reverses the order of the children */
+  justify-content: space-between; /* Distributes space evenly between the children */
+  width: 100%; /* Takes up the full width of the header */
+}
+.post-button, .logout-button {
+  width: 10vw; /* Example value - adjust as necessary */
+  height: 5vh; /* Example value - adjust as necessary */
 }
