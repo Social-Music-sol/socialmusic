@@ -74,7 +74,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between; /* This will push the children elements to the edges */
-  position: absolute;
+  position: sticky;
   top: 2vh; /* Use vh for responsive positioning */
   left: 2vw; /* Use vw for responsive positioning */
   width: 96vw; /* Use vw for responsive width, subtracting the left and right padding */
