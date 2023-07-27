@@ -51,6 +51,7 @@ body {
   background-color: rgb(240, 239, 239); 
   border: 1px solid rgb(255, 240, 240);
   position: relative;
+  justify-content: space-between;
 }
 
 
@@ -116,6 +117,9 @@ body {
 }
 .like-container {
   margin-top: 1em; /* adjust as needed */
+  align-self: flex-start;
+
+  
 }
 .post-content {
   display: flex;
