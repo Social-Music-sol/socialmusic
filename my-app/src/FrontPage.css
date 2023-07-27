@@ -4,7 +4,7 @@
 
 .App-logo {
   height: 40vmin;
-  pointer-events: none;
+  pointer-events: auto;
 }
 
 
@@ -99,7 +99,7 @@ body {
   border: 1px solid rgb(255, 240, 240);
   border-radius: 20px;
   padding: 10px 20px; 
-  pointer-events: none;
+  pointer-events: auto;
 }
 .container {
   max-width: 1200px;
