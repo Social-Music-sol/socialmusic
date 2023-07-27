@@ -25,7 +25,7 @@
 
 
 body {
-  font-family: 'Taj';
+  font-family: 'NewCentury';
 }
 /*
 .post-box {
@@ -63,11 +63,10 @@ body {
 }
 .pfp-container {
   position: sticky;
-  top: 2%;
-  right: 2%;
+  top: 2vh; /* Use viewport height units for responsive positioning */
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end; /* Align items to the right */
 }
 .header {
   display: flex;
@@ -96,12 +95,11 @@ body {
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 2vw; /* Use viewport width units for responsive padding */
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between; /* This will push children elements to the edges */
   flex-direction: column;
 }
-
 .posts-container {
   display: flex;
   flex-direction: column;
