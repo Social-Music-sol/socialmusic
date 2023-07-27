@@ -70,6 +70,11 @@ body {
   flex-direction: row; /* Align the elements horizontally */
   align-items: center; /* Center the elements vertically */
 }
+.pfp-link {
+  display: inline-block;
+  width: 5vh; /* specify a responsive size */
+  height: 5vh; /* specify a responsive size */
+}
 
 .header {
   display: flex;

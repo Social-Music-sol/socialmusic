@@ -40,7 +40,7 @@ function HomePage() {
         <div className="header-right">
           {username && 
             <div className="pfp-container">
-              <Link to={`/users/${username}`}>
+              <Link to={`/users/${username}`} className="pfp-link">
                 <img src={pfp} alt="Profile Icon" className="pfp" />
               </Link>
               <button className="logout-button" onClick={handleLogout}>Log-out</button>
