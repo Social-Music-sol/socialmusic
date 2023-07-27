@@ -62,7 +62,7 @@ export default function UserProfile() {
 
   return (
     <div>
-      <h1>{username}'s Profile</h1>
+      <h1>{username}</h1>
       {loggedInUser !== username && <button onClick={handleFollow}>{isFollowing ? 'Unfollow' : 'Follow'}</button>}
       <h2>Followers: {followers}</h2>  {/* Display followers */}
       <h2>Following: {following}</h2>  {/* Display following */}
@@ -70,7 +70,6 @@ export default function UserProfile() {
       <h2>Posts:</h2>
       {posts.map((post, index) => (
         <div key={index}>
-          <h3>Post {index + 1}</h3>
           <p>{post.content}</p>
           <p>{post.image_url}</p>
           <p>{post.created_at}</p>
