@@ -62,8 +62,9 @@ body {
   margin-right: 10px; /* creates some space between the logo and the button */
 }
 .pfp-container {
-  position: fixed;
+  position: absolute;
   top: 2vh; 
+  right: 2vw;
   align-self: flex-end; /* This will align the container to the end of the parent flex container */
 }
 .header {
@@ -151,4 +152,8 @@ body {
 }
 .profile-icon {
   color: black;
+}
+.app-container {
+  position: relative;
+  /* rest of your styles */
 }
