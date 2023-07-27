@@ -62,7 +62,7 @@ body {
   margin-right: 10px; /* creates some space between the logo and the button */
 }
 .pfp-container {
-  position: sticky;
+  position: fixed;
   top: 2vh; 
   align-self: flex-end; /* This will align the container to the end of the parent flex container */
 }
