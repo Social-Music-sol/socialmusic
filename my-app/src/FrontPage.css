@@ -79,9 +79,9 @@ body {
   left: 2vw;
   width: 96vw;
   padding: 0 2vw;
-  min-height: 10vh; /* Change 'height' to 'min-height' */
-  z-index: 1;
-  flex-wrap: wrap; /* Allow the children to wrap onto multiple lines */
+  min-height: 10vh;
+  z-index: 1000; /* Increase z-index */
+  flex-wrap: wrap;
 }
 .create-post-button {
   margin-left: 10px; /* adjust as needed */
@@ -99,6 +99,7 @@ body {
   border: 1px solid rgb(255, 240, 240);
   border-radius: 20px;
   padding: 10px 20px; 
+  pointer-events: none;
 }
 .container {
   max-width: 1200px;
