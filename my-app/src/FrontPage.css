@@ -67,8 +67,9 @@ body {
   border-radius: 1.25em;
   background-color: rgb(240, 239, 239); 
   border: 1px solid rgb(255, 240, 240);
-
-  
+  @media (min-width: 768px) { /* adjust this breakpoint as needed */
+    width: 80%; /* take up 80% of the container's width */
+  }
 }
 
 
