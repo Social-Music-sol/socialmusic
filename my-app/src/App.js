@@ -67,12 +67,12 @@ function HomePage() {
             }}>
             </div>
             <p>Likes: {post.like_count}</p>
-            <FontAwesomeIcon 
-              icon={faHeart} 
-              className="like-button" 
-              style={{ color: post.liked_by_requester ? 'red' : 'transparent' }}
-              onClick={() => handleLike(post.id, posts, setPosts)}
-            />
+          <FontAwesomeIcon 
+          icon={post.liked_by_requester ? faHeart : farHeart} 
+          className="like-button" 
+          style={{ color: post.liked_by_requester ? 'red' : 'transparent' }}
+          onClick={() => handleLike(post.id, posts, setPosts)}
+          />
           </div>
         ))}
       </div>
