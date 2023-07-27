@@ -78,17 +78,21 @@ def create_post():
     
 
 @app.route('/user-by-id/<user_id>', methods=['GET'])
+@jwt_required()
 def get_user_by_id(user_id):
+    requester_id = get_jwt_identity()
     try:
-        user_data = user_repository.get_user(user_id=user_id)
+        user_data = user_repository.get(user_id=user_id, requester_id=requester_id)
         return jsonify(user_data), 200
     except NameError:
         return jsonify({'error': 'User not found'}), 404
     
 @app.route('/user-by-name/<username>', methods=['GET'])
+@jwt_required()
 def get_user_by_name(username):
+    requester_id = get_jwt_identity()
     try:
-        user_data = user_repository.get(username=username)
+        user_data = user_repository.get(username=username, requester_id=requester_id)
         return jsonify(user_data), 200
     except NameError:
         return jsonify({'error': 'User not found'}, 404)
