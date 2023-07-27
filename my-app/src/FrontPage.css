@@ -97,9 +97,8 @@ body {
   margin: auto 0;
 }
 .pfp {
-  width: 25%; 
-  height: 25%;  
-  margin: 1%;
+  width: 2vw; /* specify a smaller responsive size */
+  height: 2vw; /* specify a smaller responsive size */
 }
 .post-button {
   background-color: rgb(240, 239, 239);
@@ -172,8 +171,8 @@ body {
 }
 .profile-icon {
   color: black;
-  height:15vw;
-  width:15vw;
+  height:2vw;
+  width:2vw;
 }
 .app-container {
   position: relative;
