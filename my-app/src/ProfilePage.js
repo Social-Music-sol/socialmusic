@@ -7,6 +7,8 @@ export default function UserProfile() {
   const { username } = useParams();
   const loggedInUser = getLoggedInUser();
   const [posts, setPosts] = useState([]);
+  const [userId, setUserId] = useState(null);
+  const [isFollowing, setIsFollowing] = useState(false);
 
   useEffect(() => {
     const getUserID = async () => {
@@ -14,6 +16,7 @@ export default function UserProfile() {
 
       if (response.ok) {
         const postData = await response.json();
+        setUserId(postData.user_id);
         return postData.user_id;
       }
     };
@@ -31,32 +34,42 @@ export default function UserProfile() {
       }
     };
 
+    const checkFollowingStatus = async () => {
+      // Fetch request to your server to check if the logged-in user follows the user of the profile.
+      // Replace "/check-follow-status" with your endpoint.
+      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/check-follow-status?id=${userId}`);
+
+      if (response.ok) {
+        const data = await response.json();
+        setIsFollowing(data.isFollowing);
+      }
+    };
+
     getUserPosts();
-}, [username]); // <-- This ensures the function inside useEffect is only called once when the component mounts
+    checkFollowingStatus();
+  }, [username]);
 
-const handleFollow = async () => {
-  const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/follow-user`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      username: loggedInUser,
-      followUsername: username,
-    }),
-  });
+  const handleFollow = async () => {
+    const method = isFollowing ? 'DELETE' : 'POST';
+    const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/follow-user?id=${userId}`, {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
-  if (response.ok) {
-    alert('Successfully followed the user!');
-  } else {
-    alert('Failed to follow the user. Please try again.');
-  }
-};
+    if (response.ok) {
+      setIsFollowing(!isFollowing);
+      alert(isFollowing ? 'Successfully unfollowed the user!' : 'Successfully followed the user!');
+    } else {
+      alert('Failed to change the follow status. Please try again.');
+    }
+  };
 
   return (
     <div>
       <h1>{username}'s Profile</h1>
-      {loggedInUser !== username && <button onClick={handleFollow}>Follow</button>}
+      {loggedInUser !== username && <button onClick={handleFollow}>{isFollowing ? 'Unfollow' : 'Follow'}</button>}
       <Link to="/">Go to Homepage</Link>
       <h2>Posts:</h2>
       {posts.map((post, index) => (
