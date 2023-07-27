@@ -21,6 +21,7 @@ export default function UserProfile() {
         setUserId(userData.user_id);
         setFollowers(userData.followers);  // Set followers
         setFollowing(userData.following);  // Set following
+        setIsFollowing(userData.requester_following);  // Update 'isFollowing' based on 'requester_following'
         return userData.user_id;
       }
     };
@@ -54,18 +55,20 @@ export default function UserProfile() {
   }, [username]);
 
   const handleFollow = async () => {
-    const method = isFollowing ? 'DELETE' : 'POST';
     const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/follow-user?id=${userId}`, {
-      method,
+      method: isFollowing ? 'DELETE' : 'POST',
       headers: {
-        'Content-Type': 'application/json',
-      },
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
     });
 
     if (response.ok) {
-      setIsFollowing(!isFollowing);
+      setIsFollowing(!isFollowing);  // Invert the 'isFollowing' state
+      
+      // Update followers count based on follow/unfollow action
+      setFollowers(isFollowing ? followers - 1 : followers + 1);
     } else {
-      alert('Failed to change the follow status. Please try again.');
+      alert('An error occurred while trying to update your follow status.');
     }
   };
 
