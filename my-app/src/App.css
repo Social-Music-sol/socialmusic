@@ -40,13 +40,15 @@ body {
   font-family: 'Satoshi Regular', sans-serif;
 }
 .post-box {
-  width: 90%; 
-  height: calc(50vh - 40px);
+  flex: 0 0 calc(50% - 10px); /* Subtract the gap from the width */
+  margin-bottom: 20px; /* Add some vertical space between the posts */
+  height: auto;
   border: 1px solid rgb(255, 240, 240);
   border-radius: 20px;
-  margin: 20px auto;
-  padding: 10px;
-  background-color: rgb(240, 239, 239);  
+  padding: 20px;
+  background-color: rgb(240, 239, 239);
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Add some shadow for the ID card look */
+  transition: 0.3s;
 }
 .textlogo {
   width: 100px;
@@ -87,4 +89,15 @@ body {
   border: 1px solid rgb(255, 240, 240);
   border-radius: 20px;
   padding: 10px 20px; 
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.posts-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
