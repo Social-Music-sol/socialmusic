@@ -101,8 +101,9 @@ def get_posts(user_id):
 @jwt_required()
 def get_feed():
     user_id = get_jwt_identity()
+    limit = request.args.get('limit', default=15, type=int)
     try:
-        posts = post_repository.get_feed(user_id)
+        posts = post_repository.get_feed(user_id, amount=limit)
         return jsonify(posts), 201
     except KeyError:
         return jsonify({'error': 'User not found'}), 404

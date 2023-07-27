@@ -47,7 +47,7 @@ class Post(db.Model):
     id = db.Column(db.UUID(as_uuid=True), primary_key=True, unique=True, default=uuid.uuid4)
     user_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey('users.id'), nullable=False)
     parent_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey('posts.id'), nullable=True)
-    content = db.Column(db.String(300), nullable=False)
+    content = db.Column(db.String(1000), nullable=False)
     image_url = db.Column(db.String(500), nullable=True)
     song_id = db.Column(db.String(500), nullable=True)
     replies = db.relationship('Post', backref=db.backref('parent', remote_side=[id]), lazy='dynamic')
