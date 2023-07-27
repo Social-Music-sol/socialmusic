@@ -20,7 +20,7 @@ class FollowRepository:
         self.db.session.add(new_follow)
         self.db.session.commit()
         return new_follow.to_dict()
-    
+
     def delete(self, follower_id, followed_id):
         follower = User.query.get(follower_id)
         followed = User.query.get(followed_id)
