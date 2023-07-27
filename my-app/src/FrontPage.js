@@ -49,36 +49,36 @@ function HomePage() {
         {!username && <Link to="/login">Login</Link>}
         <br />
         <div className="posts-container">
-          {posts.map((post, index) => (
-            <div key={index} className="post-box">
-            <div className="post-content">
-              <div className="post-embed">
-                <div style={{width: '100%', height: '100%', position: 'relative'}} dangerouslySetInnerHTML={{
-                  __html: `<iframe src=${post.song_embed_url} style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" allowfullscreen allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture; autoplay;"></iframe>`
-                }}>
-                </div>
-              </div>
-              <div className="post-text">
-                <Link to={`/users/${post.username}`}>
-                  <h3>{post.username}</h3>
-                </Link>
-                <p>{post.content}</p>
-                <p>{post.image_url}</p>
-              </div>
-            </div>
-            <div className="like-container">
-              <FontAwesomeIcon 
-                icon={post.liked_by_requester ? faHeart : faHeart} 
-                className="like-button" 
-                style={{ color: post.liked_by_requester ? 'red' : 'black' }}
-                onClick={() => handleLike(post.id, posts, setPosts)}
-              />
-              <p>Likes: {post.like_count}</p>
+    {posts.map((post, index) => (
+      <div key={index} className="post-box">
+        <div className="post-content">
+          <div className="post-embed">
+            <div style={{width: '100%', height: '100%', position: 'relative'}} dangerouslySetInnerHTML={{
+              __html: `<iframe src=${post.song_embed_url} style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" allowfullscreen allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture; autoplay;"></iframe>`
+            }}>
             </div>
           </div>
-          ))}
+          <div className="post-text">
+            <Link to={`/users/${post.username}`}>
+              <h3>{post.username}</h3>
+            </Link>
+            <p>{post.content}</p>
+            <p>{post.image_url}</p>
+          </div>
+        </div>
+        <div className="like-container">
+          <FontAwesomeIcon 
+            icon={post.liked_by_requester ? faHeart : faHeart} 
+            className="like-button" 
+            style={{ color: post.liked_by_requester ? 'red' : 'black' }}
+            onClick={() => handleLike(post.id, posts, setPosts)}
+          />
+          <p>Likes: {post.like_count}</p>
         </div>
       </div>
+    ))}
+  </div>
+</div>
     );
   }
 
