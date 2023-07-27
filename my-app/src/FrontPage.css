@@ -63,10 +63,10 @@ body {
 }
 .pfp-container {
   position: sticky;
-  top: 2vh; /* Use viewport height units for responsive positioning */
-  display: flex;
+  top: 2vh;
+  display: inline-block; /* Add this line */
   flex-direction: column;
-  align-items: flex-end; /* Align items to the right */
+  align-items: flex-end;
 }
 .header {
   display: flex;
