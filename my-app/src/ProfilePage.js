@@ -39,19 +39,7 @@ export default function UserProfile() {
       }
     };
 
-    const checkFollowingStatus = async () => {
-      // Fetch request to your server to check if the logged-in user follows the user of the profile.
-      // Replace "/check-follow-status" with your endpoint.
-      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/check-follow-status?id=${userId}`);
-
-      if (response.ok) {
-        const data = await response.json();
-        setIsFollowing(data.isFollowing);
-      }
-    };
-
     getUserPosts();
-    checkFollowingStatus();
   }, [username]);
 
   const handleFollow = async () => {
