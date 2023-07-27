@@ -1,7 +1,7 @@
 // PostForm.js
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -9,7 +9,7 @@ const PostForm = () => {
   const [songLink, setSongLink] = useState('');
   const [pictureUrl, setPictureUrl] = useState('');
   const [caption, setCaption] = useState('');
-  const history = useHistory();
+  const history = useNavigate();
 
 
   const handlePost = async (songLink, pictureUrl, caption) => {
@@ -32,7 +32,7 @@ const PostForm = () => {
       alert(data.message);
     }
     // Add this line to redirect to the home page after posting
-    history.push('/');
+    navigate('/');
   };
 
   const handleSubmit = (event) => {
