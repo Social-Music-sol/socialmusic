@@ -8,6 +8,7 @@ import LoginPage from './LoginPage';
 import PostForm from './PostPage';
 import UserProfile from './ProfilePage'; 
 import { getLoggedInUser, handleLogout, handleLike } from './utils';
+import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 import './App.css'; // Import your CSS file
 import textlogo from './images/textlogo.png'
 import pfp from './images/circle.png';  // import the profile icon image
@@ -67,11 +68,11 @@ function HomePage() {
             }}>
             </div>
             <p>Likes: {post.like_count}</p>
-          <FontAwesomeIcon 
-          icon={post.liked_by_requester ? faHeart : farHeart} 
-          className="like-button" 
-          style={{ color: post.liked_by_requester ? 'red' : 'transparent' }}
-          onClick={() => handleLike(post.id, posts, setPosts)}
+            <FontAwesomeIcon 
+            icon={post.liked_by_requester ? faHeart : farHeart} 
+            className="like-button" 
+            style={{ color: post.liked_by_requester ? 'red' : 'transparent' }}
+            onClick={() => handleLike(post.id, posts, setPosts)}
           />
           </div>
         ))}
