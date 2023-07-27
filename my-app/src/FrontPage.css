@@ -79,7 +79,7 @@ body {
   left: 2vw;
   width: 96vw;
   padding: 0 2vw;
-  height: 10vh;
+  min-height: 10vh; /* Change 'height' to 'min-height' */
   z-index: 1;
   flex-wrap: wrap; /* Allow the children to wrap onto multiple lines */
 }
@@ -170,11 +170,10 @@ body {
 }
 .button-container {
   display: flex;
-  flex-direction: row-reverse; /* Reverses the order of the children */
   justify-content: space-between; /* Distributes space evenly between the children */
   width: 100%; /* Takes up the full width of the header */
 }
 .post-button, .logout-button {
-  width: 10vw; /* Example value - adjust as necessary */
-  height: 5vh; /* Example value - adjust as necessary */
+  width: 5vw; /* Decrease size - adjust as necessary */
+  height: 5vh; /* Decrease size - adjust as necessary */
 }
