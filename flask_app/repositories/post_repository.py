@@ -43,18 +43,27 @@ class PostRepository:
         if not User.query.get(requester_id):
             raise KeyError
         posts = Post.query.order_by(Post.created_at.desc()).limit(amount).all()
-        for i, post in enumerate(posts):
-            posts[i] = post.to_dict()
-            user_id = posts[i]['user_id']
-            post_id = posts[i]['id']
-            posts[i]['username'] = User.query.get(user_id).username
+        post_data = [self.full_post_data(requester_id, post=post) for post in posts]
+        return post_data
+    
+    def full_post_data(self, requester_id, post_id=None, post=None):
+        requester = User.query.get(requester_id)
+        if post_id:
+            post = Post.query.get(post_id)
+        if not post or not requester:
+            raise NameError
+        
+        post_data = post.to_dict()
+        poster_id = post_data['user_id']
+        post_data['username'] = User.query.get(poster_id).username
 
-            likes = Like.query.filter_by(post_id=post_id)
-            existing_like = likes.filter_by(user_id=requester_id).first()
-            total_likes = likes.count()
-            posts[i]['liked_by_requester'] = True if existing_like else False
-            posts[i]['like_count'] = total_likes
+        likes = Like.query.filter_by(post_id=post_id)
+        existing_like = likes.filter_by(user_id=requester_id).first()
+        total_likes = likes.count()
+        post_data['like_count'] = total_likes
+        post_data['liked_by_requester'] = True if existing_like else False
 
-            following_poster = Follow.query.filter_by(follower_id=requester_id, followed_id=user_id).first()
-            posts[i]['following_poster'] = True if following_poster else False
-        return posts
+        following_poster = Follow.query.filter_by(follower_id=requester_id, followed_id=poster_id).first()
+        post_data['following_poster'] = True if following_poster else False
+
+        return post_data
