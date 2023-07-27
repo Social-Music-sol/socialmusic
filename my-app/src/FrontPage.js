@@ -23,7 +23,7 @@ function HomePage() {
   
       getRecentPosts();
     }, []);
-  
+    
     return (
       <div className="container">
         <div className="header">

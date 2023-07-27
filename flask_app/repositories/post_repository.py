@@ -39,7 +39,7 @@ class PostRepository:
             posts = user.posts.order_by(Post.created_at.asc()).limit(amount).all()
 
         if requester_id:
-            return [self.full_post_data(requester_id, post) for post in posts]
+            return [self.full_post_data(requester_id=requester_id, post=post) for post in posts]
         else:
             raise NotImplementedError
 
