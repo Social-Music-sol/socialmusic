@@ -70,7 +70,7 @@ function HomePage() {
           <FontAwesomeIcon 
             icon={post.liked_by_requester ? faHeart : faHeart} 
             className="like-button" 
-            style={{ color: post.liked_by_requester ? 'red' : 'black' }}
+            style={{ color: post.liked_by_requester ? 'pink' : 'black' }}
             onClick={() => handleLike(post.id, posts, setPosts)}
           />
           <p>Likes: {post.like_count}</p>
