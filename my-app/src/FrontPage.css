@@ -2,9 +2,10 @@
   text-align: center;
 }
 
+
 .App-logo {
   height: 40vmin;
-  pointer-events: none;
+  pointer-events: auto;
 }
 
 
@@ -56,25 +57,21 @@ body {
 
 
 .textlogo {
-  width: 100px;
+  width: 8em;
   height: auto;
   display: block;
-  margin-right: 10px; /* creates some space between the logo and the button */
+  margin-right: 1em; /* creates some space between the logo and the button */
 }
 .pfp-container {
-  position: sticky;
-  top: 2%;
-  right: 2%;
   display: flex;
-  flex-direction: column;
   align-items: center;
 }
 .header {
   display: flex;
   align-items: center;
-  position: absolute;
-  top: 10px;
-  left: 10px;
+  justify-content: space-between;
+  position: relative;
+  padding: 1.5em;
 }
 .create-post-button {
   margin-left: 10px; /* adjust as needed */
@@ -83,15 +80,16 @@ body {
   border-radius: 20px;
 }
 .pfp {
-  width: 25%; 
-  height: 25%;  
+  width: 5em; 
+  height: 5em;  
   margin: 1%;
 }
 .post-button {
   background-color: rgb(240, 239, 239);
   border: 1px solid rgb(255, 240, 240);
-  border-radius: 20px;
-  padding: 10px 20px; 
+  border-radius: 2em;
+  padding: 1em 2em; 
+  font-size: 1em;
 }
 .container {
   max-width: 1200px;
@@ -107,12 +105,14 @@ body {
   align-items: center;
 }
 .logout-button {
-  margin-top: 1%;
+  margin-left: 1em; /* adjust as needed */
   background-color: rgb(240, 239, 239);
   border: 1px solid rgb(255, 240, 240);
-  border-radius: 1em; /* equivalent to 20px on larger screens, but scales down on smaller screens */
-  padding: 1% 2%; 
+  border-radius: 2em;
+  padding: 1em 2em;
+  font-size: 1em;
 }
+
 .like-button {
   font-size: 2em; /* change this to whatever size you want */
   cursor: pointer;
