@@ -1,4 +1,4 @@
-from flask_app.models import User
+from flask_app.models import User, Follow
 from flask import jsonify
 from sqlalchemy.exc import IntegrityError 
 from datetime import timedelta
@@ -42,7 +42,7 @@ class UserRepository:
         except IntegrityError:
             raise ValueError("Username is already taken")
         
-    def get(self, user_id=None, username=None):
+    def get(self, user_id=None, username=None, requester_id=None):
         if user_id:
             user = User.query.get(user_id)
         elif username:
@@ -53,11 +53,19 @@ class UserRepository:
         if not user:
             raise NameError
 
+        followers = Follow.query.filter_by(followed_id=user.id).count()
+        following = Follow.query.filter_by(follower_id=user.id).count()
+
         user_data = {
             'username': user.username,
             'user_id': user.id,
-            'created_at': user.created_at.strftime('%m/%d/%Y, %H:%M:%S')
+            'created_at': user.created_at.strftime('%m/%d/%Y, %H:%M:%S'),
+            'followers': followers,
+            'following': following
         }
+        if requester_id:
+            existing_follow = Follow.query.filter_by(follower_id=requester_id, followed_id=user.id).first()
+            user_data['requester_following'] = True if existing_follow else False
         return user_data
     
     def exists(self, user_id):

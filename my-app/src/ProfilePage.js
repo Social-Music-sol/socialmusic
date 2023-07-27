@@ -9,15 +9,20 @@ export default function UserProfile() {
   const [posts, setPosts] = useState([]);
   const [userId, setUserId] = useState(null);
   const [isFollowing, setIsFollowing] = useState(false);
+  const [followers, setFollowers] = useState(0);  // Add this
+  const [following, setFollowing] = useState(0);  // Add this
 
   useEffect(() => {
     const getUserID = async () => {
       const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/user-by-name/${username}`);
 
       if (response.ok) {
-        const postData = await response.json();
-        setUserId(postData.user_id);
-        return postData.user_id;
+        const userData = await response.json();
+        setUserId(userData.user_id);
+        setFollowers(userData.followers);  // Set followers
+        setFollowing(userData.following);  // Set following
+        setIsFollowing(userData.requester_following);  // Update 'isFollowing' based on 'requester_following'
+        return userData.user_id;
       }
     };
 
@@ -34,35 +39,24 @@ export default function UserProfile() {
       }
     };
 
-    const checkFollowingStatus = async () => {
-      // Fetch request to your server to check if the logged-in user follows the user of the profile.
-      // Replace "/check-follow-status" with your endpoint.
-      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/check-follow-status?id=${userId}`);
-
-      if (response.ok) {
-        const data = await response.json();
-        setIsFollowing(data.isFollowing);
-      }
-    };
-
     getUserPosts();
-    checkFollowingStatus();
   }, [username]);
 
   const handleFollow = async () => {
-    const method = isFollowing ? 'DELETE' : 'POST';
     const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/follow-user?id=${userId}`, {
-      method,
+      method: isFollowing ? 'DELETE' : 'POST',
       headers: {
-        'Content-Type': 'application/json',
-      },
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
     });
 
     if (response.ok) {
-      setIsFollowing(!isFollowing);
-      alert(isFollowing ? 'Successfully unfollowed the user!' : 'Successfully followed the user!');
+      setIsFollowing(!isFollowing);  // Invert the 'isFollowing' state
+      
+      // Update followers count based on follow/unfollow action
+      setFollowers(isFollowing ? followers - 1 : followers + 1);
     } else {
-      alert('Failed to change the follow status. Please try again.');
+      alert('An error occurred while trying to update your follow status.');
     }
   };
 
@@ -70,6 +64,8 @@ export default function UserProfile() {
     <div>
       <h1>{username}'s Profile</h1>
       {loggedInUser !== username && <button onClick={handleFollow}>{isFollowing ? 'Unfollow' : 'Follow'}</button>}
+      <h2>Followers: {followers}</h2>  {/* Display followers */}
+      <h2>Following: {following}</h2>  {/* Display following */}
       <Link to="/">Go to Homepage</Link>
       <h2>Posts:</h2>
       {posts.map((post, index) => (
