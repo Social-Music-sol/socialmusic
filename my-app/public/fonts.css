@@ -19,3 +19,8 @@
   font-family: 'robot test';
   src: url('/fonts/Handjet-VariableFont_ELGR,ELSH,wght.ttf') format('woff2');
 }
+
+@font-face {
+  font-family: 'Helvetica Neu';
+  src: url('/fonts/Helvetica Neue Regular.otf') format('opentype');
+}
