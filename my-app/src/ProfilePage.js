@@ -9,15 +9,19 @@ export default function UserProfile() {
   const [posts, setPosts] = useState([]);
   const [userId, setUserId] = useState(null);
   const [isFollowing, setIsFollowing] = useState(false);
+  const [followers, setFollowers] = useState(0);  // Add this
+  const [following, setFollowing] = useState(0);  // Add this
 
   useEffect(() => {
     const getUserID = async () => {
       const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/user-by-name/${username}`);
 
       if (response.ok) {
-        const postData = await response.json();
-        setUserId(postData.user_id);
-        return postData.user_id;
+        const userData = await response.json();
+        setUserId(userData.user_id);
+        setFollowers(userData.followers);  // Set followers
+        setFollowing(userData.following);  // Set following
+        return userData.user_id;
       }
     };
 
@@ -60,7 +64,6 @@ export default function UserProfile() {
 
     if (response.ok) {
       setIsFollowing(!isFollowing);
-      alert(isFollowing ? 'Successfully unfollowed the user!' : 'Successfully followed the user!');
     } else {
       alert('Failed to change the follow status. Please try again.');
     }
@@ -70,6 +73,8 @@ export default function UserProfile() {
     <div>
       <h1>{username}'s Profile</h1>
       {loggedInUser !== username && <button onClick={handleFollow}>{isFollowing ? 'Unfollow' : 'Follow'}</button>}
+      <h2>Followers: {followers}</h2>  {/* Display followers */}
+      <h2>Following: {following}</h2>  {/* Display following */}
       <Link to="/">Go to Homepage</Link>
       <h2>Posts:</h2>
       {posts.map((post, index) => (
