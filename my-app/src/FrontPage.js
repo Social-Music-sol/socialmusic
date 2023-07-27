@@ -78,7 +78,7 @@ function HomePage() {
                   style={{ color: post.liked_by_requester ? 'pink' : 'black' }}
                   onClick={() => handleLike(post.id, posts, setPosts)}
                 />
-                <p>Likes: {post.like_count}</p>
+                <p>{post.like_count}</p>
               </div>
             </div>
           ))}
