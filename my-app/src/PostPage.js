@@ -1,12 +1,14 @@
 // PostForm.js
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 
 const PostForm = () => {
   const [songLink, setSongLink] = useState('');
   const [pictureUrl, setPictureUrl] = useState('');
   const [caption, setCaption] = useState('');
+  const history = useHistory();
+
 
   const handlePost = async (songLink, pictureUrl, caption) => {
     const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/post`, { 
@@ -27,6 +29,8 @@ const PostForm = () => {
     if (data.message) {
       alert(data.message);
     }
+    // Add this line to redirect to the home page after posting
+    history.push('/');
   };
 
   const handleSubmit = (event) => {
