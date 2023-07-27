@@ -36,66 +36,75 @@
     transform: rotate(360deg);
   }
 }
+
 body {
   font-family: 'Satoshi Regular', sans-serif;
 }
-.post-box {
-  flex: 0 0 calc(50% - 10px); /* Subtract the gap from the width */
-  margin-bottom: 20px; /* Add some vertical space between the posts */
-  height: auto;
-  border: 1px solid rgb(255, 240, 240);
-  border-radius: 20px;
-  padding: 20px;
-  background-color: rgb(240, 239, 239); 
-}
-.textlogo {
-  width: 100px;
-  height: auto;
-  display: block;
-  margin-right: 10px; /* creates some space between the logo and the button */
-}
-.pfp-container {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
-.header {
-  display: flex;
-  align-items: center;
-  position: absolute;
-  top: 10px;
-  left: 10px;
-}
-.create-post-button {
-  margin-left: 10px; /* adjust as needed */
-  background-color: rgb(240, 239, 239);
-  border: 1px solid rgb(255, 240, 240);
-  border-radius: 20px;
-}
-.pfp {
-  width: 50px; 
-  height: 50px  ;  
-  margin: 10px;
-}
-.pfp-container {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
-.post-button {
-  background-color: rgb(240, 239, 239);
-  border: 1px solid rgb(255, 240, 240);
-  border-radius: 20px;
-  padding: 10px 20px; 
-}
+
 .container {
-  max-width: 1200px;
+  max-width: 90%;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 5%;
 }
 
 .posts-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+}
+
+.post-box {
+  flex: 0 0 calc(50% - 5%);
+  margin-bottom: 2%;
+  height: auto;
+  border: 1px solid rgb(255, 240, 240);
+  border-radius: 2%;
+  padding: 2%;
+  background-color: rgb(240, 239, 239);
+  box-shadow: 0 1% 2% 0 rgba(0,0,0,0.2);
+}
+
+.post-box:hover {
+  box-shadow: 0 2% 4% 0 rgba(0,0,0,0.2);
+}
+
+.textlogo {
+  width: 25%;
+  height: auto;
+  display: block;
+  margin-right: 1%;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 1%;
+  left: 1%;
+}
+
+.create-post-button {
+  margin-left: 1%;
+  background-color: rgb(240, 239, 239);
+  border: 1px solid rgb(255, 240, 240);
+  border-radius: 20px;
+}
+
+.pfp {
+  width: 15%; 
+  height: 15%;  
+  margin: 2%;
+}
+
+.pfp-container {
+  position: absolute;
+  top: 1%;
+  right: 1%;
+}
+
+.post-button {
+  background-color: rgb(240, 239, 239);
+  border: 1px solid rgb(255, 240, 240);
+  border-radius: 20px;
+  padding: 2% 4%; 
 }
