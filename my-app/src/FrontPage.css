@@ -95,6 +95,7 @@ body {
   width: 2vw; /* specify a responsive size */
   height: 2vw; /* specify a responsive size */
   margin-right: 1vw;
+  
 }
 .post-button {
   background-color: rgb(240, 239, 239);
@@ -123,6 +124,7 @@ body {
   border: 1px solid rgb(255, 240, 240);
   border-radius: 1em; /* equivalent to 20px on larger screens, but scales down on smaller screens */
   padding: 1% 2%; 
+  pointer-events: auto;
 }
 .like-button {
   font-size: 2em; /* change this to whatever size you want */

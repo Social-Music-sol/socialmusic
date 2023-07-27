@@ -29,8 +29,6 @@ function HomePage() {
       <div className="header">
         <div className="header-left">
           <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
-        </div>
-        <div className="header-center">
           {username && 
             <div className="create-post-button">
               <Link to="/post">
