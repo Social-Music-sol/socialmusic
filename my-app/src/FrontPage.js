@@ -75,6 +75,11 @@ function HomePage() {
           />
           <p>Likes: {post.like_count}</p>
         </div>
+        {post.comments && post.comments.map((comment, index) => (
+          <div key={index} className="comment-container">
+            <p>{comment.content}</p>
+          </div>
+        ))}
       </div>
     ))}
   </div>
