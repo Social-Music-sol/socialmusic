@@ -89,7 +89,7 @@ body {
   background-color: rgb(240, 239, 239);
   border: 1px solid rgb(255, 240, 240);
   border-radius: 20px;
-  margin: auto;
+  margin: auto 0;
 }
 .pfp {
   width: 2vw; /* specify a responsive size */

@@ -27,25 +27,23 @@ function HomePage() {
   return (
     <div className="container">
       <div className="header">
-        <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
-        {username && 
-    <div className="create-post-button-container">
-        <div className="create-post-button">
-            <Link to="/post">
-                <button className="post-button">+Post</button>
-            </Link>
-        </div>
+  <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
+  {username && 
+    <div className="create-post-button">
+      <Link to="/post">
+        <button className="post-button">+Post</button>
+      </Link>
     </div>
-}
-        {username && 
-          <div className="pfp-container">
-            <Link to={`/users/${username}`}>
-              <img src={pfp} alt="Profile Icon" className="pfp" />
-            </Link>
-            <button className="logout-button" onClick={handleLogout}>Log-out</button>
-          </div>
-        }
-      </div>
+  }
+  {username && 
+    <div className="pfp-container">
+      <Link to={`/users/${username}`}>
+        <img src={pfp} alt="Profile Icon" className="pfp" />
+      </Link>
+      <button className="logout-button" onClick={handleLogout}>Log-out</button>
+    </div>
+  }
+</div>
         {!username && <Link to="/register">Register</Link>}
         <br />
         {!username && <Link to="/login">Login</Link>}
