@@ -56,7 +56,7 @@ body {
 
 
 .textlogo {
-  width: 100px;
+  width: 200px;
   height: auto;
   display: block;
   margin-right: 10px; /* creates some space between the logo and the button */
@@ -168,6 +168,8 @@ body {
 }
 .profile-icon {
   color: black;
+  height:15vw;
+  width:15vw;
 }
 .app-container {
   position: relative;
