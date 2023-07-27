@@ -29,12 +29,14 @@ function HomePage() {
       <div className="header">
         <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
         {username && 
-          <div className="create-post-button">
+    <div className="create-post-button-container">
+        <div className="create-post-button">
             <Link to="/post">
-              <button className="post-button">+Post</button>
+                <button className="post-button">+Post</button>
             </Link>
-          </div>
-        }
+        </div>
+    </div>
+}
         {username && 
           <div className="pfp-container">
             <Link to={`/users/${username}`}>

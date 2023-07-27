@@ -174,7 +174,14 @@ body {
   justify-content: space-between; /* Distributes space evenly between the children */
   width: 100%; /* Takes up the full width of the header */
 }
-.post-button, .logout-button {
-  width: 5vw; /* Decrease size - adjust as necessary */
-  height: 5vh; /* Decrease size - adjust as necessary */
+.create-post-button-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* Increase z-index if the button is still not visible */
 }
