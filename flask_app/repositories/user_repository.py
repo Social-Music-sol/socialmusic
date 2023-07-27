@@ -64,9 +64,8 @@ class UserRepository:
             'following': following
         }
         if requester_id:
-            user_data['requester_following'] = True if \
-                Follow.query.filter_by(follower_id=requester_id, followed_id=user.id) \
-                else False
+            existing_follow = Follow.query.filter_by(follower_id=requester_id, followed_id=user.id).first()
+            user_data['requester_following'] = True if existing_follow else False
         return user_data
     
     def exists(self, user_id):
