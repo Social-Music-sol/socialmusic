@@ -14,7 +14,6 @@ import pfp from './images/circle.png';  // import the profile icon image
 function HomePage() {
   const username = getLoggedInUser();
   const [posts, setPosts] = useState([]);
-  const [likedPosts, setLikedPosts] = useState([]);
 
   useEffect(() => {
     const getRecentPosts = async () => {
@@ -23,8 +22,6 @@ function HomePage() {
       if (response.ok) {
         const postsData = await response.json();
         setPosts(postsData);
-
-        setLikedPosts(postsData.filter(post => post.liked_by_requester).map(post => post.id));
       }
     };
 
@@ -68,8 +65,9 @@ function HomePage() {
             __html: `<iframe src=${post.song_embed_url} style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" allowfullscreen allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture; autoplay;"></iframe>`
           }}>
           </div>
-          <button onClick={() => handleLike(post.id, likedPosts, setLikedPosts)}>
-            {likedPosts.includes(post.id) ? 'Unlike' : 'Like'}
+          <p>Likes: {post.like_count}</p>
+          <button onClick={() => handleLike(post.id, posts, setPosts)}>
+            {post.liked_by_requester ? 'Unlike' : 'Like'}
           </button>
         </div>
       ))}
