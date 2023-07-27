@@ -140,7 +140,7 @@ body {
   flex: 2;
 }
 .caption-container {
-  background-color: rgb(240, 239, 239);
+  background-color: rgb(240, 255, 255);
   border: 1px solid rgb(255, 240, 240);
   border-radius: 1em; /* 1em = 16px */
   padding: 1em; /* 1em = 16px */
