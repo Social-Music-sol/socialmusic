@@ -46,9 +46,7 @@ body {
   border: 1px solid rgb(255, 240, 240);
   border-radius: 20px;
   padding: 20px;
-  background-color: rgb(240, 239, 239);
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Add some shadow for the ID card look */
-  transition: 0.3s;
+  background-color: rgb(240, 239, 239); 
 }
 .textlogo {
   width: 100px;
