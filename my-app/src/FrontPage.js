@@ -29,28 +29,58 @@ function HomePage() {
         <div className="header">
           <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
           {username && 
-            <Link to="/post">
-              <button className="post-button">+Post</button>
-            </Link>
-          }
-          {username ? (
-            <div className="pfp-container">
-              <Link to={`/users/${username}`}>
-                <img src={pfp} alt="Profile Icon" className="pfp" />
+            <div className="create-post-button">
+              <Link to="/post">
+                <button className="post-button">+Post</button>
               </Link>
-              <button className="logout-button" onClick={handleLogout}>Log-out</button>
             </div>
-          ) : (
-            <div>
-              <Link to="/register">Register</Link>
-              <br />
-              <Link to="/login">Login</Link>
-            </div>
-          )}
+          }
         </div>
+        {username && 
+          <div className="pfp-container">
+            <Link to={`/users/${username}`}>
+              <img src={pfp} alt="Profile Icon" className="pfp" />
+            </Link>
+            <button className="logout-button" onClick={handleLogout}>Log-out</button>
+          </div>
+        }
+        {!username && <Link to="/register">Register</Link>}
+        <br />
+        {!username && <Link to="/login">Login</Link>}
+        <br />
         <div className="posts-container">
           {posts.map((post, index) => (
-            {/* Rendering posts code here */}
+            <div key={index} className="post-box">
+              <div className="post-content">
+                <div className="post-embed">
+                  <div style={{width: '100%', height: '100%', position: 'relative'}} dangerouslySetInnerHTML={{
+                    __html: `<iframe src=${post.song_embed_url} style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" allowfullscreen allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture; autoplay;"></iframe>`
+                  }}>
+                  </div>
+                </div>
+                <div className="post-text">
+                  <Link to={`/users/${post.username}`}>
+                    <h3>{post.username}</h3>
+                  </Link>
+                  <div className="caption-container">
+                    <p>{post.content}</p>
+                  </div>
+                  <p>{post.image_url}</p>
+                </div>
+                <Link to={`/users/${post.username}`} className="profile-link">
+                  <FontAwesomeIcon icon={faCircle} className="profile-icon" />
+                </Link>
+              </div>
+              <div className="like-container">
+                <FontAwesomeIcon 
+                  icon={post.liked_by_requester ? faHeart : faHeart} 
+                  className="like-button" 
+                  style={{ color: post.liked_by_requester ? 'pink' : 'black' }}
+                  onClick={() => handleLike(post.id, posts, setPosts)}
+                />
+                <p>{post.like_count}</p>
+              </div>
+            </div>
           ))}
         </div>
       </div>
