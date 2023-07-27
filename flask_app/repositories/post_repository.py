@@ -28,17 +28,21 @@ class PostRepository:
 
         return new_post.to_dict()
         
-    def get(self, user_id, amount=5, descending=True):
+    def get(self, user_id, amount=5, descending=True, requester_id=None):
         user = User.query.filter_by(id=user_id).first()
-        if user:
-            if descending:
-                posts = user.posts.order_by(Post.created_at.desc()).limit(amount).all()
-            else:
-                posts = user.posts.order_by(Post.created_at.asc()).limit(amount).all()
-            return [post.to_dict() for post in posts]
-        else:
+        if not user:
             raise NameError
         
+        if descending:
+            posts = user.posts.order_by(Post.created_at.desc()).limit(amount).all()
+        else:
+            posts = user.posts.order_by(Post.created_at.asc()).limit(amount).all()
+
+        if requester_id:
+            return [self.full_post_data(requester_id, post) for post in posts]
+        else:
+            raise NotImplementedError
+
     def get_feed(self, requester_id, amount=10):
         if not User.query.get(requester_id):
             raise KeyError
