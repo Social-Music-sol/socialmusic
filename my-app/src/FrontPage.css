@@ -91,8 +91,8 @@ body {
 }
 .create-post-button {
   margin-left: 10px; /* adjust as needed */
-  background-color: rgb(240, 239, 239);
-  border: 1px solid rgb(255, 240, 240);
+  background-color: rgb(255, 240, 240);
+  border: 1px solid rgb(222, 222, 222);
   border-radius: 20px;
   margin: auto 0;
 }
@@ -101,8 +101,8 @@ body {
   height: 2vw; /* specify a smaller responsive size */
 }
 .post-button {
-  background-color: rgb(240, 239, 239);
-  border: 1px solid rgb(255, 240, 240);
+  background-color: rgb(255, 240, 240);
+  border: 1px solid rgb(222, 222, 222);
   border-radius: 20px;
   padding: 10px 20px; 
   pointer-events: auto;
@@ -123,8 +123,8 @@ body {
 }
 .logout-button {
   margin-top: 1%;
-  background-color: rgb(240, 239, 239);
-  border: 1px solid rgb(255, 240, 240);
+  background-color: rgb(255, 240, 240);
+  border: 1px solid rgb(222, 222, 222);
   border-radius: 1em; /* equivalent to 20px on larger screens, but scales down on smaller screens */
   padding: 1% 2%; 
   pointer-events: auto;
@@ -162,8 +162,8 @@ body {
   align-items: center;
 }
 .caption-container {
-  background-color: rgb(255, 255, 255);
-  border: 1px solid rgb(255, 240, 240);
+  background-color: rgb(255, 240, 240);
+  border: 1px solid rgb(222, 222, 222);
   border-radius: 1em; /* 1em = 16px */
   padding: 1em; /* 1em = 16px */
   margin-top: 1em; /* 1em = 16px */
