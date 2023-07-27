@@ -97,3 +97,10 @@ body {
   border-radius: 1em; /* equivalent to 20px on larger screens, but scales down on smaller screens */
   padding: 1% 2%; 
 }
+.like-button {
+  font-size: 2em; /* change this to whatever size you want */
+  border: 1px solid;
+  border-radius: 50%;
+  padding: 5%;
+  cursor: pointer;
+}

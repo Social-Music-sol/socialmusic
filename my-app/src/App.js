@@ -1,6 +1,8 @@
 // App.js
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Add this line
+import { faHeart } from '@fortawesome/free-solid-svg-icons'; // Add this line
 import RegisterPage from './RegisterPage';
 import LoginPage from './LoginPage';
 import PostForm from './PostPage';
@@ -65,9 +67,12 @@ function HomePage() {
             }}>
             </div>
             <p>Likes: {post.like_count}</p>
-            <button onClick={() => handleLike(post.id, posts, setPosts)}>
-              {post.liked_by_requester ? 'Unlike' : 'Like'}
-            </button>
+            <FontAwesomeIcon 
+              icon={faHeart} 
+              className="like-button" 
+              style={{ color: post.liked_by_requester ? 'red' : 'transparent' }}
+              onClick={() => handleLike(post.id, posts, setPosts)}
+            />
           </div>
         ))}
       </div>
