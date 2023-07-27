@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { getLoggedInUser, handleLogout, handleLike } from './utils';
 import textlogo from './images/textlogo.png';
 import pfp from './images/circle.png';
@@ -67,6 +67,9 @@ function HomePage() {
                   </div>
                   <p>{post.image_url}</p>
                 </div>
+                <Link to={`/users/${post.username}`} className="profile-link">
+                  <FontAwesomeIcon icon={faCircle} className="profile-icon" />
+                </Link>
               </div>
               <div className="like-container">
                 <FontAwesomeIcon 
