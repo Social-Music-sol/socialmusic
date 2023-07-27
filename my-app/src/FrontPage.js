@@ -10,6 +10,7 @@ import './FrontPage.css'; // Import your CSS file
 function HomePage() {
     const username = getLoggedInUser();
     const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(true); // <-- Add this line
   
     useEffect(() => {
       const getRecentPosts = async () => {
