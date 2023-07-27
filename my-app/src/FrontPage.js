@@ -22,7 +22,10 @@ function HomePage() {
       };
   
       getRecentPosts();
+      setTimeout(() => setLoading(false), 2000); // <-- Add this line
     }, []);
+  
+    if (loading) return <div>Loading...</div>; // <-- Add this line
   
     return (
       <div className="container">
