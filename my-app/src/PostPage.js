@@ -9,7 +9,7 @@ const PostForm = () => {
   const [songLink, setSongLink] = useState('');
   const [pictureUrl, setPictureUrl] = useState('');
   const [caption, setCaption] = useState('');
-  const history = useNavigate();
+  const navigate = useNavigate();
 
 
   const handlePost = async (songLink, pictureUrl, caption) => {
