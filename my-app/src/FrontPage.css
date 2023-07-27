@@ -70,6 +70,7 @@ body {
   flex-direction: row; /* Align the elements horizontally */
   align-items: center; /* Center the elements vertically */
 }
+
 .header {
   display: flex;
   align-items: center;
@@ -80,7 +81,7 @@ body {
   width: 96vw;
   padding: 0 2vw;
   min-height: 10vh;
-  z-index: 1000; /* Increase z-index */
+  z-index: 1000;
   flex-wrap: wrap;
 }
 .create-post-button {
@@ -88,6 +89,7 @@ body {
   background-color: rgb(240, 239, 239);
   border: 1px solid rgb(255, 240, 240);
   border-radius: 20px;
+  margin: auto;
 }
 .pfp {
   width: 2vw; /* specify a responsive size */
