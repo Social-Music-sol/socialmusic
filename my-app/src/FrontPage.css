@@ -66,13 +66,19 @@ body {
   top: 2vh; 
   right: 2vw;
   align-self: flex-end; /* This will align the container to the end of the parent flex container */
+  display: flex; /* Use flex to arrange the image and the button */
+  flex-direction: row; /* Align the elements horizontally */
+  align-items: center; /* Center the elements vertically */
 }
 .header {
   display: flex;
   align-items: center;
+  justify-content: space-between; /* This will push the children elements to the edges */
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 2vh; /* Use vh for responsive positioning */
+  left: 2vw; /* Use vw for responsive positioning */
+  width: 96vw; /* Use vw for responsive width, subtracting the left and right padding */
+  padding: 0 2vw; /* Use vw for responsive padding */
 }
 .create-post-button {
   margin-left: 10px; /* adjust as needed */
@@ -83,6 +89,7 @@ body {
 .pfp {
   width: 2vw; /* specify a responsive size */
   height: 2vw; /* specify a responsive size */
+  margin-right: 1vw;
 }
 .post-button {
   background-color: rgb(240, 239, 239);
