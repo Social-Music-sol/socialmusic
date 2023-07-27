@@ -96,9 +96,9 @@ body {
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 2vw; /* Use viewport width units for responsive padding */
+  padding: 0 20px;
   display: flex;
-  justify-content: space-between; /* This will push children elements to the edges */
+  justify-content: flex-end;
   flex-direction: column;
 }
 .posts-container {
