@@ -35,15 +35,15 @@ function HomePage() {
       </Link>
     </div>
   }
-  {username && 
-    <div className="pfp-container">
-      <Link to={`/users/${username}`}>
-        <img src={pfp} alt="Profile Icon" className="pfp" />
-      </Link>
-      <button className="logout-button" onClick={handleLogout}>Log-out</button>
+      {username && 
+        <div className="pfp-container">
+          <Link to={`/users/${username}`}>
+            <img src={pfp} alt="Profile Icon" className="pfp" />
+          </Link>
+          <button className="logout-button" onClick={handleLogout}>Log-out</button>
+        </div>
+      }
     </div>
-  }
-</div>
         {!username && <Link to="/register">Register</Link>}
         <br />
         {!username && <Link to="/login">Login</Link>}

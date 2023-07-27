@@ -177,7 +177,7 @@ body {
   width: 100%; /* Takes up the full width of the header */
 }
 .create-post-button-container {
-  position: fixed;
+  position: center;
   top: 0;
   bottom: 0;
   left: 0;
