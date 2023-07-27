@@ -80,8 +80,8 @@ body {
   border-radius: 20px;
 }
 .pfp {
-  width: 10vw; /* specify a responsive size */
-  height: 10vw; /* specify a responsive size */
+  width: 5vw; /* specify a responsive size */
+  height: 5vw; /* specify a responsive size */
 }
 .post-button {
   background-color: rgb(240, 239, 239);
