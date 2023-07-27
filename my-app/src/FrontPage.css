@@ -42,7 +42,6 @@ body {
 .post-box {
   /* Other styles as before... */
   width: 100%;
-  max-width: 60em; /* This will set a max width to your post card. Adjust as needed. */
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -51,9 +50,6 @@ body {
   border-radius: 1.25em;
   background-color: rgb(240, 239, 239); 
   border: 1px solid rgb(255, 240, 240);
-  @media (min-width: 768px) { /* adjust this breakpoint as needed */
-    width: 45%; /* take up 45% of the container's width */
-  }
 }
 
 
@@ -103,10 +99,9 @@ body {
 
 .posts-container {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
 }
-
 .logout-button {
   margin-top: 1%;
   background-color: rgb(240, 239, 239);
