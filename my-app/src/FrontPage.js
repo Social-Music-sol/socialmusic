@@ -14,21 +14,18 @@ function HomePage() {
   
     useEffect(() => {
       const getRecentPosts = async () => {
-        setLoading(true);
         const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=50`);
-      
+  
         if (response.ok) {
           const postsData = await response.json();
           setPosts(postsData);
         }
-        setLoading(false);
       };
-      
+  
       getRecentPosts();
+      setTimeout(() => setLoading(false), 6000); // <-- Add this line
     }, []);
-  
-    if (loading) return <div>Loading...</div>; // <-- Add this line
-  
+    
     return (
       <div className="container">
         <div className="header">
@@ -91,5 +88,7 @@ function HomePage() {
       </div>
     );
 }
+
+if (loading) return <div>Loading...</div>; // <-- Add this line
 
 export default HomePage;
