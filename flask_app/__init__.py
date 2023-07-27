@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
+from datetime import timedelta
 import os
 # Create the SQLAlchemy object
 db = SQLAlchemy()
@@ -23,6 +24,7 @@ def create_app():
     app.config["JWT_COOKIE_DOMAIN"] = os.getenv('HTTPS_DOMAIN')
     app.config["JWT_COOKIE_PATH"] = "/"
     app.config["JWT_COOKIE_CSRF_PROTECT"] = False
+    app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(days=7)
     jwt.init_app(app)
 
     # Now that we have the 'app' object, we can use it to initialize 'db'

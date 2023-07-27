@@ -70,12 +70,9 @@ class Post(db.Model):
 class Like(db.Model):
     __tablename__ = 'likes'
 
-    id = db.Column(db.UUID(as_uuid=True), primary_key=True, unique=True, default=uuid.uuid4) 
-    user_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey('users.id'), nullable=False)
-    post_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey('posts.id'), nullable=False)
+    user_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey('users.id'), primary_key=True)
+    post_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey('posts.id'), primary_key=True)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-
-    __table_args__ = (UniqueConstraint('user_id', 'post_id', name='unique_user_post'),)
 
     def to_dict(self):
         return {
@@ -84,6 +81,21 @@ class Like(db.Model):
             'post_id': str(self.post_id),
             'created_at': self.created_at
         }
+
+class Follow(db.Model):
+    __tablename__ = 'follows'
+
+    follower_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey('users.id'), primary_key=True)
+    followed_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey('users.id'), primary_key=True)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    def to_dict(self):
+        return {
+            'follower': str(self.follower_id),
+            'followed': str(self.followed_id),
+            'created_at': self.created_at
+        }
+    
 
 if __name__ == "__main__":  
     with app.app_context():
