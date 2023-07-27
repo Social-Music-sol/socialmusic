@@ -10,7 +10,7 @@ import UserProfile from './ProfilePage';
 import { getLoggedInUser, handleLogout, handleLike } from './utils';
 import textlogo from './images/textlogo.png'
 import pfp from './images/circle.png';  // import the profile icon image
-import HomePage from './homepage'; // update the path according to your directory structure
+import FrontPage from './FrontPage'; // update the path according to your directory structure
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
       <div className="App">
         <div className="container">
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={<FrontPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/post" element={<PostForm />} />
