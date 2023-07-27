@@ -211,3 +211,8 @@ body {
   align-self: center;
   margin-top: 10px; /* adjust as needed */
 }
+.profile-icon-container {
+  position: absolute;
+  top: 10px; /* adjust as needed */
+  right: 10px; /* adjust as needed */
+}

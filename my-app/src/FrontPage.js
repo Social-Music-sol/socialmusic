@@ -55,6 +55,11 @@ function HomePage() {
         <div className="posts-container">
           {posts.map((post, index) => (
             <div key={index} className="post-box">
+              <div className="profile-icon-container">
+                <Link to={`/users/${post.username}`} className="profile-link">
+                  <FontAwesomeIcon icon={faCircle} className="profile-icon" />
+                </Link>
+              </div>
               <div className="post-content">
                 <div className="post-embed">
                   <div style={{width: '100%', height: '100%', position: 'relative'}} dangerouslySetInnerHTML={{
@@ -65,17 +70,12 @@ function HomePage() {
                 <div className="post-text">
                   <div className="caption-container">
                     <p>{post.content}</p>
-                  </div>
-                  <div className="username-container">
                     <Link to={`/users/${post.username}`}>
-                      <h3>{"-" + post.username}</h3>
+                      <h3>{post.username}</h3>
                     </Link>
                   </div>
                   <p>{post.image_url}</p>
                 </div>
-                <Link to={`/users/${post.username}`} className="profile-link">
-                  <FontAwesomeIcon icon={faCircle} className="profile-icon" />
-                </Link>
               </div>
               <div className="like-container">
                 <FontAwesomeIcon 
