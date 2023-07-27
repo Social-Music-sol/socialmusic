@@ -27,4 +27,6 @@
 @font-face {
   font-family: "Taj";
   src: url('fonts/AlQalam Taj Nastaleeq 1.01_Shipped.ttf') format('woff2');
+  font-weight: normal;
+  font-style: normal;
 }
