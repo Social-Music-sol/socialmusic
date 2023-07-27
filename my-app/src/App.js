@@ -52,7 +52,6 @@ function HomePage() {
       {!username && <Link to="/login">Login</Link>}
       <br />
       {username && <button onClick={handleLogout}>Logout</button>}
-      <h2>Recent Jams:</h2>
       <div className="posts-container">
         {posts.map((post, index) => (
           <div key={index} className="post-box">
