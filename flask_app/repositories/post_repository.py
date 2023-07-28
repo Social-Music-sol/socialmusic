@@ -11,7 +11,9 @@ class PostRepository:
         self.link_grabber = re.compile(regex_statement)
 
     def create(self, post_data):
-        # Create and save the new post
+        user_id = post_data['user_id']
+        if not User.query.get(user_id):
+            raise NameError
         
         if 'song_url' in post_data.keys():
             links = self.link_grabber.findall(post_data['song_url'])
@@ -46,7 +48,7 @@ class PostRepository:
     def get_feed(self, requester_id, amount=10):
         if not User.query.get(requester_id):
             raise KeyError
-        posts = Post.query.order_by(Post.created_at.desc()).limit(amount).all()
+        posts = Post.query.filter_by(parent_id=None).order_by(Post.created_at.desc()).limit(amount).all()
         post_data = [self.full_post_data(requester_id, post=post) for post in posts]
         return post_data
     

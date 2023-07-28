@@ -16,7 +16,7 @@ else:
 
 embed_link_builder = lambda track_id: r'https://open.spotify.com/embed/track/' + track_id + r'?utm_source=oembed'
 
-class User(db.Model):
+class User(db.Model):   
     __tablename__ = 'users'
 
     id = db.Column(db.UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
