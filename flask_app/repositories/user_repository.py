@@ -50,7 +50,7 @@ class UserRepository:
         
     def get(self, user_id=None, username=None, requester_id=None):
         if user_id:
-            user = User.query.get(user_id)
+            user = self.exists(user_id)
         elif username:
             user = User.query.filter_by(username=username).first()
         else:
