@@ -1,7 +1,7 @@
 from flask_app.models import User, Follow
 from flask import jsonify, send_from_directory
 from flask import current_app
-from os import path
+import os
 from sqlalchemy.exc import IntegrityError 
 from datetime import timedelta
 from flask_jwt_extended import create_access_token
@@ -83,15 +83,20 @@ class UserRepository:
         user = self.exists(user_id)
         if not self.allowed_file(pfp.filename):
             raise ValueError
-        self.photos.save(pfp, name=user_id+'.png')
-        user.pfp = user_id+'.png'
-        self.db.session.commit()
+        filename = user_id+'.png'
+        filepath = os.path.join(current_app.config['UPLOADED_PHOTOS_DEST'], filename)
+        if os.path.exists(filepath):
+            os.remove(filepath)
+            user.pfp = filename
+            self.db.session.commit()
+        
+        self.photos.save(pfp, name=filename)
         return user.to_dict()
     
     def get_pfp(self, requester_id, user_id):
         self.exists(requester_id)
         user = self.exists(user_id)
-        pfp_path = path.join(current_app.config['PFP_PREFIX_DOMAIN'], user.pfp)
+        pfp_path = os.path.join(current_app.config['PFP_PREFIX_DOMAIN'], user.pfp)
         return {'pfp_url': pfp_path}
         #return #send_from_directory(, )
 
