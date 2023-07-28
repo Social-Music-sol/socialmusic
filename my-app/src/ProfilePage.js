@@ -9,10 +9,10 @@ export default function UserProfile() {
   const [posts, setPosts] = useState([]);
   const [userId, setUserId] = useState(null);
   const [isFollowing, setIsFollowing] = useState(false);
-  const [followers, setFollowers] = useState(0);  // Add this
-  const [following, setFollowing] = useState(0);  // Add this
+  const [followers, setFollowers] = useState(0);
+  const [following, setFollowing] = useState(0);
   const [profilePic, setProfilePic] = useState('');  // Default profile picture URL
-
+  const [selectedFile, setSelectedFile] = useState(null);
 
   useEffect(() => {
     const getUserID = async () => {
@@ -24,6 +24,7 @@ export default function UserProfile() {
         setFollowers(userData.followers);  // Set followers
         setFollowing(userData.following);  // Set following
         setIsFollowing(userData.requester_following);  // Update 'isFollowing' based on 'requester_following'
+        setProfilePic(userData.photo); // Set profile picture
         return userData.user_id;
       }
     };
@@ -44,40 +45,26 @@ export default function UserProfile() {
     getUserPosts();
   }, [username]);
 
-  const handleProfileImageChange = async (event) => {
-    const file = event.target.files[0];
-    if (!file) {
-      return;
-    }
-    
+  const handleUpload = async () => {
     const formData = new FormData();
-    formData.append('photo', file);
-  
+    formData.append('photo', selectedFile);
+
     const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/profile/upload`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
       },
-      body: formData
+      body: formData,
     });
-  
-    if (response.ok) {
-      const userData = await response.json();
-      setUserId(userData.user_id);
-      setProfilePic(userData.photo);  // Set profile picture URL
-      setFollowers(userData.followers);
-      setFollowing(userData.following);
-      setIsFollowing(userData.requester_following);
-      return userData.user_id;
 
-      // Here you can handle the response from the server, such as updating the profile picture in your state
+    if (response.ok) {
+      const data = await response.json();
+      setProfilePic(data.pfp);  // Update profile picture in the state
     } else {
-      // Handle the error from the server
-      alert('An error occurred while trying to update your profile picture.');
+      alert('An error occurred while trying to upload your profile picture.');
     }
   };
 
-  
   const handleFollow = async () => {
     const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/follow-user?id=${userId}`, {
       method: isFollowing ? 'DELETE' : 'POST',
@@ -98,7 +85,13 @@ export default function UserProfile() {
   return (
     <div>
     <h1>{username}</h1>
-    {profilePic && <img src={profilePic} alt="Profile" />}  {/* Display profile picture */}
+    {profilePic && <img src={profilePic} alt="Profile" />} {/* Display profile picture */}
+    {loggedInUser === username && (
+      <>
+        <input type="file" onChange={(e) => setSelectedFile(e.target.files[0])} /> {/* File input */}
+        <button onClick={handleUpload}>Upload New Profile Picture</button> {/* Upload button */}
+      </>
+    )}
     {loggedInUser !== username && <button onClick={handleFollow}>{isFollowing ? 'Unfollow' : 'Follow'}</button>}
     <h2>Followers: {followers}</h2>
     <h2>Following: {following}</h2>
