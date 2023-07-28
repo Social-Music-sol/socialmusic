@@ -8,11 +8,17 @@ import pfp from './images/circle.png';
 import './FrontPage.css';
 
 function HomePage() {
-  const username = getLoggedInUser();
+  const [username, setUsername] = useState(localStorage.getItem('username')); // Retrieve the username from local storage
   const [posts, setPosts] = useState([]);
   const [userProfilePic, setUserProfilePic] = useState(null);
 
   useEffect(() => {
+    const handleStorageChange = () => {
+      setUsername(localStorage.getItem('username')); // Update the username whenever local storage changes
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+
     const getRecentPosts = async () => {
       const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=50`);
 
@@ -42,6 +48,11 @@ function HomePage() {
     } else {
       getRecentPosts();
     }
+
+    // don't forget to clean up the event listener
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, [username]);
 
   const handleCommentSubmit = async (e, postId) => {
@@ -75,21 +86,20 @@ function HomePage() {
   return (
     <div className="container">
       <div className="header">
-            <div className="header-left">
-        <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
-        {username && 
-          <Link to="/post" className="create-post-button">
-            <button className="post-button">+++</button>
-          </Link>
-        }
-      </div>
+        <div className="header-left">
+          <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
+          {username && 
+            <Link to="/post" className="create-post-button">
+              <button className="post-button">+++</button>
+            </Link>
+          }
+        </div>
         <div className="header-right">
           {username && 
             <div className="pfp-container">
               <Link to={`/users/${username}`} className="pfp-link">
                 <img src={userProfilePic || pfp} alt="Profile Icon" className="pfp" /> 
               </Link>
-              <button className="logout-button" onClick={handleLogout}>Log-out</button>
             </div>
           }
         </div>
@@ -122,13 +132,21 @@ function HomePage() {
                 </div>
               )}
               <div className="comments-section">
-                {post.replies.map((reply, replyIndex) => (
-                  <div key={replyIndex} className="comment">
-                    <p>{reply.content}</p>
+                {post.replies.map((reply, index) => (
+                  <div key={index} className="comment-container">
+                    <div className="reply-box">
+                      <div className="reply-header">
+                        <Link to={`/users/${reply.username}`} className="profile-link">
+                          <img src={reply.poster_pfp_url} alt={`${reply.username}'s profile`} className="profile-icon" />
+                        </Link>
+                        <h3>{reply.username}</h3>
+                      </div>
+                      <p>{reply.content}</p>
+                    </div>
                   </div>
                 ))}
-                <form onSubmit={(e) => handleCommentSubmit(e, post.id)} className="comment-box">
-                  <input type="text" name="comment" />
+                <form onSubmit={(e) => handleCommentSubmit(e, post.id)} className="comment-form">
+                  <input type="text" name="comment" placeholder="Add a comment..." />
                   <button type="submit">Comment</button>
                 </form>
               </div>
