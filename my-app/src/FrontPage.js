@@ -14,7 +14,10 @@ function HomePage() {
   const [isCommentsExpanded, setIsCommentsExpanded] = useState({});
 
   const handleToggleComments = (postId) => {
-    setIsCommentsExpanded(prevState => ({...prevState, [postId]: !prevState[postId]}));
+    setIsCommentsExpanded(prevState => ({
+      ...prevState,
+      [postId]: !prevState[postId]
+    }));
   };
 
   useEffect(() => {
@@ -24,13 +27,6 @@ function HomePage() {
       if (response.ok) {
         const postsData = await response.json();
         setPosts(postsData);
-
-        // Initialize isCommentsExpanded state
-        const initialCommentsExpandedState = postsData.reduce((acc, post) => {
-          acc[post.id] = false;
-          return acc;
-        }, {});
-        setIsCommentsExpanded(initialCommentsExpandedState);
       }
     };
 
@@ -83,6 +79,7 @@ function HomePage() {
       ));
     }
   };
+
   
   return (
     <div className="container">
@@ -134,19 +131,17 @@ function HomePage() {
                 </div>
               )}
               <div className={`comments-section ${isCommentsExpanded[post.id] ? 'expanded' : ''}`}>
-                <div className="reply-container">
-                  {post.replies.map((reply, index) => (
-                    <div key={index} className="reply-box">
-                      <div className="reply-header">
-                        <Link to={`/users/${reply.username}`} className="profile-link">
-                          <img src={reply.poster_pfp_url} alt={`${reply.username}'s profile`} className="profile-icon" />
-                        </Link>
-                        <h3>{reply.username}</h3>
-                      </div>
-                      <p>{reply.content}</p>
+                {post.replies.map((reply, index) => (
+                  <div key={index} className="reply-box">
+                    <div className="reply-header">
+                      <Link to={`/users/${reply.username}`} className="profile-link">
+                        <img src={reply.poster_pfp_url} alt={`${reply.username}'s profile`} className="profile-icon" />
+                      </Link>
+                      <h3>{reply.username}</h3>
                     </div>
-                  ))}
-                </div>
+                    <p>{reply.content}</p>
+                  </div>
+                ))}
                 <div className="expand-collapse-container">
                   <button onClick={() => handleToggleComments(post.id)}>
                     {isCommentsExpanded[post.id] ? 'Collapse' : 'Expand'} comments
