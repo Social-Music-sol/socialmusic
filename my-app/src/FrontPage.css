@@ -232,7 +232,6 @@ body {
   padding: 1em;
   margin-top: 1em;
   background-color: #f9f9f9;
-  overflow: auto;
   max-height: 200px;
   transition: max-height 0.2s ease-in-out;
 }
