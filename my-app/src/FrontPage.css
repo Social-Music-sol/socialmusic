@@ -78,13 +78,13 @@ body {
   cursor: pointer;
 }
 
+
 .textlogo {
   width: 200px;
   height: auto;
-  display: block;
   margin-right: 10px;
-  margin-top: 0.5em; /* Add margin to create more spacing */
 }
+
 
 .pfp-container {
   display: flex;
@@ -118,19 +118,19 @@ body {
 
 
 .create-post-button {
-  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: var(--primary-color);
   border: 1px solid var(--secondary-color);
   border-radius: 20px;
-  margin: auto 0;
+  padding: 10px 20px; /* Adjust as needed */
 }
 .post-button {
-  background-color: var(--primary-color);
-  border: 1px solid var(--secondary-color);
-  border-radius: 20px;
-  padding: 10px 100px; 
-  pointer-events: auto;
-  margin-top: 0.5em; /* Add margin to create more spacing */
+  background: transparent;
+  border: none;
+  font-size: 1em; /* Adjust as needed */
+  cursor: pointer;
 }
 .container {
   max-width: 1200px;
@@ -218,3 +218,8 @@ body {
   border-radius: 50%;
 }
 
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
