@@ -61,16 +61,18 @@ class Post(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)    
 
     def to_dict(self):
-        return {
+        data = {
             'id': str(self.id),
             'user_id': str(self.user_id),
             'parent_id': str(self.parent_id),
             'content': self.content,
             'image_url': self.image_url,
             'song_id': self.song_id,
-            'song_embed_url': embed_link_builder(self.song_id),
             'created_at': self.created_at
         }
+        if self.song_id:
+            data['song_embed_url'] = embed_link_builder(self.song_id)
+        return data
 
 
 class Like(db.Model):
