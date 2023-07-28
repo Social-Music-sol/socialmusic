@@ -91,7 +91,6 @@ body {
   flex-direction: row;
   align-items: center;
   padding: 0.5em 0; /* Adjust as needed */
-  margin-right: 2vw;
 }
 
 .pfp-link {
