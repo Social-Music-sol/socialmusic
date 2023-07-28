@@ -121,24 +121,27 @@ function HomePage() {
                   </div>
                 </div>
               )}
-              <div className="comments-section">
-              {post.replies.map((reply, index) => (
-                <div key={index} className="reply-box">
-                  <div className="reply-header">
-                    <Link to={`/users/${reply.username}`} className="profile-link">
-                      <img src={reply.poster_pfp_url} alt={`${reply.username}'s profile`} className="profile-icon" />
-                    </Link>
-                    <h3>{reply.username}</h3>
-                  </div>
-                  <p>{reply.content}</p>
-                  {/* You can add more elements here as per your design */}
-                </div>
-              ))}
-              <form onSubmit={(e) => handleCommentSubmit(e, post.id)} className="comment-form">
-                <input type="text" name="comment" placeholder="Add a comment..." />
-                <button type="submit">Comment</button>
-              </form>
-              </div>
+<div className="comments-section">
+  {post.replies.length > 0 && (
+    <div className="comment-container">
+      {post.replies.map((reply, index) => (
+        <div key={index} className="reply-box">
+          <div className="reply-header">
+            <Link to={`/users/${reply.username}`} className="profile-link">
+              <img src={reply.poster_pfp_url} alt={`${reply.username}'s profile`} className="profile-icon" />
+            </Link>
+            <h3>{reply.username}</h3>
+          </div>
+          <p>{reply.content}</p>
+        </div>
+      ))}
+    </div>
+  )}
+  <form onSubmit={(e) => handleCommentSubmit(e, post.id)} className="comment-form">
+    <input type="text" name="comment" placeholder="Add a comment..." />
+    <button type="submit">Comment</button>
+  </form>
+</div>
             </div>
             <div className="like-container">
               <FontAwesomeIcon 
