@@ -64,7 +64,7 @@ function HomePage() {
     <div className="post-content">
     <div className="post-embed">
       <div className="embed-container" dangerouslySetInnerHTML={{
-        __html: `<iframe src=${post.song_embed_url} class="spotify-embed" allowfullscreen allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture; autoplay;"></iframe>`
+        __html: `<iframe src=${post.song_embed_url} class="spotify-embed" width="100%" height="100%" allowfullscreen allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture; autoplay;"></iframe>`
       }}>
       </div>
     </div>
