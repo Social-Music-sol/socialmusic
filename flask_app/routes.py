@@ -59,11 +59,7 @@ def protected():
 @app.route('/post', methods=['POST'])
 @jwt_required()
 def create_post():
-    # Get the JWT token from the Authorization header
     user_id = get_jwt_identity()
-
-    # Get the user from the database
-    #TODO : ENSURE USER ID IS VALID IN POST_REPOSITORY
 
     post_data = request.get_json()
     post_data['user_id'] = user_id
@@ -73,7 +69,9 @@ def create_post():
     except ValueError:
         return jsonify({'error': 'Invalid spotify link'}), 400
     except MemoryError:
-        return jsonify({'error': 'Content field was over 1,000 characters'}), 400
+        return jsonify({'error': 'Content field was over 1,000 characters'}), 405
+    except NameError:
+        return jsonify({'error': 'User not found'}), 404
     
 
 @app.route('/user-by-id/<user_id>', methods=['GET'])
@@ -165,7 +163,6 @@ def upload_profile_image():
     requester_id = get_jwt_identity()
     if 'photo' not in request.files:
         return jsonify({'error': 'image not uploaded'}), 400
-    #filename = photos.save(request.files['photo'])
     pfp = request.files['photo']
     try:
         response = user_repository.set_pfp(requester_id, pfp)
@@ -175,7 +172,6 @@ def upload_profile_image():
     except ValueError:
         return jsonify({'error': 'File type not allowed'}), 405
     
-    #return redirect(url_for('get_image', name=filename))
 
 @app.route('/get-pfp')
 @jwt_required()
