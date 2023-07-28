@@ -16,8 +16,9 @@ body {
 }
 
 .post-box {
-  width: 100vh;  /* You can adjust this value based on your design */
-  height: 60px;  /* added fixed height to make the post shorter, adjust as needed */
+  width: 150%;  /* You can adjust this value based on your design */
+  max-width: 800px;  /* adjusted max-width to get wider posts */
+  height: 400px;  /* added fixed height to make the post shorter, adjust as needed */
   margin: 0 auto 3em;
   padding: 2em;
   border-radius: 1.25em;
