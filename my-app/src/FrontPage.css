@@ -199,7 +199,11 @@ body {
 .comments-section {
   margin-top: 10px;
 }
-
+.comments-section,
+.like-container {
+  position: relative;
+  z-index: 1;
+}
 .reply-box {
   margin-bottom: 10px;
   padding: 10px;
