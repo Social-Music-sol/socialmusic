@@ -196,6 +196,29 @@ body {
   position: relative;
 }
 
+.reply-box {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.reply-header {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.profile-link {
+  margin-right: 5px;
+}
+
+.profile-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+
 .header-left {
   display: flex;
   align-items: center;
