@@ -66,6 +66,7 @@ body {
   align-items: center;
   justify-content: space-between;
   margin-top: 2em;
+  z-index: 10;
 }
 
 .like-button {
