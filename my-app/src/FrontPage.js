@@ -131,7 +131,7 @@ function HomePage() {
                 </div>
               )}
               <div className={`comments-section ${isCommentsExpanded[post.id] ? 'expanded' : ''}`}>
-                {post.replies.map((reply, index) => (
+                {(isCommentsExpanded[post.id] ? post.replies : post.replies.slice(0, 1)).map((reply, index) => (
                   <div key={index} className="reply-box">
                     <div className="reply-header">
                       <Link to={`/users/${reply.username}`} className="profile-link">
