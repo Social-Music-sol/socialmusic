@@ -48,11 +48,6 @@ function HomePage() {
     } else {
       getRecentPosts();
     }
-
-    // don't forget to clean up the event listener
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-    };
   }, [username]);
 
   const handleCommentSubmit = async (e, postId) => {
