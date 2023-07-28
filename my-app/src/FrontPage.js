@@ -13,17 +13,19 @@ function HomePage() {
   const [userProfilePic, setUserProfilePic] = useState(null);
   const [isCommentsExpanded, setIsCommentsExpanded] = useState(false);
 
-  const handleToggleComments = () => {
-    setIsCommentsExpanded(!isCommentsExpanded);
+  const handleToggleComments = (postId) => {
+    setPosts(posts.map(post => 
+      post.id === postId ? { ...post, isExpanded: !post.isExpanded } : post
+    ));
   };
 
   useEffect(() => {
     const getRecentPosts = async () => {
       const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=50`);
-
+    
       if (response.ok) {
         const postsData = await response.json();
-        setPosts(postsData);
+        setPosts(postsData.map(post => ({ ...post, isExpanded: false })));
       }
     };
 
@@ -141,8 +143,8 @@ function HomePage() {
                   </div>
                 ))}
                 <div className="expand-collapse-container">
-                  <button onClick={handleToggleComments}>
-                    {isCommentsExpanded ? 'Collapse' : 'Expand'} comments
+                  <button onClick={() => handleToggleComments(post.id)}>
+                    {post.isExpanded ? 'Collapse' : 'Expand'} comments
                   </button>
                 </div>
                 <form onSubmit={(e) => handleCommentSubmit(e, post.id)} className="comment-form">
