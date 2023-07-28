@@ -1,18 +1,19 @@
-from flask import Flask, request, jsonify, Blueprint, make_response
+from flask import Flask, request, jsonify, Blueprint, make_response, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token
-from . import db
+from . import db, photos
 from flask_app.repositories.user_repository import UserRepository
 from flask_app.repositories.post_repository import PostRepository
 from flask_app.repositories.like_repository import LikeRepository
 from flask_app.repositories.follow_repository import FollowRepository
+from werkzeug.utils import secure_filename
 from flask_app.models import User
 from flask_cors import cross_origin
 from datetime import datetime, timedelta
 from os import getenv
 
 app = Blueprint('login', __name__)
-user_repository = UserRepository(db)
+user_repository = UserRepository(db, app, photos)
 post_repository = PostRepository(db)
 like_repository = LikeRepository(db)
 follow_repository = FollowRepository(db)
@@ -160,6 +161,31 @@ def follow_user():
         return jsonify({'error': 'follow cannot be deleted/created because it doesn\'t/does exist'})
     
     
+@app.route('/profile/upload', methods=['POST'])
+@jwt_required()
+def upload_profile_image():
+    requester_id = get_jwt_identity()
+    if 'photo' not in request.files:
+        return jsonify({'error': 'image not uploaded'}), 400
+    #filename = photos.save(request.files['photo'])
+    pfp = request.files['photo']
+    try:
+        response = user_repository.set_pfp(requester_id, pfp)
+        return jsonify(response), 201
+    except NameError:
+        return jsonify({'error': 'User not found'}), 404
+    except ValueError:
+        return jsonify({'error': 'File type not allowed'})
+    
+    #return redirect(url_for('get_image', name=filename))
+
+@app.route('/get-pfp')
+@jwt_required()
+def get_image():
+    requester_id = get_jwt_identity()
+    user_id = request.args.get('id', default=None, type=str)
+    response = user_repository.get_pfp(requester_id, user_id)
+    return response
 
 
 @app.route('/')

@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
@@ -7,6 +8,7 @@ import os
 # Create the SQLAlchemy object
 db = SQLAlchemy()
 jwt = JWTManager()
+photos = UploadSet('photos', IMAGES)
 
 def create_app():
     # Create the Flask application
@@ -26,6 +28,10 @@ def create_app():
     app.config["JWT_COOKIE_CSRF_PROTECT"] = False
     app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(days=7)
     jwt.init_app(app)
+
+    app.config['UPLOADED_PHOTOS_DEST'] = '/srv/static/pfp'
+    configure_uploads(app, photos)
+    patch_request_class(app)
 
     # Now that we have the 'app' object, we can use it to initialize 'db'
     db.init_app(app)
