@@ -6,7 +6,6 @@ from flask_app.repositories.user_repository import UserRepository
 from flask_app.repositories.post_repository import PostRepository
 from flask_app.repositories.like_repository import LikeRepository
 from flask_app.repositories.follow_repository import FollowRepository
-from flask_app.models import User
 from flask_cors import cross_origin
 from datetime import datetime, timedelta
 from os import getenv
@@ -184,7 +183,7 @@ def get_image():
     requester_id = get_jwt_identity()
     user_id = request.args.get('id', default=None, type=str)
     response = user_repository.get_pfp(requester_id, user_id)
-    return response
+    return jsonify(response), 200
 
 
 @app.route('/')

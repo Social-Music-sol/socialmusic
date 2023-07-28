@@ -1,6 +1,7 @@
 from flask_app.models import User, Follow
 from flask import jsonify, send_from_directory
 from flask import current_app
+from os import path
 from sqlalchemy.exc import IntegrityError 
 from datetime import timedelta
 from flask_jwt_extended import create_access_token
@@ -90,7 +91,9 @@ class UserRepository:
     def get_pfp(self, requester_id, user_id):
         self.exists(requester_id)
         user = self.exists(user_id)
-        return send_from_directory(current_app.config['UPLOADED_PHOTOS_DEST'], user.pfp)
+        pfp_path = path.join(current_app.config['UPLOADED_PHOTOS_DEST'], user.pfp)
+        return {'pfp_url': pfp_path}
+        #return #send_from_directory(, )
 
 
 
