@@ -80,7 +80,7 @@ class UserRepository:
 
     def set_pfp(self, user_id, pfp):
         user = self.exists(user_id)
-        if not self.allowed_file(pfp):
+        if not self.allowed_file(pfp.filename):
             raise ValueError
         self.photos.save(pfp, name=user_id+'.png')
         user.pfp = user_id+'.png'

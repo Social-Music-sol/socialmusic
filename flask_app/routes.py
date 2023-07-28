@@ -174,7 +174,7 @@ def upload_profile_image():
     except NameError:
         return jsonify({'error': 'User not found'}), 404
     except ValueError:
-        return jsonify({'error': 'File type not allowed'})
+        return jsonify({'error': 'File type not allowed'}), 405
     
     #return redirect(url_for('get_image', name=filename))
 
