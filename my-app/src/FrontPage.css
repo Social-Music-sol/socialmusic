@@ -83,6 +83,7 @@ body {
   height: auto;
   display: block;
   margin-right: 10px;
+  margin-top: 0.5em; /* Add margin to create more spacing */
 }
 
 .pfp-container {
@@ -93,6 +94,7 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
+  padding: 0.5em 0; /* Add padding to create more spacing */
 }
 
 .pfp-link {
@@ -109,11 +111,13 @@ body {
   top: 2vh;
   left: 2vw;
   width: 96vw;
-  padding: 0 2vw;
+  padding: 1em 2vw; /* Adjusted padding to create more spacing */
   min-height: 10vh;
   z-index: 1000;
   flex-wrap: wrap;
+  border-bottom: 1px solid black; /* Add a thin black line under the header */
 }
+
 
 .create-post-button {
   margin-left: 10px;
@@ -122,7 +126,6 @@ body {
   border-radius: 20px;
   margin: auto 0;
 }
-
 .pfp {
   width: 2vw;
   height: 2vw;
@@ -134,8 +137,8 @@ body {
   border-radius: 20px;
   padding: 10px 100px; 
   pointer-events: auto;
+  margin-top: 0.5em; /* Add margin to create more spacing */
 }
-
 .container {
   max-width: 1200px;
   margin: 0 auto;
