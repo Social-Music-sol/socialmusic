@@ -88,9 +88,7 @@ class UserRepository:
         if user.pfp != 'default.png':
             old_filename = user.pfp
             old_filepath = os.path.join(current_app.config['UPLOADED_PHOTOS_DEST'], old_filename)
-            print('should be deleting')
             if os.path.exists(old_filepath):
-                print('deleted!')
                 os.remove(old_filepath)
         
         now = datetime.now()
