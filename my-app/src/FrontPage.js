@@ -11,21 +11,19 @@ function HomePage() {
   const username = getLoggedInUser();
   const [posts, setPosts] = useState([]);
   const [userProfilePic, setUserProfilePic] = useState(null);
-  const [isCommentsExpanded, setIsCommentsExpanded] = useState(false);
+  const [isCommentsExpanded, setIsCommentsExpanded] = useState({});
 
   const handleToggleComments = (postId) => {
-    setPosts(posts.map(post => 
-      post.id === postId ? { ...post, isExpanded: !post.isExpanded } : post
-    ));
+    setIsCommentsExpanded(prevState => ({...prevState, [postId]: !prevState[postId]}));
   };
 
   useEffect(() => {
     const getRecentPosts = async () => {
       const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=50`);
-    
+
       if (response.ok) {
         const postsData = await response.json();
-        setPosts(postsData.map(post => ({ ...post, isExpanded: false })));
+        setPosts(postsData);
       }
     };
 
@@ -129,22 +127,23 @@ function HomePage() {
                   </div>
                 </div>
               )}
-              <div className={`comments-section ${isCommentsExpanded ? 'expanded' : ''}`}>
-                {post.replies.map((reply, index) => (
-                  <div key={index} className="reply-box">
-                    <div className="reply-header">
-                      <Link to={`/users/${reply.username}`} className="profile-link">
-                        <img src={reply.poster_pfp_url} alt={`${reply.username}'s profile`} className="profile-icon" />
-                      </Link>
-                      <h3>{reply.username}</h3>
+              <div className={`comments-section ${isCommentsExpanded[post.id] ? 'expanded' : ''}`}>
+                <div className="reply-container">
+                  {post.replies.map((reply, index) => (
+                    <div key={index} className="reply-box">
+                      <div className="reply-header">
+                        <Link to={`/users/${reply.username}`} className="profile-link">
+                          <img src={reply.poster_pfp_url} alt={`${reply.username}'s profile`} className="profile-icon" />
+                        </Link>
+                        <h3>{reply.username}</h3>
+                      </div>
+                      <p>{reply.content}</p>
                     </div>
-                    <p>{reply.content}</p>
-                    {/* You can add more elements here as per your design */}
-                  </div>
-                ))}
+                  ))}
+                </div>
                 <div className="expand-collapse-container">
                   <button onClick={() => handleToggleComments(post.id)}>
-                    {post.isExpanded ? 'Collapse' : 'Expand'} comments
+                    {isCommentsExpanded[post.id] ? 'Collapse' : 'Expand'} comments
                   </button>
                 </div>
                 <form onSubmit={(e) => handleCommentSubmit(e, post.id)} className="comment-form">
