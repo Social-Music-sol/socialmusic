@@ -88,18 +88,11 @@ function HomePage() {
         <div className="header-right">
           {username && 
             <div className="pfp-container">
-<<<<<<< HEAD
               <Link to={`/users/${username}`} className="pfp-link">
                 <img src={userProfilePic || pfp} alt="Profile Icon" className="pfp" /> 
               </Link>
               <button className="logout-button" onClick={handleLogout}>Log-out</button>
             </div>
-=======
-            <Link to={`/users/${username}`} className="pfp-link">
-              <img src={userProfilePic || pfp} alt="Profile Icon" className="pfp" /> 
-            </Link>
-          </div>
->>>>>>> 110e6c90b85b1d9fab05b60dc4c6c95a240cbc7d
           }
         </div>
       </div>
