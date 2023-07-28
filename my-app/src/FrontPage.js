@@ -78,6 +78,7 @@ function HomePage() {
     }
   };
 
+  
   return (
     <div className="container">
       <div className="header">
