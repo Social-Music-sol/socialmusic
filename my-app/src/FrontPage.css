@@ -88,16 +88,17 @@ body {
 
 .pfp-container {
   display: flex;
-  flex-direction: row;
+  justify-content: flex-end;
   align-items: center;
-  padding: 0.5em 0; /* Add padding to create more spacing */
-  margin-right: 2vw;
+  padding-right: 2vw;
 }
 
 .pfp-link {
-  display: inline-block;
-  width: 2vw;
-  height: 2vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px; /* Adjust as needed */
+  height: 50px; /* Adjust as needed */
 }
 
 .header {
@@ -148,14 +149,6 @@ body {
   margin-top: 0;
 }
 
-.logout-button {
-  margin-top: 1%;
-  background-color: var(--primary-color);
-  border: 1px solid var(--secondary-color);
-  border-radius: 1em;
-  padding: 1% 2%; 
-  pointer-events: auto;
-}
 .post-text-container {
   background-color: #ffffff;
   border-radius: 8px;
@@ -183,7 +176,22 @@ body {
   max-height: 50%; /* Add max height */
   border: 0;
 }
-
-.pfp-link, .like-button, .logout-button, .post-button {
+.pfp {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%; /* This will make the pfp circular */
+}
+.pfp-link {
+  display: inline-block;
+  margin-right: 10px; /* Add some space between the pfp and logout button */
   cursor: pointer;
+}
+.like-button, .post-button {
+  cursor: pointer;
+}
+
+.comment-box {
+  z-index: 10;
+  position: relative;
 }

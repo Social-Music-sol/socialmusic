@@ -23,7 +23,7 @@ function HomePage() {
     };
 
     const getProfilePicture = async () => {
-      const userId = localStorage.getItem('user_id'); // Replace 'userId' with the actual key you use to store the user id in local storage.
+      const userId = localStorage.getItem('user_id');
       
       const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?id=${userId}`, {
         headers: {
@@ -44,6 +44,34 @@ function HomePage() {
     }
   }, [username]);
 
+  const handleCommentSubmit = async (e, postId) => {
+    e.preventDefault();
+
+    const commentContent = e.target.comment.value;
+    e.target.comment.value = '';  // clear the input
+
+    const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/post`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        content: commentContent,
+        parent_id: postId,
+      }),
+    });
+
+    if (response.ok) {
+      const newComment = await response.json();
+      setPosts((prevPosts) => prevPosts.map(post =>
+        post.id === postId
+          ? { ...post, replies: [...post.replies, newComment] }
+          : post
+      ));
+    }
+  };
+
   return (
     <div className="container">
       <div className="header">
@@ -61,7 +89,7 @@ function HomePage() {
           {username && 
             <div className="pfp-container">
               <Link to={`/users/${username}`} className="pfp-link">
-                <img src={userProfilePic || pfp} alt="Profile Icon" className="profile-icon" />
+                <img src={userProfilePic || pfp} alt="Profile Icon" className="pfp" /> 
               </Link>
               <button className="logout-button" onClick={handleLogout}>Log-out</button>
             </div>
@@ -95,6 +123,17 @@ function HomePage() {
                   </div>
                 </div>
               )}
+              <div className="comments-section">
+                {post.replies.map((reply, replyIndex) => (
+                  <div key={replyIndex} className="comment">
+                    <p>{reply.content}</p>
+                  </div>
+                ))}
+                <form onSubmit={(e) => handleCommentSubmit(e, post.id)} className="comment-box">
+                  <input type="text" name="comment" />
+                  <button type="submit">Comment</button>
+                </form>
+              </div>
             </div>
             <div className="like-container">
               <FontAwesomeIcon 
