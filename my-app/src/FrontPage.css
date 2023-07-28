@@ -4,7 +4,7 @@
 
 .App-logo {
   height: 40vmin;
-  pointer-events: none;
+  pointer-events: auto;
 }
 
 
@@ -25,7 +25,7 @@
 
 
 body {
-  font-family: 'Taj';
+  font-family: 'NewCentury';
 }
 /*
 .post-box {
@@ -48,64 +48,79 @@ body {
   margin-bottom: 2em;
   padding: 1em;
   border-radius: 1.25em;
-  background-color: rgb(240, 239, 239); 
-  border: 1px solid rgb(255, 240, 240);
+  background-color: rgb(255, 240, 240); 
+  border: 1px solid rgb(229, 229, 229);
   position: relative;
   justify-content: space-between;
 }
 
 
 .textlogo {
-  width: 100px;
+  width: 200px;
   height: auto;
   display: block;
   margin-right: 10px; /* creates some space between the logo and the button */
 }
 .pfp-container {
-  position: sticky;
-  top: 2%;
-  right: 2%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  position: absolute;
+  top: 2vh; 
+  right: 2vw;
+  align-self: flex-end; /* This will align the container to the end of the parent flex container */
+  display: flex; /* Use flex to arrange the image and the button */
+  flex-direction: row; /* Align the elements horizontally */
+  align-items: center; /* Center the elements vertically */
 }
+.pfp-link {
+  display: inline-block;
+  width: 2vw; /* specify a responsive size */
+  height: 2vw; /* specify a responsive size */
+}
+
 .header {
   display: flex;
   align-items: center;
-  position: absolute;
-  top: 10px;
-  left: 10px;
+  justify-content: space-between;
+  position: fixed;
+  top: 2vh;
+  left: 2vw;
+  width: 96vw;
+  padding: 0 2vw;
+  min-height: 10vh;
+  z-index: 1000;
+  flex-wrap: wrap;
 }
 .create-post-button {
   margin-left: 10px; /* adjust as needed */
   background-color: rgb(240, 239, 239);
   border: 1px solid rgb(255, 240, 240);
   border-radius: 20px;
+  margin: auto 0;
 }
 .pfp {
-  width: 25%; 
-  height: 25%;  
-  margin: 1%;
+  width: 2vw; /* specify a smaller responsive size */
+  height: 2vw; /* specify a smaller responsive size */
 }
 .post-button {
   background-color: rgb(240, 239, 239);
   border: 1px solid rgb(255, 240, 240);
   border-radius: 20px;
   padding: 10px 20px; 
+  pointer-events: auto;
 }
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 2vw;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   flex-direction: column;
+  margin-top: 10vh; /* Adjust this to match the height of your header */
 }
-
 .posts-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 0;
 }
 .logout-button {
   margin-top: 1%;
@@ -113,6 +128,8 @@ body {
   border: 1px solid rgb(255, 240, 240);
   border-radius: 1em; /* equivalent to 20px on larger screens, but scales down on smaller screens */
   padding: 1% 2%; 
+  pointer-events: auto;
+  margin-right: 2vw; /* adjust as needed */
 }
 .like-button {
   font-size: 2em; /* change this to whatever size you want */
@@ -139,12 +156,10 @@ body {
   max-width: 40%; /* adjust this value as needed */
 }
 
-.post-text {
-  flex: 2;
-}
+
 .caption-container {
   background-color: rgb(255, 255, 255);
-  border: 1px solid rgb(255, 240, 240);
+  border: 1px solid rgb(229, 229, 229);
   border-radius: 1em; /* 1em = 16px */
   padding: 1em; /* 1em = 16px */
   margin-top: 1em; /* 1em = 16px */
@@ -156,4 +171,44 @@ body {
 }
 .profile-icon {
   color: black;
+  height:3vw;
+  width:3vw;
+}
+.app-container {
+  position: relative;
+  /* rest of your styles */
+}
+.button-container {
+  display: flex;
+  justify-content: space-between; /* Distributes space evenly between the children */
+  width: 100%; /* Takes up the full width of the header */
+}
+.create-post-button-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* Increase z-index if the button is still not visible */
+}
+.header-center {
+  margin: 0 1em;
+}
+.header-left,
+.header-center,
+.header-right {
+  display: flex;
+  align-items: center;
+}
+.username-container {
+  align-self: center;
+  margin-top: 10px; /* adjust as needed */
+}
+.profile-icon-container {
+  position: absolute;
+  top: 10px; /* adjust as needed */
+  right: 10px; /* adjust as needed */
 }

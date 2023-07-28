@@ -8,25 +8,26 @@ import pfp from './images/circle.png';
 import './FrontPage.css'; // Import your CSS file
 
 function HomePage() {
-    const username = getLoggedInUser();
-    const [posts, setPosts] = useState([]);
+  const username = getLoggedInUser();
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const getRecentPosts = async () => {
+      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=50`);
+
+      if (response.ok) {
+        const postsData = await response.json();
+        setPosts(postsData);
+      }
+    };
+
+    getRecentPosts();
+  }, []);
   
-    useEffect(() => {
-      const getRecentPosts = async () => {
-        const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=50`);
-  
-        if (response.ok) {
-          const postsData = await response.json();
-          setPosts(postsData);
-        }
-      };
-  
-      getRecentPosts();
-    }, []);
-  
-    return (
-      <div className="container">
-        <div className="header">
+  return (
+    <div className="container">
+      <div className="header">
+        <div className="header-left">
           <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
           {username && 
             <div className="create-post-button">
@@ -36,14 +37,17 @@ function HomePage() {
             </div>
           }
         </div>
-        {username && 
-          <div className="pfp-container">
-            <Link to={`/users/${username}`}>
-              <img src={pfp} alt="Profile Icon" className="pfp" />
-            </Link>
-            <button className="logout-button" onClick={handleLogout}>Log-out</button>
-          </div>
-        }
+        <div className="header-right">
+          {username && 
+            <div className="pfp-container">
+              <Link to={`/users/${username}`} className="pfp-link">
+                <img src={pfp} alt="Profile Icon" className="pfp" />
+              </Link>
+              <button className="logout-button" onClick={handleLogout}>Log-out</button>
+            </div>
+          }
+        </div>
+      </div>
         {!username && <Link to="/register">Register</Link>}
         <br />
         {!username && <Link to="/login">Login</Link>}
@@ -51,6 +55,11 @@ function HomePage() {
         <div className="posts-container">
           {posts.map((post, index) => (
             <div key={index} className="post-box">
+              <div className="profile-icon-container">
+                <Link to={`/users/${post.username}`} className="profile-link">
+                  <FontAwesomeIcon icon={faCircle} className="profile-icon" />
+                </Link>
+              </div>
               <div className="post-content">
                 <div className="post-embed">
                   <div style={{width: '100%', height: '100%', position: 'relative'}} dangerouslySetInnerHTML={{
@@ -59,17 +68,14 @@ function HomePage() {
                   </div>
                 </div>
                 <div className="post-text">
-                  <Link to={`/users/${post.username}`}>
-                    <h3>{post.username}</h3>
-                  </Link>
                   <div className="caption-container">
                     <p>{post.content}</p>
+                    <Link to={`/users/${post.username}`}>
+                      <h3>{post.username}</h3>
+                    </Link>
                   </div>
                   <p>{post.image_url}</p>
                 </div>
-                <Link to={`/users/${post.username}`} className="profile-link">
-                  <FontAwesomeIcon icon={faCircle} className="profile-icon" />
-                </Link>
               </div>
               <div className="like-container">
                 <FontAwesomeIcon 
