@@ -129,7 +129,7 @@ function HomePage() {
                     <p>{reply.content}</p>
                   </div>
                 ))}
-                <form onSubmit={(e) => handleCommentSubmit(e, post.id)}>
+                <form onSubmit={(e) => handleCommentSubmit(e, post.id)} className="comment-box">
                   <input type="text" name="comment" />
                   <button type="submit">Comment</button>
                 </form>
