@@ -195,11 +195,17 @@ body {
   z-index: 10;
   position: relative;
 }
+.comments-section {
+  margin-top: 10px; /* Adds space at the top */
+}
 
 .reply-box {
-  display: flex;
-  align-items: center;
   margin-bottom: 10px;
+  padding: 10px;
+  border-bottom: 1px solid var(--border-color);
+}
+.reply-box:last-child {
+  border-bottom: none;
 }
 
 .reply-header {
@@ -217,7 +223,15 @@ body {
   height: 30px;
   border-radius: 50%;
 }
-
+.comment-container {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1em;
+  margin-top: 1em;
+  background-color: #f9f9f9; /* You can adjust this to your preference */
+  overflow: auto;
+  max-height: 200px; /* Adjust as needed */
+}
 
 .header-left {
   display: flex;
