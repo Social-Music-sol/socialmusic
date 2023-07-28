@@ -65,6 +65,7 @@ class PostRepository:
         poster_id = post_data['user_id']
         user =  User.query.get(poster_id)
         post_data['username'] = user.username
+        post_data['poster_pfp_url'] = user.make_pfp_url()
 
         likes = Like.query.filter_by(post_id=post_id)
         existing_like = likes.filter_by(user_id=requester_id).first()
@@ -74,6 +75,13 @@ class PostRepository:
 
         following_poster = Follow.query.filter_by(follower_id=requester_id, followed_id=poster_id).first()
         post_data['following_poster'] = True if following_poster else False
-        post_data['poster_pfp_url'] = user.make_pfp_url()
+
+        if post.parent_id:
+            post_data['parent_id'] = post.parent_id
+
+        replies = post.replies.all()
+        post_data['replies'] = []
+        if replies:
+            post_data['replies'] = [self.full_post_data(requester_id=requester_id, post=reply) for reply in replies]
 
         return post_data
