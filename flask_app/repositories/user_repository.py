@@ -5,6 +5,7 @@ import os
 from sqlalchemy.exc import IntegrityError 
 from datetime import timedelta
 from flask_jwt_extended import create_access_token
+from datetime import datetime
 
 class UserRepository:
 
@@ -83,15 +84,21 @@ class UserRepository:
         user = self.exists(user_id)
         if not self.allowed_file(pfp.filename):
             raise ValueError
-        filename = user_id+'.png'
-        filepath = os.path.join(current_app.config['UPLOADED_PHOTOS_DEST'], filename)
-        if os.path.exists(filepath):
-            os.remove(filepath)
-            print('hello!')
-            user.pfp = filename
-            self.db.session.commit()
         
-        self.photos.save(pfp, name=filename)
+        if user.pfp != 'default.png':
+            old_filename = user.pfp
+            old_filepath = os.path.join(current_app.config['UPLOADED_PHOTOS_DEST'], old_filename)
+            print('should be deleting')
+            if os.path.exists(old_filepath):
+                print('deleted!')
+                os.remove(old_filepath)
+
+        new_filename = user_id + str(datetime.utcnow()) + '.png'
+        
+        user.pfp = new_filename
+        self.db.session.commit()
+        
+        self.photos.save(pfp, name=new_filename)
         return user.to_dict()
     
     def get_pfp(self, requester_id, user_id):
