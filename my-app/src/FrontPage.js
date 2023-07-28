@@ -38,7 +38,9 @@ function HomePage() {
     };
     
     if (username) {
-      getProfilePicture();
+      getProfilePicture().then(getRecentPosts);
+    } else {
+      getRecentPosts();
     }
   }, [username]);
 
