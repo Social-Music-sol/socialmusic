@@ -92,8 +92,10 @@ class UserRepository:
             if os.path.exists(old_filepath):
                 print('deleted!')
                 os.remove(old_filepath)
-
-        new_filename = user_id + str(datetime.utcnow()) + '.png'
+        now_utc = datetime.datetime.now(datetime.timezone.utc)
+        utc_timestamp = now_utc.timestamp()
+        utc_timestamp_int = int(utc_timestamp)
+        new_filename = user_id + str(utc_timestamp_int) + '.png'
         
         user.pfp = new_filename
         self.db.session.commit()
