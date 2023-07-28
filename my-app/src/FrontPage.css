@@ -56,6 +56,10 @@ body {
   font-size: var(--large-font-size);
 }
 
+.post-text p {
+  overflow-wrap: break-word;
+}
+
 .like-container {
   display: flex;
   align-items: center;
