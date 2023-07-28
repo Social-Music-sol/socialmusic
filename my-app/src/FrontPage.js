@@ -8,15 +8,15 @@ import pfp from './images/circle.png';
 import './FrontPage.css';
 
 function HomePage() {
-  const [username, setUsername] = useState(localStorage.getItem('user_id'));
+  const [username, setUsername] = useState(localStorage.getItem('username')); // Retrieve the username from local storage
   const [posts, setPosts] = useState([]);
   const [userProfilePic, setUserProfilePic] = useState(null);
 
   useEffect(() => {
     const handleStorageChange = () => {
-      setUsername(localStorage.getItem('user_id'));
+      setUsername(localStorage.getItem('username')); // Update the username whenever local storage changes
     };
-
+    
     window.addEventListener('storage', handleStorageChange);
 
     const getRecentPosts = async () => {
