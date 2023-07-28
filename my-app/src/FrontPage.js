@@ -5,11 +5,12 @@ import { faHeart, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { getLoggedInUser, handleLogout, handleLike } from './utils';
 import textlogo from './images/textlogo.png';
 import pfp from './images/circle.png';
-import './FrontPage.css'; // Import your CSS file
+import './FrontPage.css';
 
 function HomePage() {
   const username = getLoggedInUser();
   const [posts, setPosts] = useState([]);
+  const [userProfilePic, setUserProfilePic] = useState(null);
 
   useEffect(() => {
     const getRecentPosts = async () => {
@@ -21,9 +22,25 @@ function HomePage() {
       }
     };
 
-    getRecentPosts();
-  }, []);
+    const getProfilePicture = async () => {
+      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?id=${userId}`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
   
+      if (response.ok) {
+        const userData = await response.json();
+        setProfilePic(userData.pfp_url);
+      }
+    };
+
+    getRecentPosts();
+    if (username) {
+      getProfilePicture();
+    }
+  }, [username]);
+
   return (
     <div className="container">
       <div className="header">
@@ -41,18 +58,18 @@ function HomePage() {
           {username && 
             <div className="pfp-container">
               <Link to={`/users/${username}`} className="pfp-link">
-                <img src={pfp} alt="Profile Icon" className="pfp" />
+                <img src={userProfilePic || pfp} alt="Profile Icon" className="pfp" /> 
               </Link>
               <button className="logout-button" onClick={handleLogout}>Log-out</button>
             </div>
           }
         </div>
       </div>
-        {!username && <Link to="/register">Register</Link>}
-        <br />
-        {!username && <Link to="/login">Login</Link>}
-        <br />
-        <div className="posts-container">
+      {!username && <Link to="/register">Register</Link>}
+      <br />
+      {!username && <Link to="/login">Login</Link>}
+      <br />
+      <div className="posts-container">
         {posts.map((post, index) => (
           <div key={index} className="post-box">
             <div className="post-header">
@@ -62,13 +79,13 @@ function HomePage() {
               <h3>{post.username}</h3>
             </div>
             <div className="post-content">
-            <div className="post-embed">
-              <div className="embed-container" dangerouslySetInnerHTML={{
-                __html: `<iframe src=${post.song_embed_url} class="spotify-embed" allowfullscreen allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture; autoplay;"></iframe>`
-              }}>
+              <div className="post-embed">
+                <div className="embed-container" dangerouslySetInnerHTML={{
+                  __html: `<iframe src=${post.song_embed_url} class="spotify-embed" allowfullscreen allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture; autoplay;"></iframe>`
+                }}>
+                </div>
               </div>
-            </div>
-              {post.content && ( // Check if post.content is not empty
+              {post.content && (
                 <div className="post-text-container">
                   <div className="post-text">
                     <p>{post.content}</p>
@@ -87,9 +104,9 @@ function HomePage() {
             </div>
           </div>
         ))}
-        </div>
       </div>
-    );
+    </div>
+  );
 }
 
 export default HomePage;
