@@ -36,21 +36,21 @@ function RegisterPage() {
       });
 
       if (loginResponse.ok) {
-        const loginData = await loginResponse.json();
-
-        // Here we save the token and user id from the login response to local storage
-        localStorage.setItem('token', loginData.token);
-        localStorage.setItem('user_id', loginData.user_id);
-
+        const data = await loginResponse.json();
+  
+        // Store user id and username in local storage
+        localStorage.setItem('user_id', data.user_id);
+        localStorage.setItem('username', data.username);
+  
         setUsername("");
         setPassword("");
-        setEmail("");
-
-        // Redirect the user to the home page
+  
         navigate('/'); // navigate to homepage
+        window.location.reload(); // refresh the page
       } else {
-        // handle login error
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
+
     } else {
       // handle registration error
     }

@@ -1,6 +1,4 @@
 :root {
-  /* Define color and font size variables
-  --primary-color: rgb(240, 239, 239);*/
   --primary-color: rgb(240, 239, 239);
   --secondary-color: rgb(255, 240, 240);
   --primary-text-color: black;
@@ -17,9 +15,9 @@ body {
 }
 
 .post-box {
-  width: 85%;  /* You can adjust this value based on your design */
-  max-width: 800px;  /* adjusted max-width to get wider posts */
-  min-height: 400px;  /* added fixed height to make the post shorter, adjust as needed */
+  width: 85%;
+  max-width: 800px;
+  min-height: 400px;
   margin: 0 auto 3em;
   padding: 2em;
   border-radius: 1.25em;
@@ -62,7 +60,7 @@ body {
 
 .post-text p {
   overflow-wrap: break-word;
-  line-height: 1.5; /* You can adjust this value based on your design */
+  line-height: 1.5;
 }
 
 .like-container {
@@ -78,13 +76,11 @@ body {
   cursor: pointer;
 }
 
-
 .textlogo {
   width: 200px;
   height: auto;
   margin-right: 10px;
 }
-
 
 .pfp-container {
   display: flex;
@@ -97,8 +93,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 50px; /* Adjust as needed */
-  height: 50px; /* Adjust as needed */
+  width: 50px;
+  height: 50px;
 }
 
 .header {
@@ -109,13 +105,12 @@ body {
   top: 2vh;
   left: 2vw;
   width: 96vw;
-  padding: 1em 2vw; /* Adjusted padding to create more spacing */
+  padding: 1em 2vw;
   min-height: 10vh;
   z-index: 1000;
-  border-bottom: 1px solid black; /* Add a thin black line under the header */
-  background-color: white; /* Added a background color to prevent content from showing behind the header */
+  border-bottom: 1px solid black;
+  background-color: white;
 }
-
 
 .create-post-button {
   display: flex;
@@ -124,14 +119,16 @@ body {
   background-color: var(--primary-color);
   border: 1px solid var(--secondary-color);
   border-radius: 20px;
-  padding: 10px 20px; /* Adjust as needed */
+  padding: 10px 20px;
 }
+
 .post-button {
   background: transparent;
   border: none;
-  font-size: 1em; /* Adjust as needed */
+  font-size: 1em;
   cursor: pointer;
 }
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -154,7 +151,7 @@ body {
   border-radius: 8px;
   padding: 1em;
   margin-top: 1em;
-  overflow: auto; /* Add this line */
+  overflow: auto;
   z-index: 10;
   position: relative;
 }
@@ -162,7 +159,7 @@ body {
 .embed-container {
   position: relative;
   width: 100%;
-  padding-bottom: 56.25%; /* Adjust this based on the aspect ratio of your Spotify iframe */
+  padding-bottom: 56.25%;
   height: 0;
   overflow: hidden;
 }
@@ -173,20 +170,23 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  max-height: 50%; /* Add max height */
+  max-height: 50%;
   border: 0;
 }
+
 .pfp {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 50%; /* This will make the pfp circular */
+  border-radius: 50%;
 }
+
 .pfp-link {
   display: inline-block;
-  margin-right: 10px; /* Add some space between the pfp and logout button */
+  margin-right: 10px;
   cursor: pointer;
 }
+
 .like-button, .post-button {
   cursor: pointer;
 }
@@ -195,15 +195,17 @@ body {
   z-index: 10;
   position: relative;
 }
-.comments-section {
-  margin-top: 10px; /* Adds space at the top */
-}
 
+.comments-section {
+  max-height: 100px; /* or whatever you want the maximum height to be when comments are collapsed */
+  transition: max-height 0.2s ease-out; /* This will animate the expanding and collapsing */
+}
 .reply-box {
   margin-bottom: 10px;
   padding: 10px;
   border-bottom: 1px solid var(--border-color);
 }
+
 .reply-box:last-child {
   border-bottom: none;
 }
@@ -223,14 +225,19 @@ body {
   height: 30px;
   border-radius: 50%;
 }
+
 .comment-container {
   border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 1em;
   margin-top: 1em;
-  background-color: #f9f9f9; /* You can adjust this to your preference */
-  overflow: auto;
-  max-height: 200px; /* Adjust as needed */
+  background-color: #f9f9f9;
+  max-height: 200px;
+  transition: max-height 0.2s ease-in-out;
+}
+
+.comments-section.expanded .comment-container {
+  max-height: none;
 }
 
 .header-left {
