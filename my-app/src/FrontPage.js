@@ -8,13 +8,13 @@ import pfp from './images/circle.png';
 import './FrontPage.css';
 
 function HomePage() {
-  const [username, setUsername] = useState(localStorage.getItem('user_id'));
+  const [username, setUsername] = useState(localStorage.getItem('username'));
   const [posts, setPosts] = useState([]);
   const [userProfilePic, setUserProfilePic] = useState(null);
 
   useEffect(() => {
     const handleStorageChange = () => {
-      setUsername(localStorage.getItem('user_id'));
+      setUsername(localStorage.getItem('username'));
     };
 
     window.addEventListener('storage', handleStorageChange);
