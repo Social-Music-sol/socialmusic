@@ -10,6 +10,12 @@ class PostRepository:
         regex_statement = r'https:\/\/open\.spotify\.com\/track\/([^\?]+)'
         self.link_grabber = re.compile(regex_statement)
 
+    def exists(self, user_id):
+        user = User.query.get(user_id)
+        if not user:
+            raise NameError
+        return user
+
     def create(self, post_data):
         user_id = post_data['user_id']
         if not User.query.get(user_id):
@@ -31,7 +37,7 @@ class PostRepository:
         return new_post.to_dict()
         
     def get(self, user_id, amount=5, descending=True, requester_id=None):
-        user = User.query.filter_by(id=user_id).first()
+        user = self.exists(user_id)
         if not user:
             raise NameError
         
