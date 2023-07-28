@@ -91,7 +91,7 @@ class UserRepository:
             user.pfp = filename
             self.db.session.commit()
         
-        #self.photos.save(pfp, name=filename)
+        self.photos.save(pfp, name=filename)
         return user.to_dict()
     
     def get_pfp(self, requester_id, user_id):
