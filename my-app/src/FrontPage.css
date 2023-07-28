@@ -1,5 +1,6 @@
 :root {
-  /* Define color and font size variables */
+  /* Define color and font size variables
+  --primary-color: rgb(240, 239, 239);*/
   --primary-color: rgb(240, 239, 239);
   --secondary-color: rgb(255, 240, 240);
   --primary-text-color: black;
@@ -162,7 +163,7 @@ body {
   margin-right: 2vw;
 }
 .post-text-container {
-  background-color: #f9f9f9;
+  background-color: #ffffff;
   border-radius: 8px;
   padding: 1em;
   margin-top: 1em;
