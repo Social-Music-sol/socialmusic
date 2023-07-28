@@ -62,13 +62,13 @@ export default function UserProfile() {
     });
   
     if (response.ok) {
-      const data = await response.json();
+      const userData = await response.json();
       setUserId(userData.user_id);
       setProfilePic(userData.photo);  // Set profile picture URL
       setFollowers(userData.followers);
       setFollowing(userData.following);
       setIsFollowing(userData.requester_following);
-      return data.user_id;
+      return userData.user_id;
 
       // Here you can handle the response from the server, such as updating the profile picture in your state
     } else {
