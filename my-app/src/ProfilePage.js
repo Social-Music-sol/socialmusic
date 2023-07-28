@@ -1,8 +1,8 @@
-const PROFILE_PIC_BASE_URL = 'https://jamjar.live/profile-pictures/';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import { getLoggedInUser } from './utils';
+const PROFILE_PIC_BASE_URL = 'https://jamjar.live/profile-pictures/';
 
 
 export default function UserProfile() {
