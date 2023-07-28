@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import { getLoggedInUser } from './utils';
+const PROFILE_PIC_BASE_URL = 'https://jamjar.live/profile-pictures/';
+
 
 export default function UserProfile() {
   const { username } = useParams();
@@ -24,7 +26,7 @@ export default function UserProfile() {
         setFollowers(userData.followers);
         setFollowing(userData.following);
         setIsFollowing(userData.requester_following);
-        return userData.user_id;
+        getProfilePicture(userData.user_id); // call it here after userId is set
       }
     };
 
@@ -37,7 +39,7 @@ export default function UserProfile() {
 
       if (response.ok) {
         const userData = await response.json();
-        setProfilePic(userData.pfp_url);
+        setProfilePic(PROFILE_PIC_BASE_URL + userData.pfp_url);
       }
     };
 
@@ -45,8 +47,6 @@ export default function UserProfile() {
       const userId = await getUserID();
 
       if (!userId) return;
-
-      getProfilePicture(userId);
 
       const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-posts/${userId}`);
 
@@ -57,7 +57,9 @@ export default function UserProfile() {
     };
 
     getUserPosts();
-  }, [username]);
+    // getProfilePicture(userId); No longer needed here
+  }, [username, userId]);
+
 
 
   const handleUpload = async () => {
@@ -74,7 +76,7 @@ export default function UserProfile() {
 
     if (response.ok) {
       const data = await response.json();
-      setProfilePic(data.pfp_url);  // Update profile picture in the state
+      setProfilePic(PROFILE_PIC_BASE_URL + data.pfp_url);  // Update profile picture in the state
     } else {
       alert('An error occurred while trying to upload your profile picture.');
     }
