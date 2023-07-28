@@ -8,11 +8,17 @@ import pfp from './images/circle.png';
 import './FrontPage.css';
 
 function HomePage() {
-  const username = getLoggedInUser();
+  const [username, setUsername] = useState(localStorage.getItem('username')); // Retrieve the username from local storage
   const [posts, setPosts] = useState([]);
   const [userProfilePic, setUserProfilePic] = useState(null);
 
   useEffect(() => {
+    const handleStorageChange = () => {
+      setUsername(localStorage.getItem('username')); // Update the username whenever local storage changes
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+
     const getRecentPosts = async () => {
       const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=50`);
 
@@ -42,6 +48,11 @@ function HomePage() {
     } else {
       getRecentPosts();
     }
+
+    // don't forget to clean up the event listener
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, [username]);
 
   const handleCommentSubmit = async (e, postId) => {
