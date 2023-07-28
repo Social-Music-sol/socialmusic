@@ -61,7 +61,8 @@ class PostRepository:
         
         post_data = post.to_dict()
         poster_id = post_data['user_id']
-        post_data['username'] = User.query.get(poster_id).username
+        user =  User.query.get(poster_id)
+        post_data['username'] = user.username
 
         likes = Like.query.filter_by(post_id=post_id)
         existing_like = likes.filter_by(user_id=requester_id).first()
@@ -71,5 +72,6 @@ class PostRepository:
 
         following_poster = Follow.query.filter_by(follower_id=requester_id, followed_id=poster_id).first()
         post_data['following_poster'] = True if following_poster else False
+        post_data['poster_pfp_url'] = user.make_pfp_url()
 
         return post_data
