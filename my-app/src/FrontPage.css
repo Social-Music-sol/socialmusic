@@ -52,7 +52,7 @@ body {
   border: 1px solid rgb(229, 229, 229);
   position: relative;
   justify-content: space-between;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 0 20px 10px rgba(255, 105, 180, 0.5);
 }
 
 
