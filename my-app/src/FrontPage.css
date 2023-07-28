@@ -58,6 +58,7 @@ body {
 
 .post-text p {
   overflow-wrap: break-word;
+  line-height: 1.5; /* You can adjust this value based on your design */
 }
 
 .like-container {
