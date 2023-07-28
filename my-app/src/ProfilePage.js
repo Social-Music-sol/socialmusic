@@ -37,7 +37,7 @@ export default function UserProfile() {
 
       if (response.ok) {
         const userData = await response.json();
-        setProfilePic(userData.pfp);
+        setProfilePic(userData.pfp_url);
       }
     };
 
@@ -74,7 +74,7 @@ export default function UserProfile() {
 
     if (response.ok) {
       const data = await response.json();
-      setProfilePic(data.pfp);  // Update profile picture in the state
+      setProfilePic(data.pfp_url);  // Update profile picture in the state
     } else {
       alert('An error occurred while trying to upload your profile picture.');
     }
