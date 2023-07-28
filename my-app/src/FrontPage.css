@@ -90,7 +90,7 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 0.5em 0; /* Add padding to create more spacing */
+  padding: 0.5em 0; /* Adjust as needed */
   margin-right: 2vw;
 }
 
@@ -183,7 +183,16 @@ body {
   max-height: 50%; /* Add max height */
   border: 0;
 }
-
-.pfp-link, .like-button, .logout-button, .post-button {
+.pfp {
+  width: 50px; /* Adjust as needed */
+  height: 50px; /* Adjust as needed */
+  border-radius: 50%; /* This will make the pfp circular */
+}
+.pfp-link {
+  display: inline-block;
+  margin-right: 10px; /* Add some space between the pfp and logout button */
+  cursor: pointer;
+}
+.like-button, .logout-button, .post-button {
   cursor: pointer;
 }
