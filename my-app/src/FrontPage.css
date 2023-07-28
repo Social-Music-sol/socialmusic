@@ -164,6 +164,8 @@ body {
   padding: 1em;
   margin-top: 1em;
   overflow: auto; /* Add this line */
+  z-index: 10;
+  position: relative;
 }
 
 .embed-container {
