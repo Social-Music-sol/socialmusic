@@ -16,18 +16,20 @@ body {
 }
 
 .post-box {
-  width: 100%;  
-  max-width: none;  
-  height: 400px; 
-  margin: 0 auto 3em;
-  padding: 2em;
-  border-radius: 1.25em;
-  background-color: var(--secondary-color);
-  border: 1px solid var(--border-color);
+  align-items: stretch;
+  background-color: rgb(255, 240, 240);
   display: flex;
   flex-direction: column;
-  align-items: stretch;
   justify-content: space-between;
+  margin-bottom: 2em;
+  position: relative;
+  width: 100%;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(229, 229, 229);
+  border-image: initial;
+  border-radius: 1.25em;
+  padding: 1em;
 }
 
 .post-header {
