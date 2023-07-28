@@ -36,7 +36,7 @@ function RegisterPage() {
       });
 
       if (loginResponse.ok) {
-        const data = await response.json();
+        const data = await loginResponse.json();
   
         // Store user id and username in local storage
         localStorage.setItem('user_id', data.user_id);
