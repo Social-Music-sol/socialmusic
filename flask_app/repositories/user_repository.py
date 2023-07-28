@@ -1,13 +1,17 @@
 from flask_app.models import User, Follow
-from flask import jsonify
+from flask import jsonify, send_from_directory
+from flask import current_app
 from sqlalchemy.exc import IntegrityError 
 from datetime import timedelta
 from flask_jwt_extended import create_access_token
 
 class UserRepository:
 
-    def __init__(self, db):
+    def __init__(self, db, photos):
         self.db = db
+        self.photos = photos
+        self.ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+        self.allowed_file = lambda pfp: '.' in pfp and pfp.rsplit('.', 1)[1].lower() in self.ALLOWED_EXTENSIONS
 
     def login(self, post_data):
         username = post_data.get('username')
@@ -70,6 +74,23 @@ class UserRepository:
     
     def exists(self, user_id):
         user = User.query.get(user_id)
-        return True if user else False
+        if not user:
+            raise NameError
+        return user 
+
+    def set_pfp(self, user_id, pfp):
+        user = self.exists(user_id)
+        if not self.allowed_file(pfp.filename):
+            raise ValueError
+        self.photos.save(pfp, name=user_id+'.png')
+        user.pfp = user_id+'.png'
+        self.db.session.commit()
+        return user.to_dict()
+    
+    def get_pfp(self, requester_id, user_id):
+        self.exists(requester_id)
+        user = self.exists(user_id)
+        return send_from_directory(current_app.config['UPLOADED_PHOTOS_DEST'], user.pfp)
+
 
 

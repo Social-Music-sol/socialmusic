@@ -55,26 +55,21 @@ function HomePage() {
         <div className="posts-container">
           {posts.map((post, index) => (
             <div key={index} className="post-box">
-              <div className="profile-icon-container">
+              <div className="post-header">
                 <Link to={`/users/${post.username}`} className="profile-link">
                   <FontAwesomeIcon icon={faCircle} className="profile-icon" />
                 </Link>
+                <h3>{post.username}</h3>
               </div>
               <div className="post-content">
                 <div className="post-embed">
-                  <div style={{width: '100%', height: '100%', position: 'relative'}} dangerouslySetInnerHTML={{
+                  <div style={{width: '100%', height: '0', paddingBottom: '56.25%', position: 'relative'}} dangerouslySetInnerHTML={{
                     __html: `<iframe src=${post.song_embed_url} style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" allowfullscreen allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture; autoplay;"></iframe>`
                   }}>
                   </div>
                 </div>
                 <div className="post-text">
-                  <div className="caption-container">
-                    <p>{post.content}</p>
-                    <Link to={`/users/${post.username}`}>
-                      <h3>{post.username}</h3>
-                    </Link>
-                  </div>
-                  <p>{post.image_url}</p>
+                  <p>{post.content}</p>
                 </div>
               </div>
               <div className="like-container">
