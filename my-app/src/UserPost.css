@@ -16,9 +16,9 @@ body {
 }
 
 .post-box {
-  width: 100%;
-  max-width: 1200px;  /* set max-width */
-  height: 400px;
+  width: 100%;  
+  max-width: none;  
+  height: 400px; 
   margin: 0 auto 3em;
   padding: 2em;
   border-radius: 1.25em;
@@ -127,9 +127,10 @@ body {
 }
 
 .container {
-  max-width: 1500px;  /* increase max-width */
-  margin: 0 auto;
-  padding: 0;  /* remove side padding */
+  width: 100%;  
+  max-width: none;  
+  margin: 0;  
+  padding: 0;  
   display: flex;
   justify-content: space-between;
   flex-direction: column;
@@ -137,10 +138,11 @@ body {
 }
 
 .posts-container {
+  width: 100%; 
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 0;
+  margin: 0; 
 }
 
 .logout-button {
