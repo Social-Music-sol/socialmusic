@@ -31,7 +31,7 @@ function HomePage() {
   
       if (response.ok) {
         const userData = await response.json();
-        setProfilePic(userData.pfp_url);
+        setUserProfilePic(userData.pfp_url);
       }
     };
 
