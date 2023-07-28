@@ -60,10 +60,10 @@ function HomePage() {
         <div className="header-right">
           {username && 
             <div className="pfp-container">
-              <Link to={`/users/${username}`} className="pfp-link">
-                <img src={userProfilePic || pfp} alt="Profile Icon" className="pfp" /> 
-              </Link>
-            </div>       
+            <Link to={`/users/${username}`} className="pfp-link">
+              <img src={userProfilePic || pfp} alt="Profile Icon" className="pfp" /> 
+            </Link>
+          </div>
           }
         </div>
       </div>
