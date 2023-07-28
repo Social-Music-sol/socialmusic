@@ -21,11 +21,23 @@ export default function UserProfile() {
       if (response.ok) {
         const userData = await response.json();
         setUserId(userData.user_id);
-        setFollowers(userData.followers);  // Set followers
-        setFollowing(userData.following);  // Set following
-        setIsFollowing(userData.requester_following);  // Update 'isFollowing' based on 'requester_following'
-        setProfilePic(userData.photo); // Set profile picture
+        setFollowers(userData.followers);
+        setFollowing(userData.following);
+        setIsFollowing(userData.requester_following);
         return userData.user_id;
+      }
+    };
+
+    const getProfilePicture = async (userId) => {
+      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?id=${userId}`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+
+      if (response.ok) {
+        const userData = await response.json();
+        setProfilePic(userData.pfp);
       }
     };
 
@@ -33,6 +45,8 @@ export default function UserProfile() {
       const userId = await getUserID();
 
       if (!userId) return;
+
+      getProfilePicture(userId);
 
       const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-posts/${userId}`);
 
@@ -44,6 +58,7 @@ export default function UserProfile() {
 
     getUserPosts();
   }, [username]);
+
 
   const handleUpload = async () => {
     const formData = new FormData();
@@ -84,8 +99,8 @@ export default function UserProfile() {
 
   return (
     <div>
+    {profilePic && <img src={profilePic} alt="Profile" />}
     <h1>{username}</h1>
-    {profilePic && <img src={profilePic} alt="Profile" />} {/* Display profile picture */}
     {loggedInUser === username && (
       <>
         <input type="file" onChange={(e) => setSelectedFile(e.target.files[0])} /> {/* File input */}
