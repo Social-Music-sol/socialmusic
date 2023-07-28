@@ -84,6 +84,7 @@ export default function UserProfile() {
 
   return (
     <div>
+    {profilePic && <img src={profilePic} alt="Profile" />}
     <h1>{username}</h1>
     {profilePic && <img src={profilePic} alt="Profile" />} {/* Display profile picture */}
     {loggedInUser === username && (
