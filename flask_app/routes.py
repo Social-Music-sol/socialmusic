@@ -6,7 +6,6 @@ from flask_app.repositories.user_repository import UserRepository
 from flask_app.repositories.post_repository import PostRepository
 from flask_app.repositories.like_repository import LikeRepository
 from flask_app.repositories.follow_repository import FollowRepository
-from werkzeug.utils import secure_filename
 from flask_app.models import User
 from flask_cors import cross_origin
 from datetime import datetime, timedelta
