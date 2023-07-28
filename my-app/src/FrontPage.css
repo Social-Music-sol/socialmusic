@@ -198,7 +198,6 @@ body {
 
 .comments-section {
   max-height: 100px; /* or whatever you want the maximum height to be when comments are collapsed */
-  overflow: auto;
   transition: max-height 0.2s ease-out; /* This will animate the expanding and collapsing */
 }
 .reply-box {
