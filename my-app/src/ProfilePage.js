@@ -26,7 +26,7 @@ export default function UserProfile() {
         setFollowers(userData.followers);
         setFollowing(userData.following);
         setIsFollowing(userData.requester_following);
-        return userData.user_id;
+        getProfilePicture(userData.user_id); // call it here after userId is set
       }
     };
 
@@ -57,9 +57,10 @@ export default function UserProfile() {
     };
 
     getUserPosts();
-    getProfilePicture(userId);
+    // getProfilePicture(userId); No longer needed here
   }, [username, userId]);
-  
+
+
 
   const handleUpload = async () => {
     const formData = new FormData();
