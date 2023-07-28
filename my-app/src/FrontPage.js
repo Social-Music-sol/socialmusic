@@ -61,7 +61,7 @@ function HomePage() {
           {username && 
             <div className="pfp-container">
               <Link to={`/users/${username}`} className="pfp-link">
-                <img src={userProfilePic || pfp} alt="Profile Icon" className="pfp" /> 
+                <img src={userProfilePic || pfp} alt="Profile Icon" className="profile-icon" />
               </Link>
               <button className="logout-button" onClick={handleLogout}>Log-out</button>
             </div>
