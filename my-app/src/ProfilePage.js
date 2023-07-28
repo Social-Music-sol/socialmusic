@@ -48,8 +48,6 @@ export default function UserProfile() {
 
       if (!userId) return;
 
-      getProfilePicture(userId);
-
       const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-posts/${userId}`);
 
       if (response.ok) {
@@ -59,8 +57,9 @@ export default function UserProfile() {
     };
 
     getUserPosts();
-  }, [username]);
-
+    getProfilePicture(userId);
+  }, [username, userId]);
+  
 
   const handleUpload = async () => {
     const formData = new FormData();
