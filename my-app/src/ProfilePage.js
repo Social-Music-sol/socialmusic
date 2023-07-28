@@ -67,7 +67,7 @@ export default function UserProfile() {
   const handleUpload = async () => {
     const formData = new FormData();
     formData.append('photo', selectedFile);
-
+  
     const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/profile/upload`, {
       method: 'POST',
       headers: {
@@ -75,14 +75,16 @@ export default function UserProfile() {
       },
       body: formData,
     });
-
+  
     if (response.ok) {
       const data = await response.json();
-      setProfilePic(PROFILE_PIC_BASE_URL + data.pfp_url);  // Update profile picture in the state
+      // Update profile picture in the state, appending a cache-busting query parameter
+      setProfilePic(PROFILE_PIC_BASE_URL + data.pfp_url + `?t=${Date.now()}`);  
     } else {
       alert('An error occurred while trying to upload your profile picture.');
     }
   };
+  
 
   const handleFollow = async () => {
     const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/follow-user?id=${userId}`, {
