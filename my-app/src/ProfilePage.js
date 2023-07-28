@@ -1,7 +1,9 @@
+const PROFILE_PIC_BASE_URL = 'https://jamjar.live/profile-pictures/';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import { getLoggedInUser } from './utils';
+
 
 export default function UserProfile() {
   const { username } = useParams();
@@ -37,7 +39,7 @@ export default function UserProfile() {
 
       if (response.ok) {
         const userData = await response.json();
-        setProfilePic(userData.pfp_url);
+        setProfilePic(PROFILE_PIC_BASE_URL + userData.pfp_url);
       }
     };
 
@@ -74,7 +76,7 @@ export default function UserProfile() {
 
     if (response.ok) {
       const data = await response.json();
-      setProfilePic(data.pfp_url);  // Update profile picture in the state
+      setProfilePic(PROFILE_PIC_BASE_URL + data.pfp_url);  // Update profile picture in the state
     } else {
       alert('An error occurred while trying to upload your profile picture.');
     }
