@@ -11,6 +11,7 @@ function HomePage() {
   const [username, setUsername] = useState(localStorage.getItem('username'));
   const [posts, setPosts] = useState([]);
   const [userProfilePic, setUserProfilePic] = useState(null);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
     const handleStorageChange = () => {
@@ -54,7 +55,7 @@ function HomePage() {
     e.preventDefault();
 
     const commentContent = e.target.comment.value;
-    e.target.comment.value = '';  // clear the input
+    e.target.comment.value = '';
 
     const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/post`, {
       method: 'POST',
@@ -78,24 +79,27 @@ function HomePage() {
     }
   };
 
+  const handleToggleExpanded = () => {
+    setIsExpanded(prevIsExpanded => !prevIsExpanded);
+  };
+
   return (
     <div className="container">
       <div className="header">
-            <div className="header-left">
-        <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
-        {username && 
-          <Link to="/post" className="create-post-button">
-            <button className="post-button">+++</button>
-          </Link>
-        }
-      </div>
+        <div className="header-left">
+          <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
+          {username && 
+            <Link to="/post" className="create-post-button">
+              <button className="post-button">+++</button>
+            </Link>
+          }
+        </div>
         <div className="header-right">
           {username && 
             <div className="pfp-container">
               <Link to={`/users/${username}`} className="pfp-link">
                 <img src={userProfilePic || pfp} alt="Profile Icon" className="pfp" /> 
               </Link>
-              <button className="logout-button" onClick={handleLogout}>Log-out</button>
             </div>
           }
         </div>
@@ -127,27 +131,30 @@ function HomePage() {
                   </div>
                 </div>
               )}
-<div className="comments-section">
-  {post.replies.length > 0 && (
-    <div className="comment-container">
-      {post.replies.map((reply, index) => (
-        <div key={index} className="reply-box">
-          <div className="reply-header">
-            <Link to={`/users/${reply.username}`} className="profile-link">
-              <img src={reply.poster_pfp_url} alt={`${reply.username}'s profile`} className="profile-icon" />
-            </Link>
-            <h3>{reply.username}</h3>
-          </div>
-          <p>{reply.content}</p>
-        </div>
-      ))}
-    </div>
-  )}
-  <form onSubmit={(e) => handleCommentSubmit(e, post.id)} className="comment-form">
-    <input type="text" name="comment" placeholder="Add a comment..." />
-    <button type="submit">Comment</button>
-  </form>
-</div>
+              <div className={`comments-section ${isExpanded ? 'expanded' : ''}`}>
+                {post.replies.length > 0 && (
+                  <div className="comment-container">
+                    {post.replies.map((reply, index) => (
+                      <div key={index} className="reply-box">
+                        <div className="reply-header">
+                          <Link to={`/users/${reply.username}`} className="profile-link">
+                            <img src={reply.poster_pfp_url} alt={`${reply.username}'s profile`} className="profile-icon" />
+                          </Link>
+                          <h3>{reply.username}</h3>
+                        </div>
+                        <p>{reply.content}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <button onClick={handleToggleExpanded}>
+                  {isExpanded ? 'Collapse Comments' : 'Expand Comments'}
+                </button>
+                <form onSubmit={(e) => handleCommentSubmit(e, post.id)} className="comment-form">
+                  <input type="text" name="comment" placeholder="Add a comment..." />
+                  <button type="submit">Comment</button>
+                </form>
+              </div>
             </div>
             <div className="like-container">
               <FontAwesomeIcon 
