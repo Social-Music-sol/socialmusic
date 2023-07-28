@@ -1,15 +1,15 @@
 from flask_app.models import User, Follow
 from flask import jsonify, send_from_directory
+from flask import current_app
 from sqlalchemy.exc import IntegrityError 
 from datetime import timedelta
 from flask_jwt_extended import create_access_token
 
 class UserRepository:
 
-    def __init__(self, db, app, photos):
+    def __init__(self, db, photos):
         self.db = db
         self.photos = photos
-        self.app = app
         self.ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
         self.allowed_file = lambda pfp: '.' in pfp and pfp.rsplit('.', 1)[1].lower() in self.ALLOWED_EXTENSIONS
 
@@ -90,7 +90,7 @@ class UserRepository:
     def get_pfp(self, requester_id, user_id):
         self.exists(requester_id)
         user = self.exists(user_id)
-        return send_from_directory(self.app.config['UPLOADED_PHOTOS_DEST'], user.pfp)
+        return send_from_directory(current_app.config['UPLOADED_PHOTOS_DEST'], user.pfp)
 
 
 

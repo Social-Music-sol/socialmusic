@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 from os import getenv
 
 app = Blueprint('login', __name__)
-user_repository = UserRepository(db, app, photos)
+user_repository = UserRepository(db, photos)
 post_repository = PostRepository(db)
 like_repository = LikeRepository(db)
 follow_repository = FollowRepository(db)
