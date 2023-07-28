@@ -19,46 +19,48 @@ export default function UserProfile() {
   useEffect(() => {
     const getUserID = async () => {
       const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/user-by-name/${username}`);
-
+  
       if (response.ok) {
         const userData = await response.json();
         setUserId(userData.user_id);
         setFollowers(userData.followers);
         setFollowing(userData.following);
         setIsFollowing(userData.requester_following);
-        getProfilePicture(userData.user_id); // call it here after userId is set
       }
     };
-
-    const getProfilePicture = async (userId) => {
+  
+    getUserID();
+  }, [username]);  // Only re-run this effect if 'username' changes
+  
+  useEffect(() => {
+    if (!userId) return;  // Skip if 'userId' is not set yet
+  
+    const getProfilePicture = async () => {
       const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?id=${userId}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
       });
-
+  
       if (response.ok) {
         const userData = await response.json();
         setProfilePic(userData.pfp_url);
       }
     };
-
+  
     const getUserPosts = async () => {
-      const userId = await getUserID();
-
-      if (!userId) return;
-
       const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-posts/${userId}`);
-
+  
       if (response.ok) {
         const postsData = await response.json();
         setPosts(postsData);
       }
     };
-
+  
+    getProfilePicture();
     getUserPosts();
-    // getProfilePicture(userId); No longer needed here
-  }, [username, userId]);
+  }, [userId]);  // Only re-run these effects if 'userId' changes
+  
 
 
 
