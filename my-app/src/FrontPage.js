@@ -53,36 +53,38 @@ function HomePage() {
         {!username && <Link to="/login">Login</Link>}
         <br />
         <div className="posts-container">
-          {posts.map((post, index) => (
-            <div key={index} className="post-box">
-              <div className="post-header">
-                <Link to={`/users/${post.username}`} className="profile-link">
-                  <FontAwesomeIcon icon={faCircle} className="profile-icon" />
-                </Link>
-                <h3>{post.username}</h3>
-              </div>
-              <div className="post-content">
-                <div className="post-embed">
-                  <div style={{width: '100%', height: '0', paddingBottom: '56.25%', position: 'relative'}} dangerouslySetInnerHTML={{
-                    __html: `<iframe src=${post.song_embed_url} style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" allowfullscreen allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture; autoplay;"></iframe>`
-                  }}>
-                  </div>
-                </div>
-                <div className="post-text">
-                  <p>{post.content}</p>
-                </div>
-              </div>
-              <div className="like-container">
-                <FontAwesomeIcon 
-                  icon={post.liked_by_requester ? faHeart : faHeart} 
-                  className="like-button" 
-                  style={{ color: post.liked_by_requester ? 'pink' : 'black' }}
-                  onClick={() => handleLike(post.id, posts, setPosts)}
-                />
-                <p>{post.like_count}</p>
-              </div>
-            </div>
-          ))}
+        {posts.map((post, index) => (
+  <div key={index} className="post-box">
+    <div className="post-header">
+      <Link to={`/users/${post.username}`} className="profile-link">
+        <FontAwesomeIcon icon={faCircle} className="profile-icon" />
+      </Link>
+      <h3>{post.username}</h3>
+    </div>
+    <div className="post-content">
+      <div className="post-embed">
+        <div style={{width: '100%', height: '0', paddingBottom: '56.25%', position: 'relative'}} dangerouslySetInnerHTML={{
+          __html: `<iframe src=${post.song_embed_url} style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" allowfullscreen allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture; autoplay;"></iframe>`
+        }}>
+        </div>
+      </div>
+      <div className="post-text-container">
+        <div className="post-text">
+          <p>{post.content}</p>
+        </div>
+      </div>
+    </div>
+    <div className="like-container">
+      <FontAwesomeIcon 
+        icon={post.liked_by_requester ? faHeart : faHeartO} 
+        className="like-button" 
+        style={{ color: post.liked_by_requester ? 'pink' : 'black' }}
+        onClick={() => handleLike(post.id, posts, setPosts)}
+      />
+      <p>{post.like_count}</p>
+    </div>
+  </div>
+))}
         </div>
       </div>
     );
