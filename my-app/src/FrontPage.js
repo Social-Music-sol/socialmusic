@@ -95,7 +95,7 @@ function HomePage() {
               <Link to={`/users/${username}`} className="pfp-link">
                 <img src={userProfilePic || pfp} alt="Profile Icon" className="pfp" /> 
               </Link>
-              <button className="logout-button" onClick={handleLogout}>Log-out</button>
+              <button className="logout-button" onClick={handleLogout}>Logout</button>
             </div>
           }
         </div>
