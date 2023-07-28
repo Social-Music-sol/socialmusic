@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 from os import getenv
 
 app = Blueprint('login', __name__)
-user_repository = UserRepository(db, app, photos)
+user_repository = UserRepository(db, photos)
 post_repository = PostRepository(db)
 like_repository = LikeRepository(db)
 follow_repository = FollowRepository(db)
@@ -174,7 +174,7 @@ def upload_profile_image():
     except NameError:
         return jsonify({'error': 'User not found'}), 404
     except ValueError:
-        return jsonify({'error': 'File type not allowed'})
+        return jsonify({'error': 'File type not allowed'}), 405
     
     #return redirect(url_for('get_image', name=filename))
 
