@@ -57,7 +57,7 @@ function HomePage() {
           <div key={index} className="post-box">
             <div className="post-header">
               <Link to={`/users/${post.username}`} className="profile-link">
-                <img src={post.pfp_url} alt={`${post.username}'s profile`} className="profile-icon" />
+                <img src={post.poster_pfp_url} alt={`${post.username}'s profile`} className="profile-icon" />
               </Link>
               <h3>{post.username}</h3>
             </div>
