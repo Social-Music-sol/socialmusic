@@ -1,8 +1,9 @@
-from flask import Flask
+from flask import Flask, current_app
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import UniqueConstraint
 from werkzeug.security import generate_password_hash, check_password_hash
 import uuid
+import os
 from datetime import datetime
 
 if __name__ == '__main__':
@@ -33,6 +34,9 @@ class User(db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, self.salt + password)
+    
+    def make_pfp_url(self):
+        return os.path.join(current_app.config['PFP_PREFIX_DOMAIN'], self.pfp)
     
     def to_dict(self):
         return {

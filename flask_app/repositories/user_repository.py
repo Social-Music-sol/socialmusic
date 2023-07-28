@@ -97,7 +97,7 @@ class UserRepository:
     def get_pfp(self, requester_id, user_id):
         self.exists(requester_id)
         user = self.exists(user_id)
-        pfp_path = os.path.join(current_app.config['PFP_PREFIX_DOMAIN'], user.pfp)
+        pfp_path = user.make_pfp_url()
         return {'pfp_url': pfp_path}
         #return #send_from_directory(, )
 
