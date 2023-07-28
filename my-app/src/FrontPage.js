@@ -77,6 +77,7 @@ function HomePage() {
     }
   };
 
+  
   return (
     <div className="container">
       <div className="header">
@@ -94,6 +95,7 @@ function HomePage() {
               <Link to={`/users/${username}`} className="pfp-link">
                 <img src={userProfilePic || pfp} alt="Profile Icon" className="pfp" /> 
               </Link>
+              <button className="logout-button" onClick={handleLogout}>Log-out</button>
             </div>
           }
         </div>
