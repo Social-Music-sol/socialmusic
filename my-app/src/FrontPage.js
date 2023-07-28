@@ -23,7 +23,7 @@ function HomePage() {
     };
 
     const getProfilePicture = async () => {
-      const userId = localStorage.getItem('userId'); // Replace 'userId' with the actual key you use to store the user id in local storage.
+      const userId = localStorage.getItem('user_id'); // Replace 'userId' with the actual key you use to store the user id in local storage.
       
       const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?id=${userId}`, {
         headers: {
