@@ -79,7 +79,7 @@ function HomePage() {
         <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
         {username && 
           <Link to="/post" className="create-post-button">
-            <button className="post-button">+Post</button>
+            <button className="post-button">+++</button>
           </Link>
         }
       </div>
