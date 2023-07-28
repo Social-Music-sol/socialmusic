@@ -17,8 +17,8 @@ body {
 
 .post-box {
   width: 100%;
-  margin-bottom: 2em;
-  padding: 1em;
+  margin-bottom: 3em;
+  padding: 2em;
   border-radius: 1.25em;
   background-color: var(--secondary-color);
   border: 1px solid var(--border-color);
@@ -30,11 +30,12 @@ body {
 .post-header {
   display: flex;
   align-items: center;
-  margin-bottom: 1em;
+  margin-bottom: 2em;
 }
 
 .profile-icon {
-  margin-right: 0.5em;
+  margin-right: 1em;
+  font-size: var(--large-font-size);
 }
 
 .post-content {
@@ -44,23 +45,24 @@ body {
 .post-embed {
   position: relative;
   width: 100%;
-  padding-bottom: 56.25%; /* For a 16:9 aspect ratio */
+  padding-bottom: 56.25%;
   height: 0;
 }
 
 .post-text {
-  margin-top: 1em;
+  margin-top: 2em;
+  font-size: var(--large-font-size);
 }
 
 .like-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 1em;
+  margin-top: 2em;
 }
 
 .like-button {
-  font-size: var(--xlarge-font-size);
+  font-size: var(--large-font-size);
   cursor: pointer;
 }
 
