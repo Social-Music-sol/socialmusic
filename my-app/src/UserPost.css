@@ -1,46 +1,47 @@
 @import './fonts.css';
+
 /* UserPost.css */
-.user-post {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 20px;
-    margin-bottom: 20px;
-    max-width: 600px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  }
-  
-  .user-info {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  
-  .user-info h3 {
-    margin-left: 10px;
-  }
-  
-  .post-info {
-    margin-bottom: 10px;
-  }
-  
-  .post-info a {
-    color: #007BFF;
-    text-decoration: none;
-  }
-  
-  .post-info a:hover {
-    text-decoration: underline;
-  }
-  
-  .post-info p {
-    margin-top: 10px;
-  }
-  
-  .user-post img {
-    max-width: 100%;
-    height: auto;
-  }
+.post-box {  /* changed from .user-post to .post-box */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
+  max-width: 800px;  /* increased max-width */
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.user-info h3 {
+  margin-left: 10px;
+}
+
+.post-info {
+  margin-bottom: 10px;
+}
+
+.post-info a {
+  color: #007BFF;
+  text-decoration: none;
+}
+
+.post-info a:hover {
+  text-decoration: underline;
+}
+
+.post-info p {
+  margin-top: 10px;
+}
+
+.post-box img {  /* changed from .user-post img to .post-box img */
+  max-width: 100%;
+  height: auto;
+}
