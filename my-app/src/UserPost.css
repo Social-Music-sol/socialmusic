@@ -16,7 +16,7 @@ body {
 }
 
 .post-box {
-  width: 1000px;  
+  width: 600px;  
   max-width: none;  
   height: 400px; 
   margin: 0 auto 3em;
@@ -137,6 +137,13 @@ body {
   margin-top: 10vh;
 }
 
+.posts-container {
+  width: 100%; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0; 
+}
 
 .logout-button {
   margin-top: 1%;
