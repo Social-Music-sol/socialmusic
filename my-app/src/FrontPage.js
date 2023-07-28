@@ -24,6 +24,13 @@ function HomePage() {
       if (response.ok) {
         const postsData = await response.json();
         setPosts(postsData);
+
+        // Initialize isCommentsExpanded state
+        const initialCommentsExpandedState = postsData.reduce((acc, post) => {
+          acc[post.id] = false;
+          return acc;
+        }, {});
+        setIsCommentsExpanded(initialCommentsExpandedState);
       }
     };
 
@@ -76,7 +83,6 @@ function HomePage() {
       ));
     }
   };
-
   
   return (
     <div className="container">
