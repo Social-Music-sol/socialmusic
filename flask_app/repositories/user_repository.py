@@ -91,7 +91,7 @@ class UserRepository:
     def get_pfp(self, requester_id, user_id):
         self.exists(requester_id)
         user = self.exists(user_id)
-        pfp_path = path.join(current_app.config['UPLOADED_PHOTOS_DEST'], user.pfp)
+        pfp_path = path.join(current_app.config['PFP_PREFIX_DOMAIN'], user.pfp)
         return {'pfp_url': pfp_path}
         #return #send_from_directory(, )
 

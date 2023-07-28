@@ -30,6 +30,7 @@ def create_app():
     app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(days=7)
     jwt.init_app(app)
 
+    app.config['PFP_PREFIX_DOMAIN'] = 'http://jamjar.live/profile-pictures/'
     app.config['UPLOADED_PHOTOS_DEST'] = '/srv/static/pfp'
     configure_uploads(app, photos)
     patch_request_class(app)
