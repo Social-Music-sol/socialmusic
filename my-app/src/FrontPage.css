@@ -87,14 +87,11 @@ body {
 }
 
 .pfp-container {
-  position: absolute;
-  top: 2vh; 
-  right: 2vw;
-  align-self: flex-end;
   display: flex;
   flex-direction: row;
   align-items: center;
   padding: 0.5em 0; /* Add padding to create more spacing */
+  margin-right: 2vw;
 }
 
 .pfp-link {
@@ -114,8 +111,8 @@ body {
   padding: 1em 2vw; /* Adjusted padding to create more spacing */
   min-height: 10vh;
   z-index: 1000;
-  flex-wrap: wrap;
   border-bottom: 1px solid black; /* Add a thin black line under the header */
+  background-color: white; /* Added a background color to prevent content from showing behind the header */
 }
 
 
@@ -163,7 +160,6 @@ body {
   border-radius: 1em;
   padding: 1% 2%; 
   pointer-events: auto;
-  margin-right: 2vw;
 }
 .post-text-container {
   background-color: #ffffff;
