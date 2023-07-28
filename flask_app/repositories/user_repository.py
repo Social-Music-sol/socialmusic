@@ -85,6 +85,7 @@ class UserRepository:
             raise ValueError
         filename = user_id+'.png'
         filepath = os.path.join(current_app.config['UPLOADED_PHOTOS_DEST'], filename)
+        print(filepath)
         if os.path.exists(filepath):
             os.remove(filepath)
             user.pfp = filename
