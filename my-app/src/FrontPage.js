@@ -8,12 +8,18 @@ import pfp from './images/circle.png';
 import './FrontPage.css';
 
 function HomePage() {
-  const username = getLoggedInUser();
+  const [username, setUsername] = useState(localStorage.getItem('username'));
   const [posts, setPosts] = useState([]);
   const [userProfilePic, setUserProfilePic] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
+    const handleStorageChange = () => {
+      setUsername(localStorage.getItem('username'));
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
     const getRecentPosts = async () => {
       const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=50`);
 
