@@ -73,8 +73,9 @@ function HomePage() {
     if (response.ok) {
       const newComment = await response.json();
 
-      // Append the username to the new comment manually
+      // Append the username and user profile picture to the new comment manually
       newComment.username = username;
+      newComment.poster_pfp_url = userProfilePic;
 
       setPosts((prevPosts) => prevPosts.map(post =>
         post.id === postId
@@ -82,7 +83,8 @@ function HomePage() {
           : post
       ));
     }
-  };
+};
+
 
 
   
