@@ -111,18 +111,10 @@ def get_posts(user_id):
 @jwt_required()
 def get_feed():
     user_id = get_jwt_identity()
-    page = request.args.get('page', default=1, type=int)
-    pageSize = request.args.get('pageSize', default=15, type=int)
-
+    limit = request.args.get('limit', default=15, type=int)
     try:
-        # assuming posts returned by get_feed are sorted by time (recent first)
-        posts = post_repository.get_feed(user_id)
-        # pagination logic
-        start = (page - 1) * pageSize
-        end = start + pageSize
-        paginated_posts = posts[start:end]
-        
-        return jsonify(paginated_posts), 200
+        posts = post_repository.get_feed(user_id, amount=limit)
+        return jsonify(posts), 201
     except KeyError:
         return jsonify({'error': 'User not found'}), 404
 
