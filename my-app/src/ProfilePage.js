@@ -2,7 +2,9 @@ import './FrontPage.css';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from "react-router-dom";
-import { getLoggedInUser } from './utils';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { getLoggedInUser, handleLike } from './utils';
 const PROFILE_PIC_BASE_URL = 'https://jamjar.live/profile-pictures/';
 
 
@@ -121,6 +123,17 @@ export default function UserProfile() {
     <h2>Posts:</h2>
     {posts.map((post, index) => (
       <div className="post-box" key={index}>
+        <div className="like-container">
+          <FontAwesomeIcon 
+            icon={post.liked_by_requester ? faHeart : faHeart} 
+            className="like-button" 
+            style={{ color: post.liked_by_requester ? 'red' : 'pink' }}
+            onClick={() => handleLike(post.id, posts, setPosts)}
+          />
+          <p>{post.like_count} Likes</p>
+          <p>{post.replies.length} Comments</p>
+          <p>{post.created_at}</p>
+        </div>
         <div className="post-header">
           {profilePic && <img src={profilePic} className="profile-icon" alt="Profile" />}
           <h1>{username}</h1>
@@ -134,13 +147,7 @@ export default function UserProfile() {
           </div>
         </div>
         <div className="like-container">
-          <FontAwesomeIcon 
-            icon={post.liked_by_requester ? faHeart : faHeart} 
-            className="like-button" 
-            style={{ color: post.liked_by_requester ? 'red' : 'pink' }}
-            onClick={() => handleLike(post.id, posts, setPosts)}
-          />
-          <p>{post.like_count}</p>
+          <p>{post.created_at}</p>
         </div>
       </div>
     ))}
