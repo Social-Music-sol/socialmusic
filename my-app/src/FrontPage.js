@@ -54,10 +54,10 @@ function HomePage() {
 
   const handleCommentSubmit = async (e, postId) => {
     e.preventDefault();
-
+  
     const commentContent = e.target.comment.value;
     e.target.comment.value = '';  // clear the input
-
+  
     const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/post`, {
       method: 'POST',
       headers: {
@@ -69,21 +69,24 @@ function HomePage() {
         parent_id: postId,
       }),
     });
-
+  
     if (response.ok) {
       const newComment = await response.json();
-
+  
       // Append the username and user profile picture to the new comment manually
       newComment.username = username;
       newComment.poster_pfp_url = userProfilePic;
-
+  
       setPosts((prevPosts) => prevPosts.map(post =>
         post.id === postId
           ? { ...post, replies: [...post.replies, newComment] }
           : post
       ));
+  
+      // Automatically expand comments section for the post
+      handleToggleComments(postId);
     }
-};
+  };  
 
 
 
