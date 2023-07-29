@@ -132,7 +132,6 @@ export default function UserProfile() {
           />
           <p>{post.like_count} Likes</p>
           <p>{post.replies.length} Comments</p>
-          <p>{post.created_at}</p>
         </div>
         <div className="post-header">
           {profilePic && <img src={profilePic} className="profile-icon" alt="Profile" />}
