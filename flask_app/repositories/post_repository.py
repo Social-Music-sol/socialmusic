@@ -36,20 +36,20 @@ class PostRepository:
 
         return new_post.to_dict()
         
-    def get(self, user_id, amount=5, descending=True, requester_id=None):
+    def get(self, user_id, amount=5, requester_id=None):
+        self.exists(requester_id)
         user = self.exists(user_id)
         if not user:
             raise NameError
         
-        if descending:
-            posts = user.posts.order_by(Post.created_at.desc()).limit(amount).all()
-        else:
-            posts = user.posts.order_by(Post.created_at.asc()).limit(amount).all()
-
-        if requester_id:
-            return [self.full_post_data(requester_id=requester_id, post=post) for post in posts]
-        else:
-            raise NotImplementedError
+        posts = user.posts.order_by(Post.created_at.desc()).limit(amount).all()
+        post_data = []
+        for post in posts:
+            if post.parent_id:
+                while post.parent_id:
+                    post = Post.query.get(post.parent_id)
+            post_data.append(self.full_post_data(requester_id, post=post))
+        return post_data
 
     def get_feed(self, requester_id, amount=10):
         if not User.query.get(requester_id):
