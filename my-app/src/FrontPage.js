@@ -72,6 +72,10 @@ function HomePage() {
 
     if (response.ok) {
       const newComment = await response.json();
+
+      // Append the username to the new comment manually
+      newComment.username = username;
+
       setPosts((prevPosts) => prevPosts.map(post =>
         post.id === postId
           ? { ...post, replies: [...post.replies, newComment] }
@@ -79,6 +83,7 @@ function HomePage() {
       ));
     }
   };
+
 
   
   return (

@@ -56,6 +56,8 @@ body {
 .post-text {
   margin-top: 1em;
   font-size: var(--large-font-size);
+  z-index: 10;
+  position: relative;
 }
 
 .post-text p {
