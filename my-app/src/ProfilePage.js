@@ -127,7 +127,7 @@ export default function UserProfile() {
         </div>
         <div className="post-content">
           <p className="post-text">{post.content}</p>
-          <img src={post.image_url} alt="post-content" />
+          {/* <img src={post.image_url} alt="post-content" /> */}
           <div className="post-embed" dangerouslySetInnerHTML={{
             __html: `<iframe src=${post.song_embed_url} style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" allowfullscreen allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture; autoplay;"></iframe>`
           }}>
