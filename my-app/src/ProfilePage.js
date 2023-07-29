@@ -1,3 +1,4 @@
+import './FrontPage.css';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from "react-router-dom";
@@ -119,16 +120,24 @@ export default function UserProfile() {
     <Link to="/">Go to Homepage</Link>
     <h2>Posts:</h2>
     {posts.map((post, index) => (
-      <div key={index}>
-        <p>{post.content}</p>
-        <p>{post.image_url}</p>
-        <p>{post.created_at}</p>
-        <div style={{left: 0, width: 900, height: 180, position: 'relative'}} dangerouslySetInnerHTML={{
-          __html: `<iframe src=${post.song_embed_url} style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" allowfullscreen allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture; autoplay;"></iframe>`
-        }}>
+      <div className="post-box" key={index}>
+        <div className="post-header">
+          {profilePic && <img src={profilePic} className="profile-icon" alt="Profile" />}
+          <h1>{username}</h1>
+        </div>
+        <div className="post-content">
+          <p className="post-text">{post.content}</p>
+          <img src={post.image_url} alt="post-content" />
+          <div className="post-embed" dangerouslySetInnerHTML={{
+            __html: `<iframe src=${post.song_embed_url} style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" allowfullscreen allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture; autoplay;"></iframe>`
+          }}>
+          </div>
+        </div>
+        <div className="like-container">
+          <p>{post.created_at}</p>
         </div>
       </div>
     ))}
   </div>
-  );
+);
 }

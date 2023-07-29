@@ -11,10 +11,13 @@ function HomePage() {
   const username = getLoggedInUser();
   const [posts, setPosts] = useState([]);
   const [userProfilePic, setUserProfilePic] = useState(null);
-  const [isCommentsExpanded, setIsCommentsExpanded] = useState(false);
+  const [isCommentsExpanded, setIsCommentsExpanded] = useState({});
 
-  const handleToggleComments = () => {
-    setIsCommentsExpanded(!isCommentsExpanded);
+  const handleToggleComments = (postId) => {
+    setIsCommentsExpanded(prevState => ({
+      ...prevState,
+      [postId]: !prevState[postId]
+    }));
   };
 
   useEffect(() => {
@@ -69,13 +72,20 @@ function HomePage() {
 
     if (response.ok) {
       const newComment = await response.json();
+
+      // Append the username and user profile picture to the new comment manually
+      newComment.username = username;
+      newComment.poster_pfp_url = userProfilePic;
+
       setPosts((prevPosts) => prevPosts.map(post =>
         post.id === postId
           ? { ...post, replies: [...post.replies, newComment] }
           : post
       ));
     }
-  };
+};
+
+
 
   
   return (
@@ -95,7 +105,7 @@ function HomePage() {
               <Link to={`/users/${username}`} className="pfp-link">
                 <img src={userProfilePic || pfp} alt="Profile Icon" className="pfp" /> 
               </Link>
-              <button className="logout-button" onClick={handleLogout}>Log-out</button>
+              <button className="logout-button" onClick={handleLogout}>Logout</button>
             </div>
           }
         </div>
@@ -127,8 +137,8 @@ function HomePage() {
                   </div>
                 </div>
               )}
-              <div className={`comments-section ${isCommentsExpanded ? 'expanded' : ''}`}>
-                {post.replies.map((reply, index) => (
+              <div className={`comments-section ${isCommentsExpanded[post.id] ? 'expanded' : ''}`}>
+                {(isCommentsExpanded[post.id] ? post.replies : post.replies.slice(0, 1)).map((reply, index) => (
                   <div key={index} className="reply-box">
                     <div className="reply-header">
                       <Link to={`/users/${reply.username}`} className="profile-link">
@@ -137,12 +147,11 @@ function HomePage() {
                       <h3>{reply.username}</h3>
                     </div>
                     <p>{reply.content}</p>
-                    {/* You can add more elements here as per your design */}
                   </div>
                 ))}
                 <div className="expand-collapse-container">
-                  <button onClick={handleToggleComments}>
-                    {isCommentsExpanded ? 'Collapse' : 'Expand'} comments
+                  <button onClick={() => handleToggleComments(post.id)}>
+                    {isCommentsExpanded[post.id] ? 'Collapse' : 'Expand'} comments
                   </button>
                 </div>
                 <form onSubmit={(e) => handleCommentSubmit(e, post.id)} className="comment-form">

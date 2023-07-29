@@ -56,6 +56,8 @@ body {
 .post-text {
   margin-top: 1em;
   font-size: var(--large-font-size);
+  z-index: 10;
+  position: relative;
 }
 
 .post-text p {
@@ -153,7 +155,7 @@ body {
   margin-top: 1em;
   overflow: auto;
   z-index: 10;
-  position: relative;
+  /* remove position: relative; */
 }
 
 .embed-container {
@@ -197,8 +199,12 @@ body {
 }
 
 .comments-section {
-  max-height: 100px; /* or whatever you want the maximum height to be when comments are collapsed */
-  transition: max-height 0.2s ease-out; /* This will animate the expanding and collapsing */
+  margin-top: 10px;
+}
+.comments-section,
+.like-container {
+  position: relative;
+  z-index: 1;
 }
 .reply-box {
   margin-bottom: 10px;
@@ -235,11 +241,14 @@ body {
   max-height: 200px;
   transition: max-height 0.2s ease-in-out;
 }
-
-.comments-section.expanded .comment-container {
+.reply-container {
+  max-height: 200px;
+  overflow-y: auto;
+  transition: max-height 0.2s ease-in-out;
+}
+.comments-section.expanded .comment-container,.reply-container  {
   max-height: none;
 }
-
 .header-left {
   display: flex;
   align-items: center;
