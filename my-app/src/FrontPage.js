@@ -22,7 +22,7 @@ function HomePage() {
 
   useEffect(() => {
     const getRecentPosts = async () => {
-      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=20`);
+      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=50`);
 
       if (response.ok) {
         const postsData = await response.json();
