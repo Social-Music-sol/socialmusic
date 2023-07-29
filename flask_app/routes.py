@@ -9,6 +9,8 @@ from flask_app.repositories.follow_repository import FollowRepository
 from flask_cors import cross_origin
 from datetime import datetime, timedelta
 from os import getenv
+from flask_paginate import Pagination, get_page_parameter
+
 
 app = Blueprint('login', __name__)
 user_repository = UserRepository(db, photos)
@@ -109,10 +111,18 @@ def get_posts(user_id):
 @jwt_required()
 def get_feed():
     user_id = get_jwt_identity()
-    limit = request.args.get('limit', default=15, type=int)
+    page = request.args.get('page', default=1, type=int)
+    pageSize = request.args.get('pageSize', default=15, type=int)
+
     try:
-        posts = post_repository.get_feed(user_id, amount=limit)
-        return jsonify(posts), 201
+        # assuming posts returned by get_feed are sorted by time (recent first)
+        posts = post_repository.get_feed(user_id)
+        # pagination logic
+        start = (page - 1) * pageSize
+        end = start + pageSize
+        paginated_posts = posts[start:end]
+        
+        return jsonify(paginated_posts), 200
     except KeyError:
         return jsonify({'error': 'User not found'}), 404
 

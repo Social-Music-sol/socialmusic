@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCircle } from '@fortawesome/free-solid-svg-icons';
@@ -13,6 +13,30 @@ function HomePage() {
   const [userProfilePic, setUserProfilePic] = useState(null);
   const [isCommentsExpanded, setIsCommentsExpanded] = useState({});
 
+  const observer = useRef();
+  const lastPostElementRef = useCallback(node => {
+    if (observer.current) observer.current.disconnect()
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        fetchPosts(Math.ceil(posts.length / 15) + 1);
+      }
+    })
+    if (node) observer.current.observe(node)
+  }, [posts]);
+  const fetchPosts = async (page) => {
+    const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/recent-feed?page=${page}&pageSize=15`);
+
+    if (response.ok) {
+      const postsData = await response.json();
+      setPosts(prevPosts => [...prevPosts, ...postsData]);
+    }
+  };
+
+  useEffect(() => {
+    // Fetch the first page of posts when the component mounts
+    fetchPosts(1);
+  }, []);
+  
   const handleToggleComments = (postId) => {
     setIsCommentsExpanded(prevState => ({
       ...prevState,
@@ -116,6 +140,7 @@ function HomePage() {
       <br />
       <div className="posts-container">
         {posts.map((post, index) => (
+          <div key={index} className="post-box" ref={index === posts.length - 1 ? lastPostElementRef : null}>
           <div key={index} className="post-box">
             <div className="post-header">
               <Link to={`/users/${post.username}`} className="profile-link">
@@ -169,6 +194,7 @@ function HomePage() {
               />
               <p>{post.like_count}</p>
             </div>
+          </div>
           </div>
         ))}
       </div>
