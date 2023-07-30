@@ -14,7 +14,28 @@ function HomePage() {
   const [isCommentsExpanded, setIsCommentsExpanded] = useState({});
   const [lastTimestamp, setLastTimestamp] = useState(null);
   const [loading, setLoading] = useState(false);
-  
+
+  const observer = useRef();
+
+  const getRecentPosts = async () => {
+    setLoading(true);
+    const response = await fetch(
+      `${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=10` +
+      (lastTimestamp ? `&timestamp=${lastTimestamp}` : '')
+    );
+
+    if (response.ok) {
+      const postsData = await response.json();
+      const posts = postsData.posts;
+      setPosts(prevPosts => [...prevPosts, ...posts]);
+
+      if (posts.length > 0) {
+        setLastTimestamp(postsData.timestamp);
+      }
+    }
+    setLoading(false);
+  };
+
   const lastPostElementRef = useCallback(node => {
     if (loading) return;
     if (observer.current) observer.current.disconnect();
@@ -26,8 +47,6 @@ function HomePage() {
     if (node) observer.current.observe(node);
   }, [loading]);
 
-  const observer = useRef();
-
   const handleToggleComments = (postId) => {
     setIsCommentsExpanded(prevState => ({
       ...prevState,
@@ -36,35 +55,6 @@ function HomePage() {
   };
 
   useEffect(() => {
-    const getRecentPosts = async () => {
-      setLoading(true);
-      const response = await fetch(
-        `${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=10` +
-        (lastTimestamp ? `&timestamp=${lastTimestamp}` : '')
-      );
-  
-      if (response.ok) {
-        const postsData = await response.json();
-        const posts = postsData.posts;
-        setPosts(prevPosts => [...prevPosts, ...posts]);
-  
-        if (posts.length > 0) {
-          setLastTimestamp(postsData.timestamp);
-        }
-      }
-      setLoading(false);
-    };
-  
-    useEffect(() => {
-      if (username) {
-        getProfilePicture().then(getRecentPosts);
-      } else {
-        getRecentPosts();
-      }
-    }, [username]);
-    
-    
-
     const getProfilePicture = async () => {
       const userId = localStorage.getItem('user_id');
       
@@ -79,13 +69,13 @@ function HomePage() {
         setUserProfilePic(userData.pfp_url);
       }
     };
-    
+
     if (username) {
       getProfilePicture().then(getRecentPosts);
     } else {
       getRecentPosts();
     }
-  }, [username]);
+  }, [username, getRecentPosts]);
 
   const handleCommentSubmit = async (e, postId) => {
     e.preventDefault();
@@ -153,67 +143,69 @@ function HomePage() {
       {!username && <Link to="/login">Login</Link>}
       <br />
       <div className="posts-container">
-        {posts.map((post, index) => (
-          <div key={index} className="post-box">
-            <div className="post-header">
-              <Link to={`/users/${post.username}`} className="profile-link">
-                <img src={post.poster_pfp_url} alt={`${post.username}'s profile`} className="profile-icon" />
-              </Link>
-              <h3>{post.username}</h3>
-            </div>
-            <div className="post-content">
-              <div className="post-embed">
-                <div className="embed-container" dangerouslySetInnerHTML={{
-                  __html: `<iframe src=${post.song_embed_url} class="spotify-embed" allowfullscreen allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture; autoplay;"></iframe>`
-                }}>
-                </div>
+        {posts.map((post, index) => {
+          const isLastPost = posts.length === index + 1;
+          return (
+            <div ref={isLastPost ? loadMoreRef : null} key={index} className="post-box">
+              <div className="post-header">
+                <Link to={`/users/${post.username}`} className="profile-link">
+                  <img src={post.poster_pfp_url} alt={`${post.username}'s profile`} className="profile-icon" />
+                </Link>
+                <h3>{post.username}</h3>
               </div>
-              {post.content && (
-                <div className="post-text-container">
-                  <div className="post-text">
-                    <p>{post.content}</p>
+              <div className="post-content">
+                <div className="post-embed">
+                  <div className="embed-container" dangerouslySetInnerHTML={{
+                    __html: `<iframe src=${post.song_embed_url} class="spotify-embed" allowfullscreen allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture; autoplay;"></iframe>`
+                  }}>
                   </div>
                 </div>
-              )}
-              <div className={`comments-section ${isCommentsExpanded[post.id] ? 'expanded' : ''}`}>
-                {(isCommentsExpanded[post.id] ? post.replies : post.replies.slice(0, 1)).map((reply, index) => (
-                  <div key={index} className="reply-box">
-                    <div className="reply-header">
-                      <Link to={`/users/${reply.username}`} className="profile-link">
-                        <img src={reply.poster_pfp_url} alt={`${reply.username}'s profile`} className="profile-icon" />
-                      </Link>
-                      <h3>{reply.username}</h3>
+                {post.content && (
+                  <div className="post-text-container">
+                    <div className="post-text">
+                      <p>{post.content}</p>
                     </div>
-                    <p>{reply.content}</p>
                   </div>
-                ))}
-                <div className="expand-collapse-container">
-                  <button onClick={() => handleToggleComments(post.id)}>
-                    {isCommentsExpanded[post.id] ? 'Collapse' : 'Expand'} comments
-                  </button>
+                )}
+                <div className={`comments-section ${isCommentsExpanded[post.id] ? 'expanded' : ''}`}>
+                  {(isCommentsExpanded[post.id] ? post.replies : post.replies.slice(0, 1)).map((reply, index) => (
+                    <div key={index} className="reply-box">
+                      <div className="reply-header">
+                        <Link to={`/users/${reply.username}`} className="profile-link">
+                          <img src={reply.poster_pfp_url} alt={`${reply.username}'s profile`} className="profile-icon" />
+                        </Link>
+                        <h3>{reply.username}</h3>
+                      </div>
+                      <p>{reply.content}</p>
+                    </div>
+                  ))}
+                  <div className="expand-collapse-container">
+                    <button onClick={() => handleToggleComments(post.id)}>
+                      {isCommentsExpanded[post.id] ? 'Collapse' : 'Expand'} comments
+                    </button>
+                  </div>
+                  <form onSubmit={(e) => handleCommentSubmit(e, post.id)} className="comment-form">
+                    <input type="text" name="comment" placeholder="Add a comment..." />
+                    <button type="submit">Comment</button>
+                  </form>
                 </div>
-                <form onSubmit={(e) => handleCommentSubmit(e, post.id)} className="comment-form">
-                  <input type="text" name="comment" placeholder="Add a comment..." />
-                  <button type="submit">Comment</button>
-                </form>
+              </div>
+              <div className="like-container">
+                <FontAwesomeIcon 
+                  icon={post.liked_by_requester ? faHeart : faHeart} 
+                  className="like-button" 
+                  style={{ color: post.liked_by_requester ? 'red' : 'pink' }}
+                  onClick={() => handleLike(post.id, posts, setPosts)}
+                />
+                <p>{post.like_count}</p>
               </div>
             </div>
-            <div className="like-container">
-              <FontAwesomeIcon 
-                icon={post.liked_by_requester ? faHeart : faHeart} 
-                className="like-button" 
-                style={{ color: post.liked_by_requester ? 'red' : 'pink' }}
-                onClick={() => handleLike(post.id, posts, setPosts)}
-              />
-              <p>{post.like_count}</p>
-            </div>
-          </div>
-        ))}
+          );
+        })}
         {loading && <p>Loading...</p>}
-        {!loading && <div ref={loadMoreRef}></div>}
       </div>
     </div>
-  );
+  );  
 }
 
 export default HomePage;
