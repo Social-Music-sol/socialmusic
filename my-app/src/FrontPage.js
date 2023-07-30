@@ -22,13 +22,21 @@ function HomePage() {
 
   useEffect(() => {
     const getRecentPosts = async () => {
-      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=10`);
-
+      // Include the timestamp in the API request if it exists
+      const response = await fetch(
+        `${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=10` +
+        (lastTimestamp ? `&timestamp=${lastTimestamp}` : '')
+      );
+    
       if (response.ok) {
         const postsData = await response.json();
-        const posts = postsData.posts
-        const timestamp = postsData.timestamp
-        setPosts(posts);
+        const posts = postsData.posts;
+        setPosts(prevPosts => [...prevPosts, ...posts]);  // append the new posts
+    
+        // Update the timestamp state variable if there are new posts
+        if (posts.length > 0) {
+          setLastTimestamp(posts[posts.length - 1].timestamp);
+        }
       }
     };
 
