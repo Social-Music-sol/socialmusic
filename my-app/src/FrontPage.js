@@ -17,7 +17,7 @@ function HomePage() {
 
   const observer = useRef();
 
-  const getRecentPosts = async () => {
+  const getRecentPosts = useCallback(async () => {
     setLoading(true);
     const response = await fetch(
       `${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=10` +
@@ -34,7 +34,7 @@ function HomePage() {
       }
     }
     setLoading(false);
-  };
+  }, [lastTimestamp]);  // Add this line
 
   const lastPostElementRef = useCallback(node => {
     if (loading) return;
@@ -45,7 +45,7 @@ function HomePage() {
       }
     });
     if (node) observer.current.observe(node);
-  }, [loading]);
+  }, [loading, getRecentPosts]);  // Add getRecentPosts to dependencies
 
   const handleToggleComments = (postId) => {
     setIsCommentsExpanded(prevState => ({
