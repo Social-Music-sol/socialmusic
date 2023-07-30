@@ -12,8 +12,21 @@ function HomePage() {
   const [posts, setPosts] = useState([]);
   const [userProfilePic, setUserProfilePic] = useState(null);
   const [isCommentsExpanded, setIsCommentsExpanded] = useState({});
-  const [lastTimestamp, setLastTimestamp] = useState(null); // Here is the missing piece
+  const [lastTimestamp, setLastTimestamp] = useState(null);
+  const [loading, setLoading] = useState(false);
+  
+  const lastPostElementRef = useCallback(node => {
+    if (loading) return;
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        getRecentPosts();
+      }
+    });
+    if (node) observer.current.observe(node);
+  }, [loading]);
 
+  const observer = useRef();
 
   const handleToggleComments = (postId) => {
     setIsCommentsExpanded(prevState => ({
@@ -24,23 +37,33 @@ function HomePage() {
 
   useEffect(() => {
     const getRecentPosts = async () => {
-      // Include the timestamp in the API request if it exists
+      setLoading(true);
       const response = await fetch(
         `${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=10` +
         (lastTimestamp ? `&timestamp=${lastTimestamp}` : '')
       );
-    
+  
       if (response.ok) {
         const postsData = await response.json();
         const posts = postsData.posts;
-        setPosts(prevPosts => [...prevPosts, ...posts]);  // append the new posts
-    
-        // Update the timestamp state variable if there are new posts
+        setPosts(prevPosts => [...prevPosts, ...posts]);
+  
         if (posts.length > 0) {
           setLastTimestamp(postsData.timestamp);
         }
       }
+      setLoading(false);
     };
+  
+    useEffect(() => {
+      if (username) {
+        getProfilePicture().then(getRecentPosts);
+      } else {
+        getRecentPosts();
+      }
+    }, [username]);
+    
+    
 
     const getProfilePicture = async () => {
       const userId = localStorage.getItem('user_id');
@@ -104,16 +127,16 @@ function HomePage() {
   return (
     <div className="container">
       <div className="header">
-      <div className="header-left">
-        <Link to="/">
-          <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
-        </Link>
-        {username && 
-          <Link to="/post" className="create-post-button">
-            <button className="post-button">+++</button>
+        <div className="header-left">
+          <Link to="/">
+            <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
           </Link>
-        }
-      </div>
+          {username && 
+            <Link to="/post" className="create-post-button">
+              <button className="post-button">+++</button>
+            </Link>
+          }
+        </div>
         <div className="header-right">
           {username && 
             <div className="pfp-container">
@@ -186,6 +209,8 @@ function HomePage() {
             </div>
           </div>
         ))}
+        {loading && <p>Loading...</p>}
+        {!loading && <div ref={loadMoreRef}></div>}
       </div>
     </div>
   );
