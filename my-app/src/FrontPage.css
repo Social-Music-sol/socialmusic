@@ -253,3 +253,10 @@ body {
   display: flex;
   align-items: center;
 }
+.header {
+  transition: top 0.3s ease-in-out;
+}
+
+.hidden {
+  top: -100%;
+}

@@ -13,6 +13,9 @@ function HomePage() {
   const [userProfilePic, setUserProfilePic] = useState(null);
   const [isCommentsExpanded, setIsCommentsExpanded] = useState({});
   const [lastTimestamp, setLastTimestamp] = useState(null); // Here is the missing piece
+  const [lastScrollPos, setLastScrollPos] = useState(0);
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+
 
 
   const handleToggleComments = (postId) => {
@@ -41,6 +44,20 @@ function HomePage() {
         }
       }
     };
+    const handleScroll = () => {
+      const currentScrollPos = window.pageYOffset;
+      const visible = lastScrollPos > currentScrollPos;
+  
+      setLastScrollPos(currentScrollPos);
+      setIsHeaderVisible(visible);
+    };
+  
+    window.addEventListener("scroll", handleScroll);
+  
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [lastScrollPos]);
 
     const getProfilePicture = async () => {
       const userId = localStorage.getItem('user_id');
@@ -103,17 +120,17 @@ function HomePage() {
   
   return (
     <div className="container">
-      <div className="header">
-      <div className="header-left">
-        <Link to="/">
-          <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
-        </Link>
-        {username && 
-          <Link to="/post" className="create-post-button">
-            <button className="post-button">+++</button>
+      <div className={`header ${isHeaderVisible ? '' : 'hidden'}`}>
+        <div className="header-left">
+          <Link to="/">
+            <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
           </Link>
-        }
-      </div>
+          {username && 
+            <Link to="/post" className="create-post-button">
+              <button className="post-button">+++</button>
+            </Link>
+          }
+        </div>
         <div className="header-right">
           {username && 
             <div className="pfp-container">
