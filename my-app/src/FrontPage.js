@@ -94,14 +94,16 @@ function HomePage() {
   return (
     <div className="container">
       <div className="header">
-        <div className="header-left">
+      <div className="header-left">
+        <Link to="/">
           <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
-          {username && 
-            <Link to="/post" className="create-post-button">
-              <button className="post-button">+++</button>
-            </Link>
-          }
-        </div>
+        </Link>
+        {username && 
+          <Link to="/post" className="create-post-button">
+            <button className="post-button">+++</button>
+          </Link>
+        }
+      </div>
         <div className="header-right">
           {username && 
             <div className="pfp-container">
