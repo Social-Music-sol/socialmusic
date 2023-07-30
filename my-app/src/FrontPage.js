@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCircle } from '@fortawesome/free-solid-svg-icons';
@@ -12,8 +12,21 @@ function HomePage() {
   const [posts, setPosts] = useState([]);
   const [userProfilePic, setUserProfilePic] = useState(null);
   const [isCommentsExpanded, setIsCommentsExpanded] = useState({});
-  const [lastScrollPos, setLastScrollPos] = useState(0);
-  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+  const [lastTimestamp, setLastTimestamp] = useState(null);
+  const [loading, setLoading] = useState(false);
+  
+  const lastPostElementRef = useCallback(node => {
+    if (loading) return;
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        getRecentPosts();
+      }
+    });
+    if (node) observer.current.observe(node);
+  }, [loading]);
+
+  const observer = useRef();
 
   const handleToggleComments = (postId) => {
     setIsCommentsExpanded(prevState => ({
@@ -22,24 +35,24 @@ function HomePage() {
     }));
   };
 
-  const getRecentPosts = async () => {
-    const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=10`);
-
-    if (response.ok) {
-      const postsData = await response.json();
-      const posts = postsData.posts
-      const timestamp = postsData.timestamp
-      setPosts(posts);
-    }
-  };
-
   useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollPos = window.pageYOffset;
-      const visible = lastScrollPos > currentScrollPos;
-
-      setLastScrollPos(currentScrollPos);
-      setIsHeaderVisible(visible);
+    const getRecentPosts = async () => {
+      setLoading(true);
+      const response = await fetch(
+        `${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=10` +
+        (lastTimestamp ? `&timestamp=${lastTimestamp}` : '')
+      );
+  
+      if (response.ok) {
+        const postsData = await response.json();
+        const posts = postsData.posts;
+        setPosts(prevPosts => [...prevPosts, ...posts]);
+  
+        if (posts.length > 0) {
+          setLastTimestamp(postsData.timestamp);
+        }
+      }
+      setLoading(false);
     };
   
     useEffect(() => {
@@ -52,14 +65,6 @@ function HomePage() {
     
     
 
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [lastScrollPos]);
-
-  useEffect(() => {
     const getProfilePicture = async () => {
       const userId = localStorage.getItem('user_id');
       
@@ -118,9 +123,10 @@ function HomePage() {
     }
   };
 
+  
   return (
     <div className="container">
-      <div className={`header ${isHeaderVisible ? '' : 'hidden'}`}>
+      <div className="header">
         <div className="header-left">
           <Link to="/">
             <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />

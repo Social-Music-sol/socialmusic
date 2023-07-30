@@ -104,15 +104,13 @@ body {
   align-items: center;
   justify-content: space-between;
   position: fixed;
-  top: 0;
+  top: 2vh;
   left: 2vw;
   width: 96vw;
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
+  padding: 1em 2vw;
   min-height: 10vh;
   z-index: 1000;
-  border-bottom: 1px solid rgb(200, 200, 200);
+  border-bottom: 1px solid black;
   background-color: white;
 }
 
@@ -254,11 +252,4 @@ body {
 .header-left {
   display: flex;
   align-items: center;
-}
-.header {
-  transition: top 0.3s ease-in-out;
-}
-
-.hidden {
-  top: -100%;
 }
