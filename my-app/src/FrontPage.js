@@ -16,6 +16,7 @@ function HomePage() {
   const [loading, setLoading] = useState(false);
 
   const observer = useRef();
+  const loadMoreRef = useRef(); // Add this line
 
   const getRecentPosts = async () => {
     setLoading(true);
