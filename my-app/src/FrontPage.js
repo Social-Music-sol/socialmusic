@@ -79,7 +79,6 @@ function HomePage() {
     } else {
       getRecentPosts();
     }
-  }, [username]);
 
   const handleCommentSubmit = async (e, postId) => {
     e.preventDefault();
