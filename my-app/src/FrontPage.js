@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCircle } from '@fortawesome/free-solid-svg-icons';
@@ -12,6 +12,52 @@ function HomePage() {
   const [posts, setPosts] = useState([]);
   const [userProfilePic, setUserProfilePic] = useState(null);
   const [isCommentsExpanded, setIsCommentsExpanded] = useState({});
+  const [lastTimestamp, setLastTimestamp] = useState(null);
+  const observer = useRef(); // Create a Ref to the IntersectionObserver instance
+
+  const getRecentPosts = useCallback(async () => {
+    // Include the timestamp in the API request if it exists
+    const response = await fetch(
+      `${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=10` +
+      (lastTimestamp ? `&timestamp=${lastTimestamp}` : '')
+    );
+  
+    if (response.ok) {
+      const postsData = await response.json();
+      const posts = postsData.posts;
+      setPosts(prevPosts => [...prevPosts, ...posts]);  // append the new posts
+  
+      // Update the timestamp state variable if there are new posts
+      if (posts.length > 0) {
+        setLastTimestamp(postsData.timestamp);
+      }
+    }
+  }, [lastTimestamp]);
+
+  const getProfilePicture = useCallback(async () => {
+    const userId = localStorage.getItem('user_id');
+    
+    const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?id=${userId}`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+  
+    if (response.ok) {
+      const userData = await response.json();
+      setUserProfilePic(userData.pfp_url);
+    }
+  }, []);
+
+  const lastPostElementRef = useCallback(node => { // Callback function to get the last post element
+    if (observer.current) observer.current.disconnect(); // Disconnect the previous observer, if it exists
+    observer.current = new IntersectionObserver(entries => { // Instantiate a new observer
+      if (entries[0].isIntersecting) { // If the last post is visible on the page, call getRecentPosts
+        getRecentPosts();
+      }
+    })
+    if (node) observer.current.observe(node); // Start observing the last post
+  }, [getRecentPosts]); // We only need to define this once
 
   const handleToggleComments = (postId) => {
     setIsCommentsExpanded(prevState => ({
@@ -20,47 +66,13 @@ function HomePage() {
     }));
   };
 
-  useEffect(() => {
-    const getRecentPosts = async () => {
-      // Include the timestamp in the API request if it exists
-      const response = await fetch(
-        `${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=10` +
-        (lastTimestamp ? `&timestamp=${lastTimestamp}` : '')
-      );
-    
-      if (response.ok) {
-        const postsData = await response.json();
-        const posts = postsData.posts;
-        setPosts(prevPosts => [...prevPosts, ...posts]);  // append the new posts
-    
-        // Update the timestamp state variable if there are new posts
-        if (posts.length > 0) {
-          setLastTimestamp(postsData.timestamp);
-        }
-      }
-    };
-
-    const getProfilePicture = async () => {
-      const userId = localStorage.getItem('user_id');
-      
-      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?id=${userId}`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
-    
-      if (response.ok) {
-        const userData = await response.json();
-        setUserProfilePic(userData.pfp_url);
-      }
-    };
-    
+  useEffect(() => {   
     if (username) {
       getProfilePicture().then(getRecentPosts);
     } else {
       getRecentPosts();
     }
-  }, [username]);
+  }, [username, getProfilePicture, getRecentPosts]);
 
   const handleCommentSubmit = async (e, postId) => {
     e.preventDefault();
@@ -182,6 +194,15 @@ function HomePage() {
               />
               <p>{post.like_count}</p>
             </div>
+            <div className="posts-container">
+            {posts.map((post, index) => {
+              if (posts.length === index + 1) { // If this is the last post in the list
+                return <div ref={lastPostElementRef} key={index} className="post-box">{/* Post content... */}</div>
+              } else {
+                return <div key={index} className="post-box">{/* Post content... */}</div>
+              }
+            })}
+          </div>
           </div>
         ))}
       </div>
