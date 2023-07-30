@@ -2,9 +2,10 @@
 
 /* UserPost.css */
 .post-box {
-  width: 100%;  /* increase the width as per your requirement */
-  max-width: 1200px;
+  width: 90%;  /* increase the width as per your requirement */
+  max-width: 800px;
   min-height: 400px;
+  min-width: 750px;
   margin: 0 auto 3em;
   padding: 2em;
   border-radius: 1.25em;
