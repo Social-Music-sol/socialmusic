@@ -22,11 +22,13 @@ function HomePage() {
 
   useEffect(() => {
     const getRecentPosts = async () => {
-      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=50`);
+      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=10`);
 
       if (response.ok) {
         const postsData = await response.json();
-        setPosts(postsData);
+        const posts = postsData.posts
+        const timestamp = postsData.timestamp
+        setPosts(posts);
       }
     };
 
