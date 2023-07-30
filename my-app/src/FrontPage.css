@@ -15,7 +15,7 @@ body {
 }
 
 .post-box {
-  width: 85%;
+  width: 90%;  /* increase the width as per your requirement */
   max-width: 800px;
   min-height: 400px;
   margin: 0 auto 3em;
