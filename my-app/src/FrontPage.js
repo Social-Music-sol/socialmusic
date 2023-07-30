@@ -35,7 +35,7 @@ function HomePage() {
     
         // Update the timestamp state variable if there are new posts
         if (posts.length > 0) {
-          setLastTimestamp(posts[posts.length - 1].timestamp);
+          setLastTimestamp(postsData.timestamp);
         }
       }
     };
