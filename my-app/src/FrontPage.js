@@ -16,7 +16,6 @@ function HomePage() {
   const [loading, setLoading] = useState(false);
 
   const observer = useRef();
-  const loadMoreRef = useRef(); // Add this line
 
   const getRecentPosts = async () => {
     setLoading(true);
@@ -147,7 +146,7 @@ function HomePage() {
         {posts.map((post, index) => {
           const isLastPost = posts.length === index + 1;
           return (
-            <div ref={isLastPost ? loadMoreRef : null} key={index} className="post-box">
+            <div ref={isLastPost ? lastPostElementRef : null} key={index} className="post-box">
               <div className="post-header">
                 <Link to={`/users/${post.username}`} className="profile-link">
                   <img src={post.poster_pfp_url} alt={`${post.username}'s profile`} className="profile-icon" />
