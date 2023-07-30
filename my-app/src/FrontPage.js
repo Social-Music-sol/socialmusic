@@ -40,7 +40,7 @@ function HomePage() {
     if (loading) return;
     if (observer.current) observer.current.disconnect();
     observer.current = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) {
+      if (entries[entries.length - 1].isIntersecting) {
         getRecentPosts();
       }
     });
