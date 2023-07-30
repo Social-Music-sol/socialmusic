@@ -86,9 +86,7 @@ function HomePage() {
       // Automatically expand comments section for the post
       handleToggleComments(postId);
     }
-  };  
-
-
+  };
 
   
   return (
