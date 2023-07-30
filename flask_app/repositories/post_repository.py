@@ -1,6 +1,7 @@
 from flask_app.models import Post, User, Like, Follow
 from flask import jsonify
 import re
+from datetime import datetime
 from uuid import UUID
 
 class PostRepository:
@@ -54,12 +55,15 @@ class PostRepository:
                 post_data.append(self.full_post_data(requester_id, post=post))
         return post_data
 
-    def get_feed(self, requester_id, amount=10):
-        if not User.query.get(requester_id):
-            raise KeyError
-        posts = Post.query.filter_by(parent_id=None).order_by(Post.created_at.desc()).limit(amount).all()
+    def get_feed(self, requester_id, amount=10, timestamp=None):
+        self.exists(requester_id)
+        query = Post.query.filter_by(parent_id=None)
+        if timestamp:
+            timestamp = datetime.utcfromtimestamp(timestamp)
+            query = query.filter(Post.created_at < timestamp)
+        posts = query.order_by(Post.created_at.desc()).limit(amount).all()
         post_data = [self.full_post_data(requester_id, post=post) for post in posts]
-        return post_data
+        return post_data, int(posts[-1]['created_at']) if posts else None
     
     def full_post_data(self, requester_id, post_id=None, post=None):
         requester = User.query.get(requester_id)
