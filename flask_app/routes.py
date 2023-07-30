@@ -10,7 +10,6 @@ from flask_cors import cross_origin
 from datetime import datetime, timedelta
 from os import getenv
 
-
 app = Blueprint('login', __name__)
 user_repository = UserRepository(db, photos)
 post_repository = PostRepository(db)
@@ -111,9 +110,10 @@ def get_posts(user_id):
 def get_feed():
     user_id = get_jwt_identity()
     limit = request.args.get('limit', default=15, type=int)
+    timestamp = request.args.get('timestamp', default=None, type=int)
     try:
-        posts = post_repository.get_feed(user_id, amount=limit)
-        return jsonify(posts), 201
+        posts, timestamp = post_repository.get_feed(user_id, amount=limit, timestamp=timestamp)
+        return jsonify({'posts': posts, 'timestamp': timestamp}), 201
     except KeyError:
         return jsonify({'error': 'User not found'}), 404
 

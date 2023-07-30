@@ -68,7 +68,7 @@ class Post(db.Model):
             'content': self.content,
             'image_url': self.image_url,
             'song_id': self.song_id,
-            'created_at': self.created_at
+            'created_at': int(self.created_at.timestamp())
         }
         if self.song_id:
             data['song_embed_url'] = embed_link_builder(self.song_id)
