@@ -39,13 +39,15 @@ function HomePage() {
 
   const lastPostElementRef = useCallback(node => {
     if (loading) return;
-    if (observer.current) observer.current.disconnect();
-    observer.current = new IntersectionObserver(entries => {
-      if (entries[entries.length - 1].isIntersecting && hasScrolled) { // Check hasScrolled flag here
-        getRecentPosts();
-      }
-    });
-    if (node) observer.current.observe(node);
+    if (hasScrolled) {  // Check hasScrolled flag here
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver(entries => {
+        if (entries[entries.length - 1].isIntersecting) {
+          getRecentPosts();
+        }
+      });
+      if (node) observer.current.observe(node);
+    }
   }, [loading, getRecentPosts, hasScrolled]);  // Add hasScrolled to dependencies
 
   // Scroll listener to set hasScrolled flag
