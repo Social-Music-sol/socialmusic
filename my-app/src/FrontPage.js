@@ -14,11 +14,6 @@ function HomePage() {
   const [isCommentsExpanded, setIsCommentsExpanded] = useState({});
   const [lastTimestamp, setLastTimestamp] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [userId, setUserId] = useState(localStorage.getItem('user_id'));
-
-  useEffect(() => {
-    setUserId(localStorage.getItem('user_id'));
-  }, [username]);
 
   const observer = useRef();
 
@@ -39,23 +34,18 @@ function HomePage() {
       }
     }
     setLoading(false);
-  }, [lastTimestamp]);
+  }, [lastTimestamp]);  // Add this line
 
   const lastPostElementRef = useCallback(node => {
     if (loading) return;
     if (observer.current) observer.current.disconnect();
     observer.current = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) {
-        const currentScroll = document.documentElement.scrollTop;
-        const maxScroll = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        if (currentScroll === maxScroll) {
-          getRecentPosts();
-        }
+      if (entries[entries.length - 1].isIntersecting) {
+        getRecentPosts();
       }
     });
     if (node) observer.current.observe(node);
-  }, [loading, getRecentPosts]);
-
+  }, [loading, getRecentPosts]);  // Add getRecentPosts to dependencies
 
   const handleToggleComments = (postId) => {
     setIsCommentsExpanded(prevState => ({
@@ -64,43 +54,34 @@ function HomePage() {
     }));
   };
 
-  const getProfilePicture = useCallback(async () => {
-    let cachedPfpUrl = localStorage.getItem('pfp_url');
-  
-    if (userId) {
-      if (!cachedPfpUrl) {
-        const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?id=${userId}`, {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
-  
-        if (response.ok) {
-          const userData = await response.json();
-          setUserProfilePic(userData.pfp_url);
-          localStorage.setItem('pfp_url', userData.pfp_url);
-        }
-      } else {
-        setUserProfilePic(cachedPfpUrl);
+  useEffect(() => {
+    const getProfilePicture = async () => {
+      const userId = localStorage.getItem('user_id');
+      
+      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?id=${userId}`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+    
+      if (response.ok) {
+        const userData = await response.json();
+        setUserProfilePic(userData.pfp_url);
       }
-    }
-  }, [userId]);
+    };
 
-  useEffect(() => {
     if (username) {
-      getProfilePicture();
+      getProfilePicture().then(getRecentPosts);
+    } else {
+      getRecentPosts();
     }
-  }, [username, getProfilePicture]);
-
-  useEffect(() => {
-    getRecentPosts();
-  }, [getRecentPosts]);
+  }, [username, getRecentPosts]);
 
   const handleCommentSubmit = async (e, postId) => {
     e.preventDefault();
   
     const commentContent = e.target.comment.value;
-    e.target.comment.value = ''; 
+    e.target.comment.value = '';  // clear the input
   
     const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/post`, {
       method: 'POST',
@@ -117,6 +98,7 @@ function HomePage() {
     if (response.ok) {
       const newComment = await response.json();
   
+      // Append the username and user profile picture to the new comment manually
       newComment.username = username;
       newComment.poster_pfp_url = userProfilePic;
   
@@ -126,6 +108,7 @@ function HomePage() {
           : post
       ));
   
+      // Automatically expand comments section for the post
       handleToggleComments(postId);
     }
   };
