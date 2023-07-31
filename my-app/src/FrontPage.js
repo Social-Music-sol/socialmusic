@@ -14,6 +14,7 @@ function HomePage() {
   const [isCommentsExpanded, setIsCommentsExpanded] = useState({});
   const [lastTimestamp, setLastTimestamp] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false); // Add this line
 
   const observer = useRef();
 
@@ -34,18 +35,30 @@ function HomePage() {
       }
     }
     setLoading(false);
-  }, [lastTimestamp]);  // Add this line
+  }, [lastTimestamp]);
 
   const lastPostElementRef = useCallback(node => {
     if (loading) return;
     if (observer.current) observer.current.disconnect();
     observer.current = new IntersectionObserver(entries => {
-      if (entries[entries.length - 1].isIntersecting) {
+      if (entries[entries.length - 1].isIntersecting && hasScrolled) { // Check hasScrolled flag here
         getRecentPosts();
       }
     });
     if (node) observer.current.observe(node);
-  }, [loading, getRecentPosts]);  // Add getRecentPosts to dependencies
+  }, [loading, getRecentPosts, hasScrolled]);  // Add hasScrolled to dependencies
+
+  // Scroll listener to set hasScrolled flag
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!hasScrolled) {
+        setHasScrolled(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [hasScrolled]);
 
   const handleToggleComments = (postId) => {
     setIsCommentsExpanded(prevState => ({
