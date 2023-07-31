@@ -35,13 +35,6 @@ function HomePage() {
 
   const observer = useRef();
 
-  observer.current = new IntersectionObserver(entries => {
-    if (loading) return; // Check if it's currently loading here
-    if (entries[entries.length - 1].isIntersecting && window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-      getRecentPosts();
-    }
-  });
-
   const getRecentPosts = useCallback(async () => {
     if (loading) return; 
     setLoading(true);
