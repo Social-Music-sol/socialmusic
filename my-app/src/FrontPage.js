@@ -22,6 +22,12 @@ function HomePage() {
 
   const observer = useRef();
 
+  observer.current = new IntersectionObserver(entries => {
+    if (entries[entries.length - 1].isIntersecting && window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+      getRecentPosts();
+    }
+  });
+
   const getRecentPosts = useCallback(async () => {
     setLoading(true);
     const response = await fetch(
@@ -44,13 +50,16 @@ function HomePage() {
   const lastPostElementRef = useCallback(node => {
     if (loading) return;
     if (observer.current) observer.current.disconnect();
-    observer.current = new IntersectionObserver(entries => {
-      if (entries[entries.length - 1].isIntersecting) {
-        getRecentPosts();
-      }
-    });
-    if (node) observer.current.observe(node);
+    setTimeout(() => {
+      observer.current = new IntersectionObserver(entries => {
+        if (entries[entries.length - 1].isIntersecting) {
+          getRecentPosts();
+        }
+      });
+      if (node) observer.current.observe(node);
+    }, 1000);
   }, [loading, getRecentPosts]);
+  
 
   const handleToggleComments = (postId) => {
     setIsCommentsExpanded(prevState => ({
@@ -86,6 +95,10 @@ function HomePage() {
       getProfilePicture();
     }
   }, [username, getProfilePicture]);
+
+  useEffect(() => {
+    getRecentPosts();
+  }, [getRecentPosts]);
 
   const handleCommentSubmit = async (e, postId) => {
     e.preventDefault();
