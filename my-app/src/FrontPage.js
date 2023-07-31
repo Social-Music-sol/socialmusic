@@ -5,6 +5,7 @@ import { faHeart, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { getLoggedInUser, handleLogout, handleLike } from './utils';
 import textlogo from './images/textlogo.png';
 import pfp from './images/circle.png';
+import { throttle } from 'lodash';
 import './FrontPage.css';
 
 function HomePage() {
@@ -15,6 +16,7 @@ function HomePage() {
   const [lastTimestamp, setLastTimestamp] = useState(null);
   const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState(localStorage.getItem('user_id'));
+
 
   useEffect(() => {
     setUserId(localStorage.getItem('user_id'));
@@ -28,13 +30,24 @@ function HomePage() {
     }
   });
 
-  const getRecentPosts = useCallback(async () => {
+  const lastPostElementRef = useCallback(node => {
+    if (loading) return;
+    if (observer.current) observer.current.disconnect();
+    
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[entries.length - 1].isIntersecting) {
+        getRecentPosts();
+      }
+    });
+    if (node) observer.current.observe(node);
+  }, [loading, getRecentPosts]);
+  
+  const getRecentPosts = useCallback(throttle(async () => {
     setLoading(true);
     const response = await fetch(
       `${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=10` +
       (lastTimestamp ? `&timestamp=${lastTimestamp}` : '')
     );
-
     if (response.ok) {
       const postsData = await response.json();
       const posts = postsData.posts;
@@ -45,21 +58,7 @@ function HomePage() {
       }
     }
     setLoading(false);
-  }, [lastTimestamp]);
-
-  const lastPostElementRef = useCallback(node => {
-    if (loading) return;
-    if (observer.current) observer.current.disconnect();
-    setTimeout(() => {
-      observer.current = new IntersectionObserver(entries => {
-        if (entries[entries.length - 1].isIntersecting) {
-          getRecentPosts();
-        }
-      });
-      if (node) observer.current.observe(node);
-    }, 1000);
-  }, [loading, getRecentPosts]);
-  
+  }, 1000), [lastTimestamp]);
 
   const handleToggleComments = (postId) => {
     setIsCommentsExpanded(prevState => ({
