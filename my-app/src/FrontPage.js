@@ -41,7 +41,7 @@ function HomePage() {
     if (observer.current) observer.current.disconnect(); 
   
     const response = await fetch(
-      `${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=1` +
+      `${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=10` +
       (lastTimestamp ? `&timestamp=${lastTimestamp}` : '')
     );
   
