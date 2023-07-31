@@ -14,6 +14,7 @@ const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/logout`, {
 if (response.ok) {
     localStorage.removeItem('username');
     localStorage.removeItem('user_id');
+    localStorage.removeItem('pfp_url'); // Clear the cached profile picture
     window.location.reload(); // refresh the page
 }
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCircle } from '@fortawesome/free-solid-svg-icons';
@@ -12,8 +12,65 @@ function HomePage() {
   const [posts, setPosts] = useState([]);
   const [userProfilePic, setUserProfilePic] = useState(null);
   const [isCommentsExpanded, setIsCommentsExpanded] = useState({});
-  const [lastScrollPos, setLastScrollPos] = useState(0);
-  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+  const [lastTimestamp, setLastTimestamp] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [userId, setUserId] = useState(localStorage.getItem('user_id'));
+  const [hasScrolled, setHasScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+        setHasScrolled(true);
+        window.removeEventListener('scroll', onScroll);
+    };
+    window.addEventListener('scroll', onScroll);
+    return () => {
+        window.removeEventListener('scroll', onScroll);
+    };
+}, []);
+
+
+  useEffect(() => {
+    setUserId(localStorage.getItem('user_id'));
+  }, [username]);
+
+  const observer = useRef();
+
+  const getRecentPosts = useCallback(async () => {
+    if (loading) return; 
+    setLoading(true);
+    if (observer.current) observer.current.disconnect(); 
+  
+    const response = await fetch(
+      `${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=10` +
+      (lastTimestamp ? `&timestamp=${lastTimestamp}` : '')
+    );
+  
+    if (response.ok) {
+      const postsData = await response.json();
+      const posts = postsData.posts;
+      setPosts(prevPosts => [...prevPosts, ...posts]);
+  
+      if (posts.length > 0) {
+        setLastTimestamp(postsData.timestamp);
+      }
+    }
+  
+    setLoading(false);
+    // The observer is reconnected in lastPostElementRef, not here.
+  }, [lastTimestamp]);
+
+  const lastPostElementRef = useCallback(node => {
+    if (loading || !hasScrolled) return; // Only call getRecentPosts if the user has scrolled.
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver(entries => {
+        if (entries[entries.length - 1].isIntersecting) {
+          getRecentPosts();
+        }
+    });
+    if (node) observer.current.observe(node);
+}, [loading, getRecentPosts, hasScrolled]); // Don't forget to add hasScrolled to the dependency array.
+  
+  
 
   const handleToggleComments = (postId) => {
     setIsCommentsExpanded(prevState => ({
@@ -22,61 +79,43 @@ function HomePage() {
     }));
   };
 
-  const getRecentPosts = async () => {
-    const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=10`);
-
-    if (response.ok) {
-      const postsData = await response.json();
-      const posts = postsData.posts
-      const timestamp = postsData.timestamp
-      setPosts(posts);
-    }
-  };
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollPos = window.pageYOffset;
-      const visible = lastScrollPos > currentScrollPos;
-
-      setLastScrollPos(currentScrollPos);
-      setIsHeaderVisible(visible);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [lastScrollPos]);
-
-  useEffect(() => {
-    const getProfilePicture = async () => {
-      const userId = localStorage.getItem('user_id');
-      
-      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?id=${userId}`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
-    
-      if (response.ok) {
-        const userData = await response.json();
-        setUserProfilePic(userData.pfp_url);
+  const getProfilePicture = useCallback(async () => {
+    let cachedPfpUrl = localStorage.getItem('pfp_url');
+  
+    if (userId) {
+      if (!cachedPfpUrl) {
+        const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?id=${userId}`, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+  
+        if (response.ok) {
+          const userData = await response.json();
+          setUserProfilePic(userData.pfp_url);
+          localStorage.setItem('pfp_url', userData.pfp_url);
+        }
+      } else {
+        setUserProfilePic(cachedPfpUrl);
       }
-    };
-    
-    if (username) {
-      getProfilePicture().then(getRecentPosts);
-    } else {
-      getRecentPosts();
     }
-  }, [username]);
+  }, [userId]);
+
+  useEffect(() => {
+    if (username) {
+      getProfilePicture();
+    }
+  }, [username, getProfilePicture]);
+
+  useEffect(() => {
+    getRecentPosts();
+  }, [getRecentPosts]);
 
   const handleCommentSubmit = async (e, postId) => {
     e.preventDefault();
   
     const commentContent = e.target.comment.value;
-    e.target.comment.value = '';  // clear the input
+    e.target.comment.value = ''; 
   
     const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/post`, {
       method: 'POST',
@@ -93,7 +132,6 @@ function HomePage() {
     if (response.ok) {
       const newComment = await response.json();
   
-      // Append the username and user profile picture to the new comment manually
       newComment.username = username;
       newComment.poster_pfp_url = userProfilePic;
   
@@ -103,14 +141,14 @@ function HomePage() {
           : post
       ));
   
-      // Automatically expand comments section for the post
       handleToggleComments(postId);
     }
   };
 
+  
   return (
     <div className="container">
-      <div className={`header ${isHeaderVisible ? '' : 'hidden'}`}>
+      <div className="header">
         <div className="header-left">
           <Link to="/">
             <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
@@ -137,65 +175,69 @@ function HomePage() {
       {!username && <Link to="/login">Login</Link>}
       <br />
       <div className="posts-container">
-        {posts.map((post, index) => (
-          <div key={index} className="post-box">
-            <div className="post-header">
-              <Link to={`/users/${post.username}`} className="profile-link">
-                <img src={post.poster_pfp_url} alt={`${post.username}'s profile`} className="profile-icon" />
-              </Link>
-              <h3>{post.username}</h3>
-            </div>
-            <div className="post-content">
-              <div className="post-embed">
-                <div className="embed-container" dangerouslySetInnerHTML={{
-                  __html: `<iframe src=${post.song_embed_url} class="spotify-embed" allowfullscreen allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture; autoplay;"></iframe>`
-                }}>
-                </div>
+        {posts.map((post, index) => {
+          const isLastPost = posts.length === index + 1;
+          return (
+            <div ref={isLastPost ? lastPostElementRef : null} key={index} className="post-box">
+              <div className="post-header">
+                <Link to={`/users/${post.username}`} className="profile-link">
+                  <img src={post.poster_pfp_url} alt={`${post.username}'s profile`} className="profile-icon" />
+                </Link>
+                <h3>{post.username}</h3>
               </div>
-              {post.content && (
-                <div className="post-text-container">
-                  <div className="post-text">
-                    <p>{post.content}</p>
+              <div className="post-content">
+                <div className="post-embed">
+                  <div className="embed-container" dangerouslySetInnerHTML={{
+                    __html: `<iframe src=${post.song_embed_url} class="spotify-embed" allowfullscreen allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture; autoplay;"></iframe>`
+                  }}>
                   </div>
                 </div>
-              )}
-              <div className={`comments-section ${isCommentsExpanded[post.id] ? 'expanded' : ''}`}>
-                {(isCommentsExpanded[post.id] ? post.replies : post.replies.slice(0, 1)).map((reply, index) => (
-                  <div key={index} className="reply-box">
-                    <div className="reply-header">
-                      <Link to={`/users/${reply.username}`} className="profile-link">
-                        <img src={reply.poster_pfp_url} alt={`${reply.username}'s profile`} className="profile-icon" />
-                      </Link>
-                      <h3>{reply.username}</h3>
+                {post.content && (
+                  <div className="post-text-container">
+                    <div className="post-text">
+                      <p>{post.content}</p>
                     </div>
-                    <p>{reply.content}</p>
                   </div>
-                ))}
-                <div className="expand-collapse-container">
-                  <button onClick={() => handleToggleComments(post.id)}>
-                    {isCommentsExpanded[post.id] ? 'Collapse' : 'Expand'} comments
-                  </button>
+                )}
+                <div className={`comments-section ${isCommentsExpanded[post.id] ? 'expanded' : ''}`}>
+                  {(isCommentsExpanded[post.id] ? post.replies : post.replies.slice(0, 1)).map((reply, index) => (
+                    <div key={index} className="reply-box">
+                      <div className="reply-header">
+                        <Link to={`/users/${reply.username}`} className="profile-link">
+                          <img src={reply.poster_pfp_url} alt={`${reply.username}'s profile`} className="profile-icon" />
+                        </Link>
+                        <h3>{reply.username}</h3>
+                      </div>
+                      <p>{reply.content}</p>
+                    </div>
+                  ))}
+                  <div className="expand-collapse-container">
+                    <button onClick={() => handleToggleComments(post.id)}>
+                      {isCommentsExpanded[post.id] ? 'Collapse' : 'Expand'} comments
+                    </button>
+                  </div>
+                  <form onSubmit={(e) => handleCommentSubmit(e, post.id)} className="comment-form">
+                    <input type="text" name="comment" placeholder="Add a comment..." />
+                    <button type="submit">Comment</button>
+                  </form>
                 </div>
-                <form onSubmit={(e) => handleCommentSubmit(e, post.id)} className="comment-form">
-                  <input type="text" name="comment" placeholder="Add a comment..." />
-                  <button type="submit">Comment</button>
-                </form>
+              </div>
+              <div className="like-container">
+                <FontAwesomeIcon 
+                  icon={post.liked_by_requester ? faHeart : faHeart} 
+                  className="like-button" 
+                  style={{ color: post.liked_by_requester ? 'red' : 'pink' }}
+                  onClick={() => handleLike(post.id, posts, setPosts)}
+                />
+                <p>{post.like_count}</p>
               </div>
             </div>
-            <div className="like-container">
-              <FontAwesomeIcon 
-                icon={post.liked_by_requester ? faHeart : faHeart} 
-                className="like-button" 
-                style={{ color: post.liked_by_requester ? 'red' : 'pink' }}
-                onClick={() => handleLike(post.id, posts, setPosts)}
-              />
-              <p>{post.like_count}</p>
-            </div>
-          </div>
-        ))}
+          );
+        })}
+        {loading && <p>Loading...</p>}
       </div>
     </div>
-  );
+  );  
 }
 
 export default HomePage;
