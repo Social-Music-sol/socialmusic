@@ -69,8 +69,7 @@ function HomePage() {
     }));
   };
 
-  useEffect(() => {
-    const getProfilePicture = async () => {
+    const getProfilePicture = useCallback(async () => {
       const userId = localStorage.getItem('user_id');
       
       const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?id=${userId}`, {
@@ -83,14 +82,14 @@ function HomePage() {
         const userData = await response.json();
         setUserProfilePic(userData.pfp_url);
       }
-    };
-
-    if (username) {
-      getProfilePicture().then(getRecentPosts);
-    } else {
+    }, [username]); // Making this function depend only on username
+    
+    useEffect(() => {
+      if (username) {
+        getProfilePicture();
+      }
       getRecentPosts();
-    }
-  }, [username, getRecentPosts]);
+    }, [username, getRecentPosts, getProfilePicture]);
 
   const handleCommentSubmit = async (e, postId) => {
     e.preventDefault();
