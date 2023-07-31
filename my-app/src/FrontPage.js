@@ -35,8 +35,9 @@ function HomePage() {
     if (observer.current) observer.current.disconnect();
     
     observer.current = new IntersectionObserver(entries => {
-      if (entries[entries.length - 1].isIntersecting) {
+      if (entries[0].isIntersecting) {
         getRecentPosts();
+        observer.current.unobserve(node); // Unobserve the current element
       }
     });
     if (node) observer.current.observe(node);
@@ -52,7 +53,7 @@ function HomePage() {
       const postsData = await response.json();
       const posts = postsData.posts;
       setPosts(prevPosts => [...prevPosts, ...posts]);
-
+  
       if (posts.length > 0) {
         setLastTimestamp(postsData.timestamp);
       }
