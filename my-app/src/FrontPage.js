@@ -15,6 +15,12 @@ function HomePage() {
   const [lastTimestamp, setLastTimestamp] = useState(null);
   const [loading, setLoading] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false); // Add this line
+  const [userId, setUserId] = useState(localStorage.getItem('user_id'));
+
+  useEffect(() => {
+    setUserId(localStorage.getItem('user_id'));
+  }, [username]);
+
 
   const observer = useRef();
 
@@ -69,27 +75,27 @@ function HomePage() {
     }));
   };
 
-    const getProfilePicture = useCallback(async () => {
-      const userId = localStorage.getItem('user_id');
-      
+  const getProfilePicture = useCallback(async () => {
+    if (userId) { // Only call the API if we have a userId
       const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?id=${userId}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
       });
-    
+
       if (response.ok) {
         const userData = await response.json();
         setUserProfilePic(userData.pfp_url);
       }
-    }, [username]); // Making this function depend only on username
-    
-    useEffect(() => {
-      if (username) {
-        getProfilePicture();
-      }
-      getRecentPosts();
-    }, [username, getRecentPosts, getProfilePicture]);
+    }
+  }, [userId]); // Now it depends only on userId
+
+  useEffect(() => {
+    if (username) {
+      getProfilePicture();
+    }
+    getRecentPosts();
+  }, [username, getRecentPosts, getProfilePicture]);
 
   const handleCommentSubmit = async (e, postId) => {
     e.preventDefault();
