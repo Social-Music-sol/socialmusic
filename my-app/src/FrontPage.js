@@ -85,8 +85,11 @@ function HomePage() {
     if (username) {
       getProfilePicture();
     }
+  }, [username, getProfilePicture]);
+
+  useEffect(() => {
     getRecentPosts();
-  }, [username, getRecentPosts, getProfilePicture]);
+  }, [getRecentPosts]);
 
   const handleCommentSubmit = async (e, postId) => {
     e.preventDefault();
