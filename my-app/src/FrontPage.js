@@ -45,15 +45,17 @@ function HomePage() {
     if (loading) return;
     if (observer.current) observer.current.disconnect();
     observer.current = new IntersectionObserver(entries => {
-      // Check if the page is at the bottom
-      const atBottom = window.innerHeight + window.pageYOffset >= document.body.offsetHeight - 2;
-  
-      if (entries[entries.length - 1].isIntersecting && atBottom) {
-        getRecentPosts();
+      if (entries[0].isIntersecting) {
+        const currentScroll = document.documentElement.scrollTop;
+        const maxScroll = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        if (currentScroll === maxScroll) {
+          getRecentPosts();
+        }
       }
     });
     if (node) observer.current.observe(node);
   }, [loading, getRecentPosts]);
+
 
   const handleToggleComments = (postId) => {
     setIsCommentsExpanded(prevState => ({
