@@ -14,8 +14,9 @@ function HomePage() {
   const [isCommentsExpanded, setIsCommentsExpanded] = useState({});
   const [lastTimestamp, setLastTimestamp] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [hasScrolled, setHasScrolled] = useState(false); // Add this line
+  const [hasScrolled, setHasScrolled] = useState(false);
   const [userId, setUserId] = useState(localStorage.getItem('user_id'));
+  const [initialLoad, setInitialLoad] = useState(true);  // New state variable for initial load
 
   useEffect(() => {
     setUserId(localStorage.getItem('user_id'));
@@ -25,6 +26,11 @@ function HomePage() {
   const observer = useRef();
 
   const getRecentPosts = useCallback(async () => {
+    // If it's not the initial load and the user hasn't scrolled to the bottom, don't fetch posts
+    if (!initialLoad && !hasScrolled) {
+      return;
+    }
+
     setLoading(true);
     const response = await fetch(
       `${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=10` +
@@ -41,11 +47,11 @@ function HomePage() {
       }
     }
     setLoading(false);
-  }, [lastTimestamp]);
+  }, [lastTimestamp, initialLoad, hasScrolled]);  // Add initialLoad and hasScrolled to dependencies
 
   const lastPostElementRef = useCallback(node => {
     if (loading) return;
-    if (hasScrolled) {  // Check hasScrolled flag here
+    if (hasScrolled) {  
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver(entries => {
         if (entries[entries.length - 1].isIntersecting) {
@@ -54,9 +60,8 @@ function HomePage() {
       });
       if (node) observer.current.observe(node);
     }
-  }, [loading, getRecentPosts, hasScrolled]);  // Add hasScrolled to dependencies
+  }, [loading, getRecentPosts, hasScrolled]);
 
-  // Scroll listener to set hasScrolled flag
   useEffect(() => {
     const handleScroll = () => {
       if (!hasScrolled) {
@@ -79,7 +84,6 @@ function HomePage() {
     let cachedPfpUrl = localStorage.getItem('pfp_url');
   
     if (userId) {
-      // Only call the API if there's no cached profile picture
       if (!cachedPfpUrl) {
         const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?id=${userId}`, {
           headers: {
@@ -90,26 +94,27 @@ function HomePage() {
         if (response.ok) {
           const userData = await response.json();
           setUserProfilePic(userData.pfp_url);
-          // Cache the profile picture URL
           localStorage.setItem('pfp_url', userData.pfp_url);
         }
       } else {
         setUserProfilePic(cachedPfpUrl);
       }
     }
-  }, [userId]); // Now it depends only on userId
+  }, [userId]);
 
   useEffect(() => {
     if (username) {
       getProfilePicture();
     }
-  }, [username, getProfilePicture]);
+    getRecentPosts();
+    setInitialLoad(false);  // Set initialLoad to false after the first call to getRecentPosts
+  }, [username, getRecentPosts, getProfilePicture]);
 
   const handleCommentSubmit = async (e, postId) => {
     e.preventDefault();
   
     const commentContent = e.target.comment.value;
-    e.target.comment.value = '';  // clear the input
+    e.target.comment.value = ''; 
   
     const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/post`, {
       method: 'POST',
@@ -126,7 +131,6 @@ function HomePage() {
     if (response.ok) {
       const newComment = await response.json();
   
-      // Append the username and user profile picture to the new comment manually
       newComment.username = username;
       newComment.poster_pfp_url = userProfilePic;
   
@@ -136,7 +140,6 @@ function HomePage() {
           : post
       ));
   
-      // Automatically expand comments section for the post
       handleToggleComments(postId);
     }
   };
