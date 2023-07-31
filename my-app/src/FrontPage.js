@@ -14,23 +14,15 @@ function HomePage() {
   const [isCommentsExpanded, setIsCommentsExpanded] = useState({});
   const [lastTimestamp, setLastTimestamp] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [hasScrolled, setHasScrolled] = useState(false);
   const [userId, setUserId] = useState(localStorage.getItem('user_id'));
-  const [initialLoad, setInitialLoad] = useState(true);  // New state variable for initial load
 
   useEffect(() => {
     setUserId(localStorage.getItem('user_id'));
   }, [username]);
 
-
   const observer = useRef();
 
   const getRecentPosts = useCallback(async () => {
-    // If it's not the initial load and the user hasn't scrolled to the bottom, don't fetch posts
-    if (!initialLoad && !hasScrolled) {
-      return;
-    }
-
     setLoading(true);
     const response = await fetch(
       `${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=10` +
@@ -47,31 +39,18 @@ function HomePage() {
       }
     }
     setLoading(false);
-  }, [lastTimestamp, initialLoad, hasScrolled]);  // Add initialLoad and hasScrolled to dependencies
+  }, [lastTimestamp]);
 
   const lastPostElementRef = useCallback(node => {
     if (loading) return;
-    if (hasScrolled) {  
-      if (observer.current) observer.current.disconnect();
-      observer.current = new IntersectionObserver(entries => {
-        if (entries[entries.length - 1].isIntersecting) {
-          getRecentPosts();
-        }
-      });
-      if (node) observer.current.observe(node);
-    }
-  }, [loading, getRecentPosts, hasScrolled]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!hasScrolled) {
-        setHasScrolled(true);
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[entries.length - 1].isIntersecting) {
+        getRecentPosts();
       }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [hasScrolled]);
+    });
+    if (node) observer.current.observe(node);
+  }, [loading, getRecentPosts]);
 
   const handleToggleComments = (postId) => {
     setIsCommentsExpanded(prevState => ({
@@ -107,7 +86,6 @@ function HomePage() {
       getProfilePicture();
     }
     getRecentPosts();
-    setInitialLoad(false);  // Set initialLoad to false after the first call to getRecentPosts
   }, [username, getRecentPosts, getProfilePicture]);
 
   const handleCommentSubmit = async (e, postId) => {
