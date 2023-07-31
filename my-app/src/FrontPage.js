@@ -31,9 +31,9 @@ function HomePage() {
   });
 
   const getRecentPosts = useCallback(async () => {
-    if (loading) return; // Check if it's currently loading here
+    if (loading) return; 
     setLoading(true);
-    if (observer.current) observer.current.disconnect(); // Disconnect the observer here
+    if (observer.current) observer.current.disconnect(); 
   
     const response = await fetch(
       `${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=10` +
@@ -51,22 +51,21 @@ function HomePage() {
     }
   
     setLoading(false);
-    if (observer.current) observer.current.observe(node); // Reconnect the observer here
+    // The observer is reconnected in lastPostElementRef, not here.
   }, [lastTimestamp]);
 
   const lastPostElementRef = useCallback(node => {
     if (loading) return;
     if (observer.current) observer.current.disconnect();
-    setTimeout(() => {
-      observer.current = new IntersectionObserver(entries => {
-        if (loading) return; // Check if it's currently loading here
-        if (entries[entries.length - 1].isIntersecting) {
-          getRecentPosts();
-        }
-      });
-      if (node) observer.current.observe(node);
-    }, 1000);
+    observer.current = new IntersectionObserver(entries => {
+      if (loading) return; 
+      if (entries[entries.length - 1].isIntersecting) {
+        getRecentPosts();
+      }
+    });
+    if (node) observer.current.observe(node); // The observer is connected here after it's created.
   }, [loading, getRecentPosts]);
+  
   
 
   const handleToggleComments = (postId) => {
