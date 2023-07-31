@@ -5,7 +5,6 @@ import { faHeart, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { getLoggedInUser, handleLogout, handleLike } from './utils';
 import textlogo from './images/textlogo.png';
 import pfp from './images/circle.png';
-import { throttle } from 'lodash';
 import './FrontPage.css';
 
 function HomePage() {
@@ -25,30 +24,22 @@ function HomePage() {
   const observer = useRef();
 
   observer.current = new IntersectionObserver(entries => {
+    if (loading) return; // Check if it's currently loading here
     if (entries[entries.length - 1].isIntersecting && window.innerHeight + window.scrollY >= document.body.offsetHeight) {
       getRecentPosts();
     }
   });
 
-  const lastPostElementRef = useCallback(node => {
-    if (loading) return;
-    if (observer.current) observer.current.disconnect();
-    
-    observer.current = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) {
-        getRecentPosts();
-        observer.current.unobserve(node); // Unobserve the current element
-      }
-    });
-    if (node) observer.current.observe(node);
-  }, [loading, getRecentPosts]);
-  
-  const getRecentPosts = useCallback(throttle(async () => {
+  const getRecentPosts = useCallback(async () => {
+    if (loading) return; // Check if it's currently loading here
     setLoading(true);
+    if (observer.current) observer.current.disconnect(); // Disconnect the observer here
+  
     const response = await fetch(
       `${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=10` +
       (lastTimestamp ? `&timestamp=${lastTimestamp}` : '')
     );
+  
     if (response.ok) {
       const postsData = await response.json();
       const posts = postsData.posts;
@@ -58,8 +49,25 @@ function HomePage() {
         setLastTimestamp(postsData.timestamp);
       }
     }
+  
     setLoading(false);
-  }, 1000), [lastTimestamp]);
+    if (observer.current) observer.current.observe(node); // Reconnect the observer here
+  }, [lastTimestamp]);
+
+  const lastPostElementRef = useCallback(node => {
+    if (loading) return;
+    if (observer.current) observer.current.disconnect();
+    setTimeout(() => {
+      observer.current = new IntersectionObserver(entries => {
+        if (loading) return; // Check if it's currently loading here
+        if (entries[entries.length - 1].isIntersecting) {
+          getRecentPosts();
+        }
+      });
+      if (node) observer.current.observe(node);
+    }, 1000);
+  }, [loading, getRecentPosts]);
+  
 
   const handleToggleComments = (postId) => {
     setIsCommentsExpanded(prevState => ({
