@@ -76,16 +76,25 @@ function HomePage() {
   };
 
   const getProfilePicture = useCallback(async () => {
-    if (userId) { // Only call the API if we have a userId
-      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?id=${userId}`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
-
-      if (response.ok) {
-        const userData = await response.json();
-        setUserProfilePic(userData.pfp_url);
+    let cachedPfpUrl = localStorage.getItem('pfp_url');
+  
+    if (userId) {
+      // Only call the API if there's no cached profile picture
+      if (!cachedPfpUrl) {
+        const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?id=${userId}`, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+  
+        if (response.ok) {
+          const userData = await response.json();
+          setUserProfilePic(userData.pfp_url);
+          // Cache the profile picture URL
+          localStorage.setItem('pfp_url', userData.pfp_url);
+        }
+      } else {
+        setUserProfilePic(cachedPfpUrl);
       }
     }
   }, [userId]); // Now it depends only on userId
