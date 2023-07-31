@@ -15,6 +15,18 @@ function HomePage() {
   const [lastTimestamp, setLastTimestamp] = useState(null);
   const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState(localStorage.getItem('user_id'));
+  const [hasScrolled, setHasScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+        setHasScrolled(true);
+        window.removeEventListener('scroll', onScroll);
+    };
+    window.addEventListener('scroll', onScroll);
+    return () => {
+        window.removeEventListener('scroll', onScroll);
+    };
+}, []);
 
 
   useEffect(() => {
@@ -55,16 +67,15 @@ function HomePage() {
   }, [lastTimestamp]);
 
   const lastPostElementRef = useCallback(node => {
-    if (loading) return;
+    if (loading || !hasScrolled) return; // Only call getRecentPosts if the user has scrolled.
     if (observer.current) observer.current.disconnect();
     observer.current = new IntersectionObserver(entries => {
-      if (loading) return; 
-      if (entries[entries.length - 1].isIntersecting) {
-        getRecentPosts();
-      }
+        if (entries[entries.length - 1].isIntersecting) {
+          getRecentPosts();
+        }
     });
-    if (node) observer.current.observe(node); // The observer is connected here after it's created.
-  }, [loading, getRecentPosts]);
+    if (node) observer.current.observe(node);
+}, [loading, getRecentPosts, hasScrolled]); // Don't forget to add hasScrolled to the dependency array.
   
   
 
