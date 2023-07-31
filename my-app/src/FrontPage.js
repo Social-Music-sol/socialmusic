@@ -55,6 +55,13 @@ function HomePage() {
     if (node) observer.current.observe(node);
   }, [loading, getRecentPosts]);
 
+  const handleToggleComments = (postId) => {
+    setIsCommentsExpanded(prevState => ({
+      ...prevState,
+      [postId]: !prevState[postId]
+    }));
+  };
+
   const getProfilePicture = useCallback(async () => {
     let cachedPfpUrl = localStorage.getItem('pfp_url');
   
