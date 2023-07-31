@@ -103,8 +103,7 @@ function HomePage() {
     if (username) {
       getProfilePicture();
     }
-    getRecentPosts();
-  }, [username, getRecentPosts, getProfilePicture]);
+  }, [username, getProfilePicture]);
 
   const handleCommentSubmit = async (e, postId) => {
     e.preventDefault();
