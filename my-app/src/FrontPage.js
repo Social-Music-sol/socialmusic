@@ -45,19 +45,15 @@ function HomePage() {
     if (loading) return;
     if (observer.current) observer.current.disconnect();
     observer.current = new IntersectionObserver(entries => {
-      if (entries[entries.length - 1].isIntersecting) {
+      // Check if the page is at the bottom
+      const atBottom = window.innerHeight + window.pageYOffset >= document.body.offsetHeight - 2;
+  
+      if (entries[entries.length - 1].isIntersecting && atBottom) {
         getRecentPosts();
       }
     });
     if (node) observer.current.observe(node);
   }, [loading, getRecentPosts]);
-
-  const handleToggleComments = (postId) => {
-    setIsCommentsExpanded(prevState => ({
-      ...prevState,
-      [postId]: !prevState[postId]
-    }));
-  };
 
   const getProfilePicture = useCallback(async () => {
     let cachedPfpUrl = localStorage.getItem('pfp_url');
