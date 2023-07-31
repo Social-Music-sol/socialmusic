@@ -45,7 +45,7 @@ function HomePage() {
     if (loading) return;
     if (observer.current) observer.current.disconnect();
     observer.current = new IntersectionObserver(entries => {
-      if (entries[entries.length].isIntersecting) {
+      if (entries[entries.length - 1].isIntersecting) {
         getRecentPosts();
       }
     });
@@ -86,10 +86,6 @@ function HomePage() {
       getProfilePicture();
     }
   }, [username, getProfilePicture]);
-
-  useEffect(() => {
-    getRecentPosts();
-  }, [getRecentPosts]);
 
   const handleCommentSubmit = async (e, postId) => {
     e.preventDefault();
