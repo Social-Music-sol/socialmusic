@@ -47,25 +47,23 @@ function HomePage() {
 
   useEffect(() => {
     let lastScrollTop = 0;
-  
+
     const onScroll = () => {
-      // Check if the user has scrolled to 300px from the bottom of the page.
       if (window.innerHeight + document.documentElement.scrollTop + 300 >= document.documentElement.offsetHeight) {
         getRecentPosts();
       }
-  
-      // Determine the scroll direction and show or hide the header accordingly.
+
       const st = window.pageYOffset || document.documentElement.scrollTop;
-      if (st > lastScrollTop) {
-        // Downscroll - hide header
+      const scrollThreshold = 50; // Added this line
+
+      if (st > lastScrollTop + scrollThreshold) {
         setShowHeader(false);
-      } else {
-        // Upscroll - show header
+      } else if (st < lastScrollTop - scrollThreshold) {
         setShowHeader(true);
       }
       lastScrollTop = st <= 0 ? 0 : st;
     };
-  
+
     window.addEventListener('scroll', onScroll);
     return () => {
       window.removeEventListener('scroll', onScroll);
@@ -151,7 +149,7 @@ function HomePage() {
   
   return (
     <div className="container">
-      <div className={`header ${showHeader ? '' : 'hidden'}`}>
+      <div className={`header ${showHeader ? '' : 'hidden'}`}> {/* Updated this line */}
         <div className="header-left">
           <Link to="/">
             <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
