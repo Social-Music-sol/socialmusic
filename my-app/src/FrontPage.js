@@ -28,11 +28,6 @@ function HomePage() {
     };
 }, []);
 
-
-  useEffect(() => {
-    setUserId(localStorage.getItem('user_id'));
-  }, [username]);
-
   const observer = useRef();
 
   const getRecentPosts = useCallback(async () => {
@@ -40,9 +35,11 @@ function HomePage() {
     setLoading(true);
     if (observer.current) observer.current.disconnect(); 
   
+    const currentLastTimestamp = lastTimestamp; // Use a constant reference to the current lastTimestamp
+  
     const response = await fetch(
       `${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=10` +
-      (lastTimestamp ? `&timestamp=${lastTimestamp}` : '')
+      (currentLastTimestamp ? `&timestamp=${currentLastTimestamp}` : '')
     );
   
     if (response.ok) {
@@ -57,10 +54,11 @@ function HomePage() {
   
     setLoading(false);
     // The observer is reconnected in lastPostElementRef, not here.
-  }, [lastTimestamp]);
+  }, [loading]); // Remove lastTimestamp from the dependency array
+  
 
   const lastPostElementRef = useCallback(node => {
-    if (loading || !hasScrolled) return; // Only call getRecentPosts if the user has scrolled.
+    if (loading || !hasScrolled) return;
     if (observer.current) observer.current.disconnect();
     observer.current = new IntersectionObserver(entries => {
         if (entries[entries.length - 1].isIntersecting) {
@@ -68,9 +66,7 @@ function HomePage() {
         }
     });
     if (node) observer.current.observe(node);
-}, [loading, getRecentPosts, hasScrolled]); // Don't forget to add hasScrolled to the dependency array.
-  
-  
+  }, [loading, getRecentPosts, hasScrolled]);   // Don't forget to add hasScrolled to the dependency array.
 
   const handleToggleComments = (postId) => {
     setIsCommentsExpanded(prevState => ({
