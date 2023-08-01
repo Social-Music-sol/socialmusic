@@ -21,7 +21,7 @@ body {
   margin: 0 auto 3em;
   padding: 2em;
   border-radius: 1.25em;
-  background-color: rgb(220, 220, 220);
+  background-color: rgb(255, 255, 255);
   border: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
