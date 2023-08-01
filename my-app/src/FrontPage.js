@@ -47,7 +47,6 @@ function HomePage() {
 
   useEffect(() => {
     let lastScrollTop = 0;
-    const postBox = document.querySelector('.post-box'); // Get the first post-box
 
     const onScroll = () => {
       if (window.innerHeight + document.documentElement.scrollTop + 300 >= document.documentElement.offsetHeight) {
@@ -55,13 +54,11 @@ function HomePage() {
       }
 
       const st = window.pageYOffset || document.documentElement.scrollTop;
-      const headerHeight = document.querySelector('.header').offsetHeight;
+      const scrollThreshold = 50; // Added this line
 
-      if (postBox && st > postBox.offsetTop - headerHeight) {
-        // Header collides with the post-box - hide header
+      if (st > lastScrollTop + scrollThreshold) {
         setShowHeader(false);
-      } else {
-        // Header doesn't collide with the post-box - show header
+      } else if (st < lastScrollTop - scrollThreshold) {
         setShowHeader(true);
       }
       lastScrollTop = st <= 0 ? 0 : st;
@@ -152,7 +149,7 @@ function HomePage() {
   
   return (
     <div className="container">
-      <div className={`header ${showHeader ? '' : 'hidden'}`}>
+      <div className={`header ${showHeader ? '' : 'hidden'}`}> {/* Updated this line */}
         <div className="header-left">
           <Link to="/">
             <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
