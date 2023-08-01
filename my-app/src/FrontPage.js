@@ -16,7 +16,6 @@ function HomePage() {
   const [loading, setLoading] = useState(false);
   const [initialLoad, setInitialLoad] = useState(false);
   const [userId, setUserId] = useState(localStorage.getItem('user_id'));
-  const [showHeader, setShowHeader] = useState(true);
 
   const getRecentPosts = useCallback(async () => {
     if (loading) return; 
@@ -46,32 +45,19 @@ function HomePage() {
   }, [lastTimestamp, loading, initialLoad]);
 
   useEffect(() => {
-    let lastScrollTop = 0;
-  
     const onScroll = () => {
-      // Check if the user has scrolled to 300px from the bottom of the page.
-      if (window.innerHeight + document.documentElement.scrollTop + 300 >= document.documentElement.offsetHeight) {
-        getRecentPosts();
-      }
-  
-      // Determine the scroll direction and show or hide the header accordingly.
-      const st = window.pageYOffset || document.documentElement.scrollTop;
-      if (st > lastScrollTop) {
-        // Downscroll - hide header
-        setShowHeader(false);
-      } else {
-        // Upscroll - show header
-        setShowHeader(true);
-      }
-      lastScrollTop = st <= 0 ? 0 : st;
+        // Check if the user has scrolled to 300px from the bottom of the page.
+        if (window.innerHeight + document.documentElement.scrollTop + 300 >= document.documentElement.offsetHeight) {
+          // Call getRecentPosts if they have.
+          getRecentPosts();
+        }
     };
-  
+
     window.addEventListener('scroll', onScroll);
     return () => {
-      window.removeEventListener('scroll', onScroll);
+        window.removeEventListener('scroll', onScroll);
     };
   }, [getRecentPosts]);
-  
 
   const handleToggleComments = (postId) => {
     setIsCommentsExpanded(prevState => ({
@@ -151,7 +137,7 @@ function HomePage() {
   
   return (
     <div className="container">
-      <div className={`header ${showHeader ? '' : 'hidden'}`}>
+      <div className="header">
         <div className="header-left">
           <Link to="/">
             <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
