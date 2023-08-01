@@ -116,6 +116,8 @@ def get_feed():
         return jsonify({'posts': posts, 'timestamp': timestamp}), 201
     except KeyError:
         return jsonify({'error': 'User not found'}), 404
+    except FileNotFoundError:
+        return jsonify({'error': 'Reached end of posts'}), 418
 
 @app.route('/like-post', methods=['POST', 'DELETE'])
 @jwt_required()

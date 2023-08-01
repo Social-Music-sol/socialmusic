@@ -63,7 +63,9 @@ class PostRepository:
             query = query.filter(Post.created_at < timestamp)
         posts = query.order_by(Post.created_at.desc()).limit(amount).all()
         post_data = [self.full_post_data(requester_id, post=post) for post in posts]
-        return post_data, int(post_data[-1]['created_at']) - 1 if posts else None
+        if not posts:
+            raise FileNotFoundError
+        return post_data, int(post_data[-1]['created_at']) - 1
     
     def full_post_data(self, requester_id, post_id=None, post=None):
         requester = User.query.get(requester_id)
