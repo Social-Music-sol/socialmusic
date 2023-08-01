@@ -21,7 +21,7 @@ body {
   margin: 0 auto 3em;
   padding: 2em;
   border-radius: 1.25em;
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(220, 219, 219);
   border: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
@@ -64,6 +64,7 @@ body {
   overflow-wrap: break-word; /* Break long words to prevent overflow */
   line-height: 1.5;
   max-height: 100px; /* Maximum height for text content */
+  overflow: auto; /* Scrollable if the text content exceeds max height */
 }
 
 .like-container {
