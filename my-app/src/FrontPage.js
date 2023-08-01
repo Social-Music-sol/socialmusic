@@ -34,9 +34,13 @@ function HomePage() {
       if (posts.length > 0) {
         setLastTimestamp(postsData.timestamp);
       }
+    } else 
+    
+    if (response.status != 418) {
+      setLoading(false);
     }
   
-    setLoading(false);
+    
     if (!initialLoad) setInitialLoad(true);
   }, [lastTimestamp, loading, initialLoad]);
 
