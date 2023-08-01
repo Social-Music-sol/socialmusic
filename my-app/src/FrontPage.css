@@ -15,9 +15,9 @@ body {
 }
 
 .post-box {
-  width: 90%;
-  max-width: 800px;
-  min-height: 600px; /* Adjust minimum height to your preference */
+  width: 100%;  /* Increase the width to the maximum */
+  max-width: 1000px; /* Adjust the maximum width to your preference */
+  min-height: 400px; /* You can adjust this as well */
   margin: 0 auto 3em;
   padding: 2em;
   border-radius: 1.25em;
@@ -27,6 +27,7 @@ body {
   flex-direction: column;
   align-items: stretch;
 }
+
 
 .post-header {
   display: flex;
