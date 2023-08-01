@@ -31,38 +31,31 @@ function HomePage() {
   const observer = useRef();
 
   const getRecentPosts = useCallback(async () => {
-    if (loading) return;
+    if (loading) return; 
     setLoading(true);
-    if (observer.current) observer.current.disconnect();
+    if (observer.current) observer.current.disconnect(); 
   
-    const currentLastTimestamp = lastTimestamp;
+    const response = await fetch(
+      `${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=10` +
+      (lastTimestamp ? `&timestamp=${lastTimestamp}` : '')
+    );
   
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=10` +
-        (currentLastTimestamp ? `&timestamp=${currentLastTimestamp}` : '')
-      );
+    if (response.ok) {
+      const postsData = await response.json();
+      const posts = postsData.posts;
+      setPosts(prevPosts => [...prevPosts, ...posts]);
   
-      if (response.ok) {
-        const postsData = await response.json();
-        const posts = postsData.posts;
-        setPosts(prevPosts => [...prevPosts, ...posts]);
-  
-        if (posts.length > 0) {
-          setLastTimestamp(postsData.timestamp);
-        }
+      if (posts.length > 0) {
+        setLastTimestamp(postsData.timestamp);
       }
-    } catch (error) {
-      console.error('Failed to fetch posts:', error);
-    } finally {
-      setLoading(false);
     }
-  }, [loading]);
   
-  
+    setLoading(false);
+    // The observer is reconnected in lastPostElementRef, not here.
+  }, [lastTimestamp]);
 
   const lastPostElementRef = useCallback(node => {
-    if (loading || !hasScrolled) return;
+    if (loading || !hasScrolled) return; // Only call getRecentPosts if the user has scrolled.
     if (observer.current) observer.current.disconnect();
     observer.current = new IntersectionObserver(entries => {
         if (entries[entries.length - 1].isIntersecting) {
@@ -70,7 +63,9 @@ function HomePage() {
         }
     });
     if (node) observer.current.observe(node);
-  }, [loading, getRecentPosts, hasScrolled]);   // Don't forget to add hasScrolled to the dependency array.
+}, [loading, getRecentPosts, hasScrolled]); // Don't forget to add hasScrolled to the dependency array.
+  
+  
 
   const handleToggleComments = (postId) => {
     setIsCommentsExpanded(prevState => ({
