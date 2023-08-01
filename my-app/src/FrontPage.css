@@ -15,8 +15,8 @@ body {
 }
 
 .post-box {
-  width: 90%;  /* increase the width as per your requirement */
-  max-width: 800px;
+  width: 600px; /* Fixed width */
+  max-width: 600px; /* Ensure that the width doesn't exceed the fixed value */
   min-height: 400px;
   margin: 0 auto 3em;
   padding: 2em;
@@ -27,6 +27,7 @@ body {
   flex-direction: column;
   align-items: stretch;
 }
+
 
 .post-header {
   display: flex;
@@ -153,9 +154,9 @@ body {
   border-radius: 8px;
   padding: 1em;
   margin-top: 1em;
+  overflow: auto;
   z-index: 10;
-  height: 100px; /* Set a fixed height as per your requirement */
-  overflow-y: auto; /* Scroll if content exceeds the fixed height */
+  /* remove position: relative; */
 }
 
 .embed-container {
