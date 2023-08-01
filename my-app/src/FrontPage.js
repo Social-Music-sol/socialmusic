@@ -34,7 +34,7 @@ function HomePage() {
       if (posts.length > 0) {
         setLastTimestamp(postsData.timestamp);
       }
-    } else 
+    } 
     
     if (response.status != 418) {
       setLoading(false);
