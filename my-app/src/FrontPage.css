@@ -245,6 +245,7 @@ body {
 }
 .reply-container {
   max-height: 200px;
+  overflow-y: auto;
   transition: max-height 0.2s ease-in-out;
 }
 .comments-section.expanded .comment-container,.reply-container  {
