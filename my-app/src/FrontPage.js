@@ -16,34 +16,38 @@ function HomePage() {
   const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState(localStorage.getItem('user_id'));
 
-  const getRecentPosts = useCallback(async () => {
-    if (loading) return; 
-    setLoading(true);
+  const getRecentPosts = useRef(() => {});
   
-    const response = await fetch(
-      `${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=10` +
-      (lastTimestamp ? `&timestamp=${lastTimestamp}` : '')
-    );
-  
-    if (response.ok) {
-      const postsData = await response.json();
-      const posts = postsData.posts;
-      setPosts(prevPosts => [...prevPosts, ...posts]);
-  
-      if (posts.length > 0) {
-        setLastTimestamp(postsData.timestamp);
+  useEffect(() => {
+    getRecentPosts.current = async () => {
+      if (loading) return; 
+      setLoading(true);
+    
+      const response = await fetch(
+        `${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=10` +
+        (lastTimestamp ? `&timestamp=${lastTimestamp}` : '')
+      );
+    
+      if (response.ok) {
+        const postsData = await response.json();
+        const posts = postsData.posts;
+        setPosts(prevPosts => [...prevPosts, ...posts]);
+    
+        if (posts.length > 0) {
+          setLastTimestamp(postsData.timestamp);
+        }
       }
-    }
-  
-    setLoading(false);
-  }, [lastTimestamp]);
+    
+      setLoading(false);
+    };
+  }, [lastTimestamp, loading]);
 
   useEffect(() => {
     const onScroll = () => {
         // Check if the user has scrolled to 300px from the bottom of the page.
         if (window.innerHeight + document.documentElement.scrollTop + 300 >= document.documentElement.offsetHeight) {
           // Call getRecentPosts if they have.
-          getRecentPosts();
+          getRecentPosts.current();
         }
     };
 
@@ -51,7 +55,7 @@ function HomePage() {
     return () => {
         window.removeEventListener('scroll', onScroll);
     };
-  }, [getRecentPosts]);
+  }, []);
 
   const handleToggleComments = (postId) => {
     setIsCommentsExpanded(prevState => ({
