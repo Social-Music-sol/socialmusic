@@ -15,62 +15,43 @@ function HomePage() {
   const [lastTimestamp, setLastTimestamp] = useState(null);
   const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState(localStorage.getItem('user_id'));
-  const [hasScrolled, setHasScrolled] = useState(false);
+
+  const getRecentPosts = useCallback(async () => {
+    if (loading) return; 
+    setLoading(true);
+  
+    const response = await fetch(
+      `${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=10` +
+      (lastTimestamp ? `&timestamp=${lastTimestamp}` : '')
+    );
+  
+    if (response.ok) {
+      const postsData = await response.json();
+      const posts = postsData.posts;
+      setPosts(prevPosts => [...prevPosts, ...posts]);
+  
+      if (posts.length > 0) {
+        setLastTimestamp(postsData.timestamp);
+      }
+    }
+  
+    setLoading(false);
+  }, [lastTimestamp]);
 
   useEffect(() => {
     const onScroll = () => {
-        setHasScrolled(true);
-        window.removeEventListener('scroll', onScroll);
+        // Check if the user has scrolled to 300px from the bottom of the page.
+        if (window.innerHeight + document.documentElement.scrollTop + 300 >= document.documentElement.offsetHeight) {
+          // Call getRecentPosts if they have.
+          getRecentPosts();
+        }
     };
+
     window.addEventListener('scroll', onScroll);
     return () => {
         window.removeEventListener('scroll', onScroll);
     };
-}, []);
-
-  const observer = useRef();
-
-  const getRecentPosts = useCallback(() => {
-    return new Promise(async (resolve, reject) => {
-        if (loading) {
-            resolve();
-            return;
-        }
-        setLoading(true);
-        if (observer.current) observer.current.disconnect(); 
-  
-        const response = await fetch(
-          `${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=10` +
-          (lastTimestamp ? `&timestamp=${lastTimestamp}` : '')
-        );
-    
-        if (response.ok) {
-          const postsData = await response.json();
-          const posts = postsData.posts;
-          setPosts(prevPosts => [...prevPosts, ...posts]);
-      
-          if (posts.length > 0) {
-            setLastTimestamp(postsData.timestamp);
-          }
-        }
-        setLoading(false);
-        resolve();
-    });
-}, [lastTimestamp]);
-
-
-  const lastPostElementRef = useCallback(node => {
-    if (loading || !hasScrolled) return; // Only call getRecentPosts if the user has scrolled.
-    if (observer.current) observer.current.disconnect();
-    observer.current = new IntersectionObserver(entries => {
-        if (entries[entries.length - 1].isIntersecting) {
-          getRecentPosts();
-        }
-    });
-    if (node) observer.current.observe(node);
-}, [loading, getRecentPosts, hasScrolled]); // Don't forget to add hasScrolled to the dependency array.
-  
-  
+  }, [getRecentPosts]);
 
   const handleToggleComments = (postId) => {
     setIsCommentsExpanded(prevState => ({
@@ -108,16 +89,8 @@ function HomePage() {
   }, [username, getProfilePicture]);
 
   useEffect(() => {
-    getRecentPosts().then(() => {
-        if (observer.current) observer.current.disconnect();
-        observer.current = new IntersectionObserver(entries => {
-            if (entries[entries.length - 1].isIntersecting) {
-              getRecentPosts();
-            }
-        });
-    });
-}, [getRecentPosts]);
-
+    getRecentPosts();
+  }, [getRecentPosts]);
 
   const handleCommentSubmit = async (e, postId) => {
     e.preventDefault();
