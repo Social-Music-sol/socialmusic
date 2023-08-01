@@ -57,11 +57,11 @@ function HomePage() {
       const st = window.pageYOffset || document.documentElement.scrollTop;
       const headerHeight = document.querySelector('.header').offsetHeight;
 
-      if (postBox && st > postBox.offsetTop - headerHeight) {
-        // Header collides with the post-box - hide header
+      if (st > lastScrollTop && postBox && st > postBox.offsetTop - headerHeight) {
+        // Downscroll and header collides with the post-box - hide header
         setShowHeader(false);
-      } else {
-        // Header doesn't collide with the post-box - show header
+      } else if (st < lastScrollTop) {
+        // Upscroll - show header
         setShowHeader(true);
       }
       lastScrollTop = st <= 0 ? 0 : st;
