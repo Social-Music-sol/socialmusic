@@ -30,29 +30,34 @@ function HomePage() {
 
   const observer = useRef();
 
-  const getRecentPosts = useCallback(async () => {
-    if (loading) return; 
-    setLoading(true);
-    if (observer.current) observer.current.disconnect(); 
+  const getRecentPosts = useCallback(() => {
+    return new Promise(async (resolve, reject) => {
+        if (loading) {
+            resolve();
+            return;
+        }
+        setLoading(true);
+        if (observer.current) observer.current.disconnect(); 
   
-    const response = await fetch(
-      `${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=10` +
-      (lastTimestamp ? `&timestamp=${lastTimestamp}` : '')
-    );
-  
-    if (response.ok) {
-      const postsData = await response.json();
-      const posts = postsData.posts;
-      setPosts(prevPosts => [...prevPosts, ...posts]);
-  
-      if (posts.length > 0) {
-        setLastTimestamp(postsData.timestamp);
-      }
-    }
-  
-    setLoading(false);
-    // The observer is reconnected in lastPostElementRef, not here.
-  }, [lastTimestamp]);
+        const response = await fetch(
+          `${process.env.REACT_APP_API_DOMAIN}/recent-feed?limit=10` +
+          (lastTimestamp ? `&timestamp=${lastTimestamp}` : '')
+        );
+    
+        if (response.ok) {
+          const postsData = await response.json();
+          const posts = postsData.posts;
+          setPosts(prevPosts => [...prevPosts, ...posts]);
+      
+          if (posts.length > 0) {
+            setLastTimestamp(postsData.timestamp);
+          }
+        }
+        setLoading(false);
+        resolve();
+    });
+}, [lastTimestamp]);
+
 
   const lastPostElementRef = useCallback(node => {
     if (loading || !hasScrolled) return; // Only call getRecentPosts if the user has scrolled.
@@ -103,8 +108,16 @@ function HomePage() {
   }, [username, getProfilePicture]);
 
   useEffect(() => {
-    getRecentPosts();
-  }, [getRecentPosts]);
+    getRecentPosts().then(() => {
+        if (observer.current) observer.current.disconnect();
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[entries.length - 1].isIntersecting) {
+              getRecentPosts();
+            }
+        });
+    });
+}, [getRecentPosts]);
+
 
   const handleCommentSubmit = async (e, postId) => {
     e.preventDefault();
