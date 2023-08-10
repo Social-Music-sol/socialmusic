@@ -2,7 +2,7 @@
   --primary-color: rgb(240, 239, 239);
   --secondary-color: rgb(255, 240, 240);
   --primary-text-color: black;
-  --secondary-text-color: pink;
+  --secondary-text-color: #e6e5e5;
   --border-color: rgb(229, 229, 229);
   --small-font-size: 0.8em;
   --normal-font-size: 1em;
@@ -106,8 +106,8 @@ body {
   align-items: center;
   justify-content: space-between;
   position: fixed;
-  top: 2vh;
-  left: 2vw;
+  top: 0;
+  left: 0;
   width: 96vw;
   padding: 1em 2vw;
   min-height: 10vh;
