@@ -199,15 +199,18 @@ function HomePage() {
                       <p>{reply.content}</p>
                     </div>
                   ))}
-                  <div className="expand-collapse-container">
+                  <div className="comment-actions-container">
+                    {/* Expand/Collapse comments button */}
                     <button onClick={() => handleToggleComments(post.id)}>
-                      {isCommentsExpanded[post.id] ? 'Collapse' : 'Expand'} comments
+                        {isCommentsExpanded[post.id] ? 'Collapse' : 'Expand'} comments
                     </button>
-                  </div>
-                  <form onSubmit={(e) => handleCommentSubmit(e, post.id)} className="comment-form">
-                    <input type="text" name="comment" placeholder="Add a comment..." />
-                    <button type="submit">Comment</button>
-                  </form>
+                  
+                    {/* Comment form */}
+                    <form onSubmit={(e) => handleCommentSubmit(e, post.id)} className="comment-form">
+                        <input type="text" name="comment" placeholder="Add a comment..." />
+                        <button type="submit">Comment</button>
+                    </form>
+                </div>
                 </div>
               </div>
               <div className="like-container">
@@ -217,7 +220,7 @@ function HomePage() {
                   style={{ color: post.liked_by_requester ? 'red' : 'pink' }}
                   onClick={() => handleLike(post.id, posts, setPosts)}
                 />
-                <p>{post.like_count}</p>
+                <p className="like-count">{post.like_count}</p>
               </div>
             </div>
           );

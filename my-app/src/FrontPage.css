@@ -73,6 +73,7 @@ body {
   justify-content: space-between;
   margin-top: 2em;
   z-index: 10;
+  flex-direction: column;
 }
 
 .like-button {
@@ -193,6 +194,15 @@ body {
 
 .like-button, .post-button {
   cursor: pointer;
+}
+
+.comment-actions-container {
+  position: absolute;
+  bottom: 0.5em; /* Adjust this value as needed */
+  right: 0.5em;  /* Adjust this value as needed */
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  gap: 0.5em; /* Space between elements, adjust as needed */
 }
 
 .comment-box {
