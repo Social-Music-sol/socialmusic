@@ -209,9 +209,8 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.5em;
-  position: absolute;
-  right: 0.5em;
-  bottom: -6em;
+  position: relative;
+  width: 37%;
 }
 
 .comment-box {

@@ -202,7 +202,7 @@ function HomePage() {
                   <div className="comment-actions-container">
                     {/* Expand/Collapse comments button */}
                     <button onClick={() => handleToggleComments(post.id)}>
-                        {isCommentsExpanded[post.id] ? 'Collapse' : 'Expand'} comments
+                        {isCommentsExpanded[post.id] ? 'Hide' : 'Show'} relpies
                     </button>
                   
                     {/* Comment form */}
