@@ -126,6 +126,7 @@ body {
   border: 1px solid var(--secondary-color);
   border-radius: 20px;
   padding: 10px 20px;
+  text-decoration: none;
 }
 
 .post-button {

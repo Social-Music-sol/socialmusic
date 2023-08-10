@@ -144,7 +144,7 @@ function HomePage() {
           </Link>
           {username && 
             <Link to="/post" className="create-post-button">
-              <button className="post-button">+++</button>
+              <button className="post-button">Post</button>
             </Link>
           }
         </div>
