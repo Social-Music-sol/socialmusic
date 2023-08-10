@@ -77,6 +77,12 @@ body {
   z-index: 10;
 }
 
+.logout-button{
+  position: relative;
+  top: 0.5em;
+  right: 0.1em;
+}
+
 .like-button {
   font-size: var(--large-font-size);
   cursor: pointer;
@@ -91,9 +97,10 @@ body {
 .pfp-container {
   display: flex;
   justify-content: flex-end;
+  flex-direction: column;
   align-items: center;
-  padding-right: 2vw;
 }
+
 
 .pfp-link {
   display: flex;
