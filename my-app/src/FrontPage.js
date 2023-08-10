@@ -188,29 +188,24 @@ function HomePage() {
                   </div>
                 )}
                 <div className={`comments-section ${isCommentsExpanded[post.id] ? 'expanded' : ''}`}>
-                  {(isCommentsExpanded[post.id] ? post.replies : post.replies.slice(0, 1)).map((reply, index) => (
+                  {isCommentsExpanded[post.id] && post.replies.map((reply, index) => (
                     <div key={index} className="reply-box">
-                      <div className="reply-header">
-                        <Link to={`/users/${reply.username}`} className="profile-link">
-                          <img src={reply.poster_pfp_url} alt={`${reply.username}'s profile`} className="profile-icon" />
-                        </Link>
-                        <h3>{reply.username}</h3>
-                      </div>
-                      <p>{reply.content}</p>
+                      {/* ... reply content ... */}
                     </div>
                   ))}
                   <div className="comment-actions-container">
-                    {/* Expand/Collapse comments button */}
-                    <button onClick={() => handleToggleComments(post.id)}>
+                    {/* Display button only if there are replies */}
+                    {post.replies.length > 0 && (
+                      <button onClick={() => handleToggleComments(post.id)}>
                         {isCommentsExpanded[post.id] ? 'Collapse' : 'Expand'} comments
-                    </button>
-                  
+                      </button>
+                    )}
                     {/* Comment form */}
                     <form onSubmit={(e) => handleCommentSubmit(e, post.id)} className="comment-form">
                         <input type="text" name="comment" placeholder="Add a comment..." />
                         <button type="submit">Comment</button>
                     </form>
-                </div>
+                  </div>
                 </div>
               </div>
               <div className="like-container">
