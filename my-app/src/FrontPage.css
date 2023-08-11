@@ -210,15 +210,6 @@ body {
   flex-direction: column;
   gap: 0.5em;
   position: relative;
-  width: 37%;
-}
-
-.expand-collapse-button {
-  color: rgb(29, 155, 240);
-  padding-bottom: 8px;
-  padding-top: 8px;
-  border: 0px black;
-  cursor: pointer;
 }
 
 .comment-box {
