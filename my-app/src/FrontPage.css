@@ -172,7 +172,7 @@ body {
 
 .toggle-comments-button {
   /* Add your desired styles here */
-  background-color: var(--secondary-color);
+  background-color: var(--primary-color);
   border: 0px solid var(--secondary-color);
   border-radius: 5px;
   padding: 8px 16px;
@@ -183,7 +183,7 @@ body {
 }
 
 .toggle-comments-button:hover {
-  background-color: var(--primary-color);
+  background-color: var(--secondary-color);
 }
 
 .embed-container {
