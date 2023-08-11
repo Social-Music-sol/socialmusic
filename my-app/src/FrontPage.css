@@ -170,6 +170,22 @@ body {
   /* remove position: relative; */
 }
 
+.toggle-comments-button {
+  /* Add your desired styles here */
+  background-color: var(--primary-color);
+  border: 1px solid var(--secondary-color);
+  border-radius: 5px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  /* You can add more styles or overwrite existing ones as you see fit */
+}
+
+.toggle-comments-button:hover {
+  background-color: var(--secondary-color);
+}
+
 .embed-container {
   position: relative;
   width: 100%;
