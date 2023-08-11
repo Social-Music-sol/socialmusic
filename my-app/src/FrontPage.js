@@ -201,13 +201,7 @@ function HomePage() {
                   ))}
                   <div className="comment-actions-container">
                     {/* Expand/Collapse comments button */}
-                      <button style="
-    color: rgb(29, 155, 240);
-    padding-bottom: 8px;
-    padding-top: 8px;
-    border: 0px black;
-    cursor: pointer;
-    background-color: #e6e5e5;" onClick={() => handleToggleComments(post.id)}>
+                      <button onClick={() => handleToggleComments(post.id)}>
                           {isCommentsExpanded[post.id] ? 'Hide' : 'Show'} replies
                       </button>
                   
