@@ -5,7 +5,6 @@ import { faHeart, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { getLoggedInUser, handleLogout, handleLike, handleCommentSubmit, handleToggleComments} from './utils';
 import textlogo from './images/textlogo.png';
 import pfp from './images/circle.png';
-import postComponent from './PostComponent'
 import './FrontPage.css';
 import PostComponent from './PostComponent';
 
@@ -127,7 +126,7 @@ function HomePage() {
       <div className="posts-container">
         {posts.map((post, index) => {
           console.log('Loading post. . . s');
-          <PostComponent
+          return <PostComponent
             key={index}
             index={index}
             post={post}
@@ -135,7 +134,7 @@ function HomePage() {
             isCommentsExpanded={isCommentsExpanded}
             setIsCommentsExpanded={setIsCommentsExpanded}
             posts={posts}
-            />
+            />;
         })}
         {loading && <p>Loading...</p>}
       </div>
