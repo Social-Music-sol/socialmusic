@@ -1,11 +1,12 @@
 // App.js
-import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import RegisterPage from './RegisterPage';
 import LoginPage from './LoginPage';
 import PostForm from './PostPage';
 import UserProfile from './ProfilePage'; 
-import FrontPage from './FrontPage'; // update the path according to your directory structure
+import FrontPage from './FrontPage'; 
+import AuthPage from './AuthPage';  // Make sure you import AuthPage
 
 function App() {
   return (
@@ -18,10 +19,12 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/post" element={<PostForm />} />
             <Route path="/users/:username" element={<UserProfile />} />
+            <Route path="/auth" element={<AuthPage />} />  {/* Add this line for the AuthPage route */}
           </Routes>
         </div>
       </div>
     </Router>
   );
 }
+
 export default App;

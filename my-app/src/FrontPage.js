@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { Link } from "react-router-dom";
+import React, { useEffect, useState, useCallback } from 'react';
+import { Link, Redirect } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { getLoggedInUser, handleLogout, handleLike, handleCommentSubmit} from './utils';
@@ -9,6 +9,11 @@ import './FrontPage.css';
 
 function HomePage() {
   const username = getLoggedInUser();
+
+  if (!username) {
+    return <Redirect to="/auth" />;
+  }
+
   const [posts, setPosts] = useState([]);
   const [userProfilePic, setUserProfilePic] = useState(null);
   const [isCommentsExpanded, setIsCommentsExpanded] = useState({});
@@ -162,10 +167,6 @@ function HomePage() {
           }
         </div>
       </div>
-      {!username && <Link className="create-post-button post-button" to="/register">Register</Link>}
-      <br />
-      {!username && <Link className="create-post-button post-button" to="/login">Login</Link>}
-      <br />
       <div className="posts-container">
         {posts.map((post, index) => {
           return (
