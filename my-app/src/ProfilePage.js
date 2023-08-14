@@ -104,10 +104,12 @@ export default function UserProfile() {
   }, [userPageId]);  // Only re-run these effects if 'userId' changes
   
   const getUserPosts = useCallback(async () => {
-    if (loading) return; 
+    console.log('we runnin it');
+    if (loading) return;
+    console.log('awoo');
     if (!userPageId) return;
     setLoading(true);
-  
+    console.log('made it thru');
     const response = await fetch(
       `${process.env.REACT_APP_API_DOMAIN}/get-posts${userPageId}?limit=10` +
       (lastTimestamp ? `&timestamp=${lastTimestamp}` : '')
