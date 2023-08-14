@@ -1,5 +1,5 @@
 import './FrontPage.css';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -28,6 +28,7 @@ export default function UserProfile() {
   const [loading, setLoading] = useState(false);
   const [initialLoad, setInitialLoad] = useState(false);
   const [userPageId, setUserPageId] = useState(null);
+  const [userId, setUserId] = useState(localStorage.getItem('user_id'));
 
   useEffect(() => {
     if (username) {
@@ -37,9 +38,9 @@ export default function UserProfile() {
 
   useEffect(() => {
     if (!initialLoad) {
-      getRecentPosts();
+      getUserPosts();
     }
-  }, [getRecentPosts, initialLoad]);
+  }, [getUserPosts, initialLoad]);
 
   useEffect(() => {
     const getUserPageID = async () => {
@@ -134,7 +135,6 @@ export default function UserProfile() {
     const onScroll = () => {
         // Check if the user has scrolled to 300px from the bottom of the page.
         if (window.innerHeight + document.documentElement.scrollTop + 300 >= document.documentElement.offsetHeight) {
-          // Call getRecentPosts if they have.
           getUserPosts();
         }
     };
