@@ -44,6 +44,12 @@ body {
   border-radius: 50%;
 }
 
+.create-post-button.post-button {
+  text-decoration: none; /* To remove the underline */
+  color: var(--primary-text-color); /* Or any other color you want */
+  display: inline-block;  /* Helps in retaining the block-like structure */
+}
+
 .post-content {
   flex-grow: 1;
 }

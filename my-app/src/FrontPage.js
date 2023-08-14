@@ -162,9 +162,9 @@ function HomePage() {
           }
         </div>
       </div>
-      {!username && <Link to="/register">Register</Link>}
+      {!username && <Link className="create-post-button post-button" to="/register">Register</Link>}
       <br />
-      {!username && <Link to="/login">Login</Link>}
+      {!username && <Link className="create-post-button post-button" to="/login">Login</Link>}
       <br />
       <div className="posts-container">
         {posts.map((post, index) => {
