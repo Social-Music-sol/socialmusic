@@ -143,7 +143,7 @@ export default function UserProfile() {
     return () => {
         window.removeEventListener('scroll', onScroll);
     };
-  }, [getRecentPosts]);
+  }, [getUserPosts]);
 
 
   const handleUpload = async () => {
