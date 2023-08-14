@@ -126,6 +126,7 @@ function HomePage() {
       <br />
       <div className="posts-container">
         {posts.map((post, index) => {
+          console.log('Loading post. . . s');
           <PostComponent
             key={index}
             index={index}
