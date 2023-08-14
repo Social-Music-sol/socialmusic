@@ -53,6 +53,11 @@ body {
   font-size: larger;
 }
 
+.create-post-button.post-button:hover {
+  color: #f0efef;
+}
+
+
 .post-content {
   flex-grow: 1;
 }
