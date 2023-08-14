@@ -8,15 +8,9 @@ import pfp from './images/circle.png';
 import './FrontPage.css';
 
 function HomePage() {
-  const username = getLoggedInUser();
+  // Declare all hooks at the top of the component
   const navigate = useNavigate();
-
-  if (!username) {
-    navigate("/auth");
-    return null; // return null or a loading spinner while navigating
-  }
-
-
+  const username = getLoggedInUser();
   const [posts, setPosts] = useState([]);
   const [userProfilePic, setUserProfilePic] = useState(null);
   const [isCommentsExpanded, setIsCommentsExpanded] = useState({});
@@ -24,6 +18,13 @@ function HomePage() {
   const [loading, setLoading] = useState(false);
   const [initialLoad, setInitialLoad] = useState(false);
   const [userId, setUserId] = useState(localStorage.getItem('user_id'));
+  // ... any other hooks you're using
+  
+  // After declaring the hooks, you can place your conditional logic
+  if (!username) {
+    navigate("/auth");
+    return null; // return null or a loading spinner while navigating
+  }
 
   const getRecentPosts = useCallback(async () => {
     if (loading) return; 
