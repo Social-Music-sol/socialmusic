@@ -1,6 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCircle } from '@fortawesome/free-solid-svg-icons';
+import { Link } from "react-router-dom";
 import { getLoggedInUser, handleLogout, handleLike, handleCommentSubmit, handleToggleComments} from './utils';
 
 function PostComponent(props) {
@@ -65,7 +66,7 @@ function PostComponent(props) {
                 <p className="like-count">{post.like_count}</p>
               </div>
             </div>
-        {loading && <p>Loading...</p>}
+        {/* {loading && <p>Loading...</p>} */}
       </div>
   );
 }
