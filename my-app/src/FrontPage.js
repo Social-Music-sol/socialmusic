@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCircle } from '@fortawesome/free-solid-svg-icons';
-import { getLoggedInUser, handleLogout, handleLike } from './utils';
+import { getLoggedInUser, handleLogout, handleLike, handleCommentSubmit} from './utils';
 import textlogo from './images/textlogo.png';
 import pfp from './images/circle.png';
 import './FrontPage.css';
