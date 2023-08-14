@@ -98,12 +98,15 @@ def get_user_by_name(username):
 @jwt_required()
 def get_posts(user_id):
     limit = request.args.get('limit', default=15, type=int)
+    timestamp = request.args.get('timestamp', default=None, type=int)
     requester_id = get_jwt_identity()
     try:
-        posts = post_repository.get(user_id, amount=limit, requester_id=requester_id)
-        return jsonify(posts), 200
+        posts, timestamp = post_repository.get_user_posts(user_id, amount=limit, requester_id=requester_id, timestamp=timestamp)
+        return jsonify({'posts': posts, 'timestamp': timestamp}), 200
     except NameError:
         return jsonify({'error': 'User not found'}), 404
+    except FileNotFoundError:
+        return jsonify({'error': 'Reached end of posts'}), 418
 
 @app.route('/recent-feed', methods=['GET'])
 @jwt_required()

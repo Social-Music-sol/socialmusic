@@ -43,7 +43,7 @@ class User(db.Model):
             'id': str(self.id),
             'username': self.username,
             'email': self.email,
-            'pfp_url': self.pfp,
+            'pfp_url': self.make_pfp_url(self.pfp),
             'created_at': self.created_at
         }
     

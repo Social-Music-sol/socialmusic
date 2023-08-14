@@ -37,23 +37,18 @@ class PostRepository:
 
         return new_post.to_dict()
         
-    def get(self, user_id, amount=5, requester_id=None):
+    def get_user_posts(self, user_id, amount=5, requester_id=None, timestamp=None):
         self.exists(requester_id)
         user = self.exists(user_id)
-        if not user:
-            raise NameError
-        
-        posts = user.posts.order_by(Post.created_at.desc()).limit(amount).all()
-        post_data = []
-        included_posts = set()
-        for post in posts:
-            if post.parent_id:
-                while post.parent_id:
-                    post = Post.query.get(post.parent_id)
-            if post.id not in included_posts:
-                included_posts.add(post.id)
-                post_data.append(self.full_post_data(requester_id, post=post))
-        return post_data
+        query = Post.query.filter_by(parent_id=None, user_id=user.id)
+        if timestamp:
+            timestamp = datetime.utcfromtimestamp(timestamp)
+            query = query.filter(Post.created_at < timestamp)
+        posts = query.order_by(Post.created_at.desc()).limit(amount).all()
+        post_data = [self.full_post_data(requester_id, post=post) for post in posts]
+        if not posts:
+            raise FileNotFoundError
+        return post_data, int(post_data[-1]['created_at']) - 1
 
     def get_feed(self, requester_id, amount=10, timestamp=None):
         self.exists(requester_id)
@@ -93,6 +88,8 @@ class PostRepository:
 
         if post.parent_id:
             post_data['parent_id'] = post.parent_id
+        else:
+            post_data['parent_id'] = None
 
         replies = post.replies.all()
         post_data['replies'] = []

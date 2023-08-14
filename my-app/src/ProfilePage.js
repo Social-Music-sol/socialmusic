@@ -5,44 +5,89 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { getLoggedInUser, handleLike, handleLogout } from './utils';
+import PostComponent from './PostComponent';
 import textlogo from './images/textlogo.png';
 const PROFILE_PIC_BASE_URL = 'https://jamjar.live/profile-pictures/';
 
 
 
 export default function UserProfile() {
-  const { username } = useParams();
   const loggedInUser = getLoggedInUser();
   const [posts, setPosts] = useState([]);
-  const [userId, setUserId] = useState(null);
   const [isFollowing, setIsFollowing] = useState(false);
   const [followers, setFollowers] = useState(0);
   const [following, setFollowing] = useState(0);
   const [profilePic, setProfilePic] = useState('');  // Default profile picture URL
   const [selectedFile, setSelectedFile] = useState(null);
   const [pfp, setPfp] = useState(''); // Add your default profile picture URL
+  const username = getLoggedInUser();
+  const pageUsername = useParams();
+  const [userProfilePic, setUserProfilePic] = useState(null);
+  const [isCommentsExpanded, setIsCommentsExpanded] = useState({});
+  const [lastTimestamp, setLastTimestamp] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [initialLoad, setInitialLoad] = useState(false);
+  const [userPageId, setUserPageId] = useState(null);
 
   useEffect(() => {
-    const getUserID = async () => {
-      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/user-by-name/${username}`);
+    if (username) {
+      getProfilePicture();
+    }
+  }, [username, getProfilePicture]);
+
+  useEffect(() => {
+    if (!initialLoad) {
+      getRecentPosts();
+    }
+  }, [getRecentPosts, initialLoad]);
+
+  useEffect(() => {
+    const getUserPageID = async () => {
+      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/user-by-name/${pageUsername}`);
   
       if (response.ok) {
         const userData = await response.json();
-        setUserId(userData.user_id);
+        setUserPageId(userData.user_id);
         setFollowers(userData.followers);
         setFollowing(userData.following);
         setIsFollowing(userData.requester_following);
+        setProfilePic(userData.pfp_url)
       }
     };
   
-    getUserID();
-  }, [username]);  // Only re-run this effect if 'username' changes
+    getUserPageID();
+    setPosts([]);
+    getUserPosts();
+  }, [pageUsername]);  // Only re-run this effect if 'username' changes
+
+  const getProfilePicture = useCallback(async () => {
+    let cachedPfpUrl = localStorage.getItem('pfp_url');
+  
+    if (userId) {
+      if (!cachedPfpUrl) {
+        const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?id=${userId}`, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+  
+        if (response.ok) {
+          const userData = await response.json();
+          setUserProfilePic(userData.pfp_url);
+          localStorage.setItem('pfp_url', userData.pfp_url);
+        }
+      } else {
+        setUserProfilePic(cachedPfpUrl);
+      }
+    }
+  }, [userId]);
+
   
   useEffect(() => {
-    if (!userId) return;  // Skip if 'userId' is not set yet
+    if (!userPageId) return;  // Skip if 'userId' is not set yet
   
     const getProfilePicture = async () => {
-      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?id=${userId}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?id=${userPageId}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
@@ -54,20 +99,51 @@ export default function UserProfile() {
       }
     };
   
-    const getUserPosts = async () => {
-      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-posts/${userId}`);
-  
-      if (response.ok) {
-        const postsData = await response.json();
-        setPosts(postsData);
-      }
-    };
-  
     getProfilePicture();
-    getUserPosts();
-  }, [userId]);  // Only re-run these effects if 'userId' changes
+  }, [userPageId]);  // Only re-run these effects if 'userId' changes
   
+  const getUserPosts = useCallback(async () => {
+    if (loading) return; 
+    if (!userPageId) return;
+    setLoading(true);
+  
+    const response = await fetch(
+      `${process.env.REACT_APP_API_DOMAIN}/get-posts${userPageId}?limit=10` +
+      (lastTimestamp ? `&timestamp=${lastTimestamp}` : '')
+    );
+  
+    if (response.ok) {
+      const postsData = await response.json();
+      const posts = postsData.posts;
+      setPosts(prevPosts => [...prevPosts, ...posts]);
+  
+      if (posts.length > 0) {
+        setLastTimestamp(postsData.timestamp);
+      }
+    } 
+    
+    if (response.status !== 418) {
+      setLoading(false);
+    }
+  
+    
+    if (!initialLoad) setInitialLoad(true);
+  }, [lastTimestamp, loading, initialLoad, userPageId]);
 
+  useEffect(() => {
+    const onScroll = () => {
+        // Check if the user has scrolled to 300px from the bottom of the page.
+        if (window.innerHeight + document.documentElement.scrollTop + 300 >= document.documentElement.offsetHeight) {
+          // Call getRecentPosts if they have.
+          getUserPosts();
+        }
+    };
+
+    window.addEventListener('scroll', onScroll);
+    return () => {
+        window.removeEventListener('scroll', onScroll);
+    };
+  }, [getRecentPosts]);
 
 
   const handleUpload = async () => {
@@ -91,7 +167,6 @@ export default function UserProfile() {
     }
   };
   
-
   const handleFollow = async () => {
     const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/follow-user?id=${userId}`, {
       method: isFollowing ? 'DELETE' : 'POST',
@@ -147,35 +222,18 @@ export default function UserProfile() {
         <h2>Following: {following}</h2>
         <Link to="/">Go to Homepage</Link>
         <h2>Posts:</h2>
-        {posts.map((post, index) => (
-          <div className="post-box" key={index}>
-            <div className="like-container">
-              <FontAwesomeIcon 
-                icon={post.liked_by_requester ? faHeart : faHeart} 
-                className="like-button" 
-                style={{ color: post.liked_by_requester ? 'red' : 'pink' }}
-                onClick={() => handleLike(post.id, posts, setPosts)}
-              />
-              <p>{post.like_count} Likes</p>
-              <p>{post.replies.length} Comments</p>
-            </div>
-            <div className="post-header">
-              {profilePic && <img src={profilePic} className="profile-icon" alt="Profile" />}
-              <h1>{username}</h1>
-            </div>
-            <div className="post-content">
-              <p className="post-text">{post.content}</p>
-              {/* <img src={post.image_url} alt="post-content" /> */}
-              <div className="post-embed" dangerouslySetInnerHTML={{
-                __html: `<iframe src=${post.song_embed_url} style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" allowfullscreen allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture; autoplay;"></iframe>`
-              }}>
-              </div>
-            </div>
-            <div className="like-container">
-              <p>{post.created_at}</p>
-            </div>
-          </div>
-        ))}
+        {posts.map((post, index) => {
+          console.log('Loading post. . . s');
+          return <PostComponent
+            key={index}
+            index={index}
+            post={post}
+            setPosts={setPosts}
+            isCommentsExpanded={isCommentsExpanded}
+            setIsCommentsExpanded={setIsCommentsExpanded}
+            posts={posts}
+            />;
+        })}
       </div>
     </div>
   );
