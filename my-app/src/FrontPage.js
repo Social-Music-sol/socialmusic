@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { getLoggedInUser, handleLogout, handleLike, handleCommentSubmit} from './utils';
@@ -9,7 +9,6 @@ import './FrontPage.css';
 
 function HomePage() {
   const username = getLoggedInUser();
-  const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [userProfilePic, setUserProfilePic] = useState(null);
   const [isCommentsExpanded, setIsCommentsExpanded] = useState({});
@@ -17,12 +16,6 @@ function HomePage() {
   const [loading, setLoading] = useState(false);
   const [initialLoad, setInitialLoad] = useState(false);
   const [userId, setUserId] = useState(localStorage.getItem('user_id'));
-
-  // After declaring the hooks, you can place your conditional logic
-  if (!username) {
-    navigate("/auth");
-    return null; // return null or a loading spinner while navigating
-  }
 
   const getRecentPosts = useCallback(async () => {
     if (loading) return; 
@@ -169,6 +162,10 @@ function HomePage() {
           }
         </div>
       </div>
+      {!username && <Link className="create-post-button post-button" to="/register">Register</Link>}
+      <br />
+      {!username && <Link className="create-post-button post-button" to="/login">Login</Link>}
+      <br />
       <div className="posts-container">
         {posts.map((post, index) => {
           return (

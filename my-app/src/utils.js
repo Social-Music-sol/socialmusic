@@ -45,7 +45,3 @@ export const handleLike = async (postId, posts, setPosts) => {
       setPosts(newPosts);
     }
   };
-  
-  
-  
-        
