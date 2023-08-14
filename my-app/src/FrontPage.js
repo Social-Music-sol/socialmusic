@@ -130,7 +130,10 @@ function HomePage() {
           : post
       ));
   
-      handleToggleComments(postId);
+      setIsCommentsExpanded(prevState => ({
+        ...prevState,
+        [postId]: true
+      }));
     }
   };
 
