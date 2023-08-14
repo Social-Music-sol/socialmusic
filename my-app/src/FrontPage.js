@@ -100,44 +100,6 @@ function HomePage() {
     }
   }, [getRecentPosts, initialLoad]);
 
-  const handleCommentSubmit = async (e, postId) => {
-    e.preventDefault();
-  
-    const commentContent = e.target.comment.value;
-    e.target.comment.value = ''; 
-  
-    const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/post`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        content: commentContent,
-        parent_id: postId,
-      }),
-    });
-  
-    if (response.ok) {
-      const newComment = await response.json();
-  
-      newComment.username = username;
-      newComment.poster_pfp_url = userProfilePic;
-  
-      setPosts((prevPosts) => prevPosts.map(post =>
-        post.id === postId
-          ? { ...post, replies: [...post.replies, newComment] }
-          : post
-      ));
-  
-      setIsCommentsExpanded(prevState => ({
-        ...prevState,
-        [postId]: true
-      }));
-    }
-  };
-
-  
   return (
     <div className="container">
       <div className="header">
