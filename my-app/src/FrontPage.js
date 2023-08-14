@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCircle } from '@fortawesome/free-solid-svg-icons';
@@ -8,9 +8,8 @@ import pfp from './images/circle.png';
 import './FrontPage.css';
 
 function HomePage() {
-  // Declare all hooks at the top of the component
-  const navigate = useNavigate();
   const username = getLoggedInUser();
+  const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [userProfilePic, setUserProfilePic] = useState(null);
   const [isCommentsExpanded, setIsCommentsExpanded] = useState({});
@@ -18,8 +17,7 @@ function HomePage() {
   const [loading, setLoading] = useState(false);
   const [initialLoad, setInitialLoad] = useState(false);
   const [userId, setUserId] = useState(localStorage.getItem('user_id'));
-  // ... any other hooks you're using
-  
+
   // After declaring the hooks, you can place your conditional logic
   if (!username) {
     navigate("/auth");
