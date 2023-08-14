@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCircle } from '@fortawesome/free-solid-svg-icons';
-import { getLoggedInUser, handleLogout, handleLike, handleCommentSubmit} from './utils';
+import { getLoggedInUser, handleLogout, handleLike, handleCommentSubmit, handleToggleComments} from './utils';
 import textlogo from './images/textlogo.png';
 import pfp from './images/circle.png';
 import './FrontPage.css';
@@ -59,12 +59,6 @@ function HomePage() {
     };
   }, [getRecentPosts]);
 
-  const handleToggleComments = (postId) => {
-    setIsCommentsExpanded(prevState => ({
-      ...prevState,
-      [postId]: !prevState[postId]
-    }));
-  };
 
   const getProfilePicture = useCallback(async () => {
     let cachedPfpUrl = localStorage.getItem('pfp_url');
@@ -99,44 +93,6 @@ function HomePage() {
       getRecentPosts();
     }
   }, [getRecentPosts, initialLoad]);
-
-  const handleCommentSubmit = async (e, postId) => {
-    e.preventDefault();
-  
-    const commentContent = e.target.comment.value;
-    e.target.comment.value = ''; 
-  
-    const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/post`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        content: commentContent,
-        parent_id: postId,
-      }),
-    });
-
-    if (response.ok) {
-      const newComment = await response.json();
-  
-      newComment.username = username;
-      newComment.poster_pfp_url = userProfilePic;
-  
-      setPosts((prevPosts) => prevPosts.map(post =>
-        post.id === postId
-          ? { ...post, replies: [...post.replies, newComment] }
-          : post
-      ));
-  
-      setIsCommentsExpanded(prevState => ({
-        ...prevState,
-        [postId]: true
-      }));
-    }
-  };
-  
 
   return (
     <div className="container">
@@ -204,12 +160,12 @@ function HomePage() {
                   ))}
                   <div className="comment-actions-container">
                     {/* Expand/Collapse comments button */}
-                    <button className="toggle-comments-button" onClick={() => handleToggleComments(post.id)}>
+                    <button className="toggle-comments-button" onClick={() => handleToggleComments(post.id, setIsCommentsExpanded)}>
                         {isCommentsExpanded[post.id] ? 'Hide' : `Show replies (${post.replies.length})`}
                     </button>
                   
                     {/* Comment form */}
-                    <form onSubmit={(e) => handleCommentSubmit(e, post.id)} className="comment-form">
+                    <form onSubmit={(e) => handleCommentSubmit(e, post.id, setPosts, setIsCommentsExpanded)} className="comment-form">
                         <input type="text" name="comment" placeholder="Add a comment..." />
                         <button type="submit">Comment</button>
                     </form>
