@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Link, Redirect } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { getLoggedInUser, handleLogout, handleLike, handleCommentSubmit} from './utils';
@@ -9,10 +9,13 @@ import './FrontPage.css';
 
 function HomePage() {
   const username = getLoggedInUser();
+  const navigate = useNavigate();
 
   if (!username) {
-    return <Redirect to="/auth" />;
+    navigate("/auth");
+    return null; // return null or a loading spinner while navigating
   }
+
 
   const [posts, setPosts] = useState([]);
   const [userProfilePic, setUserProfilePic] = useState(null);
