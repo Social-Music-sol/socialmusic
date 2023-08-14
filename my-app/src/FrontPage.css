@@ -160,6 +160,7 @@ body {
   align-items: center;
   margin-top: 0;
   border:2px solid red;
+  width: 80%;
 }
 
 .post-text-container {
