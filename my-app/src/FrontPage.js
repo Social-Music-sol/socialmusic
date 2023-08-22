@@ -144,7 +144,8 @@ function HomePage() {
 
 
 return (
-  <div className="container">
+  <div className="page-wrapper">
+
       <div className={`header ${headerHidden ? 'header-hide' : ''}`}>
           <div className="header-left">
               <Link to="/">
@@ -170,42 +171,41 @@ return (
               }
           </div>
       </div>
-      {!username && <Link className="create-post-button post-button" to="/register">Register</Link>}
-      <br />
-      {!username && <Link className="create-post-button post-button" to="/login">Login</Link>}
-      <br />
-      
-      {/* Add Notifications Column on the Left */}
-      <div className="content">
 
-        <div className="notifications-column">
-            {username && 
-                <Link to="/post" className="create-post-button">
-                    <button className="post-button">Post</button>
-                </Link>
-            }
-            {notifications.map((notification, index) => (
-                <div key={index} className="notification-item">
-                    {notification.message} {/* Adjust based on your notification structure */}
-                </div>
-            ))}
-        </div>
+      <div className="main-content">
 
-      <div className="posts-container">
-          {posts.map((post, index) => {
-              return <PostComponent
-                  key={index}
-                  index={index}
-                  post={post}
-                  setPosts={setPosts}
-                  isCommentsExpanded={isCommentsExpanded}
-                  setIsCommentsExpanded={setIsCommentsExpanded}
-                  posts={posts}
-              />;
-          })}
-          {loading && <p>Loading...</p>}
+          <div className="notifications-column">
+              {username && 
+                  <Link to="/post" className="create-post-button">
+                      <button className="post-button">Post</button>
+                  </Link>
+              }
+              {notifications.map((notification, index) => (
+                  <div key={index} className="notification-item">
+                      {notification.message} {/* Adjust based on your notification structure */}
+                  </div>
+              ))}
+          </div>
+
+          <div className="posts-container">
+              {posts.map((post, index) => {
+                  return <PostComponent
+                      key={index}
+                      index={index}
+                      post={post}
+                      setPosts={setPosts}
+                      isCommentsExpanded={isCommentsExpanded}
+                      setIsCommentsExpanded={setIsCommentsExpanded}
+                      posts={posts}
+                  />;
+              })}
+              {!username && <Link className="create-post-button post-button" to="/register">Register</Link>}
+              <br />
+              {!username && <Link className="create-post-button post-button" to="/login">Login</Link>}
+              <br />
+              {loading && <p>Loading...</p>}
+          </div>
       </div>
-  </div>
   </div>
 );
 }

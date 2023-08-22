@@ -189,6 +189,15 @@ body {
   flex: 1;
 
 }
+.main-content {
+  flex: 1; /* takes up the remaining space after the header */
+  display: flex;
+}
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* takes the full height of the viewport */
+}
 
 .post-text-container {
   background-color: #ffffff;
@@ -355,18 +364,24 @@ body {
   width: 100%;
 }
 .notifications-column {
-  position: fixed; /* Fix the position of the column to the left */
-  top: 10vh; /* Align to the top of the viewport */
+  position: sticky; /* Fix the position of the column to the left */
   left: 10px; /* Small margin from the left edge */
   width: 20%; /* Adjust width as required */
   max-width: 200px; /* You can set a max width if needed */
   overflow-y: auto; /* Add a scrollbar if notifications overflow */
-  height: 90vh; /* Take up the full height of the viewport */
   margin-left: 10px;
   background-color: #e6e6e6;
   min-height: 100vh;
+  padding:10px;
+  border-right: 1px solid #ff0000;
+}
+.notification-item:last-child {
+  border-bottom: none;
 }
 
+.notification-item:hover {
+  background-color: #e6e6e6;
+}
 
 .notification-item {
   padding: 10px;
