@@ -19,6 +19,8 @@ function HomePage() {
   const [userId, setUserId] = useState(localStorage.getItem('user_id'));
   const [headerHidden, setHeaderHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [logoHeight, setLogoHeight] = useState(null); // State for dynamic header height adjustment
+  const logoRef = useRef(null); // useRef for the logo element
 
   const getRecentPosts = useCallback(async () => {
     if (loading) return; 
