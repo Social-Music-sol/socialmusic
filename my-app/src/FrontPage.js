@@ -61,24 +61,22 @@ function HomePage() {
   }, [getRecentPosts]);
   useEffect(() => {
     const handleScroll = () => {
-      let currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      if (currentScrollTop > lastScrollTop) {
-        // Downward scroll
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > lastScrollY) {
         setHeaderHidden(true);
       } else {
-        // Upward scroll
         setHeaderHidden(false);
       }
-      setLastScrollTop(currentScrollTop <= 0 ? 0 : currentScrollTop);
-    }
+      setLastScrollY(currentScrollY);
+    };
 
     window.addEventListener('scroll', handleScroll);
 
-    // Cleanup the event listener on component unmount
     return () => {
       window.removeEventListener('scroll', handleScroll);
-    }
-  }, [lastScrollTop]);
+    };
+  }, [lastScrollY]);
 
   const getProfilePicture = useCallback(async () => {
     let cachedPfpUrl = localStorage.getItem('pfp_url');
