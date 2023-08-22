@@ -181,6 +181,8 @@ body {
   flex-direction: column;
   align-items: center;
   margin-top: 0;
+  margin-left: 220px; /* Adjust this value based on the width of the notifications column to prevent overlap */
+
 }
 
 .post-text-container {
@@ -348,13 +350,13 @@ body {
   width: 100%;
 }
 .notifications-column {
-  flex: 0 0 250px; /* Assuming a width of 250px for your notifications column, adjust as needed */
-  background-color: #f2f2f2; /* A light gray background, adjust color as needed */
-  padding: 20px;
-  border-left: 1px solid #ddd; /* Add a separating border */
-  height: calc(100vh - 10vh); /* Assuming your header is 10vh in height */
-  overflow-y: auto; /* Allows scrolling if there are many notifications */
-  margin-right: 10%;
+  position: fixed; /* Fix the position of the column to the left */
+  top: 0; /* Align to the top of the viewport */
+  left: 10px; /* Small margin from the left edge */
+  width: 20%; /* Adjust width as required */
+  max-width: 200px; /* You can set a max width if needed */
+  overflow-y: auto; /* Add a scrollbar if notifications overflow */
+  height: 100vh; /* Take up the full height of the viewport */
 }
 
 .notification-item {
