@@ -205,6 +205,8 @@ html, body {
   flex-direction: column;
   min-height: 100vh; /* takes the full height of the viewport */
   box-sizing: border-box;
+  width: 100%;
+
 
 }
 
