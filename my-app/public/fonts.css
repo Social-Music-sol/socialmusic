@@ -27,7 +27,7 @@
 }
 @font-face {
   font-family: "Spotify Circular";
-  src: url("/fonts/CircularSpotifyText-Book.otf");
+  src: url("/fonts/CircularSpotifyText-Book.otf") format('opentype');
 }
 @font-face {
   font-family: "Taj";
