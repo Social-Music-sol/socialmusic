@@ -59,7 +59,26 @@ function HomePage() {
         window.removeEventListener('scroll', onScroll);
     };
   }, [getRecentPosts]);
+  useEffect(() => {
+    const handleScroll = () => {
+      let currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      if (currentScrollTop > lastScrollTop) {
+        // Downward scroll
+        setHeaderHidden(true);
+      } else {
+        // Upward scroll
+        setHeaderHidden(false);
+      }
+      setLastScrollTop(currentScrollTop <= 0 ? 0 : currentScrollTop);
+    }
 
+    window.addEventListener('scroll', handleScroll);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    }
+  }, [lastScrollTop]);
 
   const getProfilePicture = useCallback(async () => {
     let cachedPfpUrl = localStorage.getItem('pfp_url');
@@ -95,9 +114,10 @@ function HomePage() {
     }
   }, [getRecentPosts, initialLoad]);
 
+
   return (
     <div className="container">
-      <div className="header">
+      <div className={`header ${headerHidden ? 'header-hide' : ''}`}>
         <div className="header-left">
           <Link to="/">
             <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
@@ -141,5 +161,4 @@ function HomePage() {
     </div>
   );
 }
-
 export default HomePage;
