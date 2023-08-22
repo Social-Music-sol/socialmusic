@@ -354,6 +354,7 @@ body {
   border-left: 1px solid #ddd; /* Add a separating border */
   height: calc(100vh - 10vh); /* Assuming your header is 10vh in height */
   overflow-y: auto; /* Allows scrolling if there are many notifications */
+  margin-right: 10%;
 }
 
 .notification-item {
