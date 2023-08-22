@@ -143,7 +143,9 @@ body {
   .header-hide {
     transform: translateY(-100%);
  }
-
+ .comment-container:nth-child(n+4) {
+  display: none;
+}
 .create-post-button {
   display: flex;
   align-items: center;

@@ -30,31 +30,46 @@ function PostComponent(props) {
                     </div>
                   </div>
                 )}
-                <div className={`comments-section ${isCommentsExpanded[post.id] ? 'expanded' : ''}`}>
-                  {(isCommentsExpanded[post.id] ? post.replies : []).map((reply, index) => (
-                    <div key={index} className="reply-box">
-                      <div className="reply-header">
-                        <Link to={`/users/${reply.username}`} className="profile-link">
-                          <img src={reply.poster_pfp_url} alt={`${reply.username}'s profile`} className="profile-icon" />
-                        </Link>
-                        <h3>{reply.username}</h3>
-                      </div>
-                      <p>{reply.content}</p>
-                    </div>
-                  ))}
-                  <div className="comment-actions-container">
-                    {/* Expand/Collapse comments button */}
-                    <button className="toggle-comments-button" onClick={() => handleToggleComments(post.id, setIsCommentsExpanded)}>
-                        {isCommentsExpanded[post.id] ? 'Hide' : `Show replies (${post.replies.length})`}
-                    </button>
-                  
-                    {/* Comment form */}
-                    <form onSubmit={(e) => handleCommentSubmit(e, post.id, setPosts, setIsCommentsExpanded)} className="comment-form">
-                        <input type="text" name="comment" placeholder="Add a comment..." />
-                        <button type="submit">Comment</button>
-                    </form>
-                </div>
-                </div>
+<div className={`comments-section ${isCommentsExpanded[post.id] ? 'expanded' : ''}`}>
+    {post.replies.slice(0, 3).map((reply, index) => (
+        <div key={index} className="reply-box">
+            <div className="reply-header">
+                <Link to={`/users/${reply.username}`} className="profile-link">
+                    <img src={reply.poster_pfp_url} alt={`${reply.username}'s profile`} className="profile-icon" />
+                </Link>
+                <h3>{reply.username}</h3>
+            </div>
+            <p>{reply.content}</p>
+        </div>
+    ))}
+
+    {isCommentsExpanded[post.id] && post.replies.slice(3).map((reply, index) => (
+        <div key={index + 3} className="reply-box"> {/* added +3 to avoid potential key conflicts */}
+            <div className="reply-header">
+                <Link to={`/users/${reply.username}`} className="profile-link">
+                    <img src={reply.poster_pfp_url} alt={`${reply.username}'s profile`} className="profile-icon" />
+                </Link>
+                <h3>{reply.username}</h3>
+            </div>
+            <p>{reply.content}</p>
+        </div>
+    ))}
+    
+    <div className="comment-actions-container">
+        {post.replies.length > 3 && (
+            <button className="toggle-comments-button" onClick={() => handleToggleComments(post.id, setIsCommentsExpanded)}>
+                {isCommentsExpanded[post.id] ? 'Hide' : `Show ${post.replies.length - 3} more replies`}
+            </button>
+        )}
+        
+        {/* Comment form */}
+        <form onSubmit={(e) => handleCommentSubmit(e, post.id, setPosts, setIsCommentsExpanded)} className="comment-form">
+            <input type="text" name="comment" placeholder="Add a comment..." />
+            <button type="submit">Comment</button>
+        </form>
+    </div>
+</div>
+
               </div>
               <div className="like-container">
                 <FontAwesomeIcon 
