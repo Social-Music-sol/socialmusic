@@ -24,6 +24,7 @@ function HomePage() {
   const logoRef = useRef(null); // useRef for the logo element
   const [notifications, setNotifications] = useState([]);
   const [headerHeight, setHeaderHeight] = useState(0);
+  const headerRef = useRef(null);
 
   
   
@@ -150,12 +151,17 @@ function HomePage() {
         setLogoHeight(logoRef.current.offsetHeight);
     }
 }, []);
+useEffect(() => {
+  if (headerRef.current) {
+      setHeaderHeight(headerRef.current.offsetHeight);
+  }
+}, []);
 
 
 return (
   <div className="page-wrapper">
 
-      <div className={`header ${headerHidden ? 'header-hide' : ''}`}>
+    <div className={`header ${headerHidden ? 'header-hide' : ''}`} ref={headerRef}>
           <div className="header-left">
               <Link to="/">
                   <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
@@ -181,7 +187,7 @@ return (
           </div>
       </div>
 
-      <div className="main-content" style={{marginTop: headerHeight}}>
+      <div className="main-content" style={{marginTop: headerHeight + 'px'}}>
 
           <div className="notifications-column">
               {username && 
