@@ -113,52 +113,58 @@ function HomePage() {
       getRecentPosts();
     }
   }, [getRecentPosts, initialLoad]);
+  useEffect(() => {
+    // Adjust header height to match the logo's height
+    if (logoRef.current) {
+        setLogoHeight(logoRef.current.offsetHeight);
+    }
+}, []);
 
 
-  return (
-    <div className="container">
-      <div className={`header ${headerHidden ? 'header-hide' : ''}`}>
-        <div className="header-left">
-          <Link to="/">
-            <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
-          </Link>
-          {username && 
-            <Link to="/post" className="create-post-button">
-              <button className="post-button">Post</button>
-            </Link>
-          }
-        </div>
-        <div className="header-right">
-          {username && 
-            <div className="pfp-container">
-              <Link to={`/users/${username}`} className="pfp-link">
-                <img src={userProfilePic || pfp} alt="Profile Icon" className="pfp" /> 
+return (
+  <div className="container">
+      <div className={`header ${headerHidden ? 'header-hide' : ''}`} style={{ height: logoHeight }}>
+          <div className="header-left">
+              <Link to="/">
+                  <img ref={logoRef} src={textlogo} alt="JamJar Text Logo" className="textlogo" />
               </Link>
-              <button className="logout-button" onClick={handleLogout}>Logout</button>
-            </div>
-          }
-        </div>
+              {username &&
+                  <Link to="/post" className="create-post-button">
+                      <button className="post-button">Post</button>
+                  </Link>
+              }
+          </div>
+          <div className="header-right">
+              {username &&
+                  <div className="pfp-container">
+                      <Link to={`/users/${username}`} className="pfp-link">
+                          <img src={userProfilePic || pfp} alt="Profile Icon" className="pfp" />
+                      </Link>
+                      <button className="logout-button" onClick={handleLogout}>Logout</button>
+                  </div>
+              }
+          </div>
       </div>
       {!username && <Link className="create-post-button post-button" to="/register">Register</Link>}
       <br />
       {!username && <Link className="create-post-button post-button" to="/login">Login</Link>}
       <br />
       <div className="posts-container">
-        {posts.map((post, index) => {
-          console.log('Loading post. . . s');
-          return <PostComponent
-            key={index}
-            index={index}
-            post={post}
-            setPosts={setPosts}
-            isCommentsExpanded={isCommentsExpanded}
-            setIsCommentsExpanded={setIsCommentsExpanded}
-            posts={posts}
-            />;
-        })}
-        {loading && <p>Loading...</p>}
+          {posts.map((post, index) => {
+              console.log('Loading post. . . s');
+              return <PostComponent
+                  key={index}
+                  index={index}
+                  post={post}
+                  setPosts={setPosts}
+                  isCommentsExpanded={isCommentsExpanded}
+                  setIsCommentsExpanded={setIsCommentsExpanded}
+                  posts={posts}
+              />;
+          })}
+          {loading && <p>Loading...</p>}
       </div>
-    </div>
-  );
+  </div>
+);
 }
 export default HomePage;

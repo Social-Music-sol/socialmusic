@@ -133,6 +133,7 @@ body {
   top: 0;
   left: 0;
   width: 96vw;
+  height: inherit;
   padding: 1em 2vw;
   min-height: 10vh;
   z-index: 1000;
