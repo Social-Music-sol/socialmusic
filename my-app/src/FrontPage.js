@@ -17,6 +17,8 @@ function HomePage() {
   const [loading, setLoading] = useState(false);
   const [initialLoad, setInitialLoad] = useState(false);
   const [userId, setUserId] = useState(localStorage.getItem('user_id'));
+  const [headerHidden, setHeaderHidden] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   const getRecentPosts = useCallback(async () => {
     if (loading) return; 
