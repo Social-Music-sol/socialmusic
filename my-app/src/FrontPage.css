@@ -204,6 +204,8 @@ html, body {
   display: flex;
   flex-direction: column;
   min-height: 100vh; /* takes the full height of the viewport */
+  box-sizing: border-box;
+
 }
 
 .post-text-container {
