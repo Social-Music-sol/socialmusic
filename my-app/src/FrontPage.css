@@ -310,3 +310,38 @@ body {
   display: flex;
   align-items: center;
 }
+
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: 100%;  /* Makes it appear below the image */
+  border: 1px solid #ddd;
+  background-color: #fff;
+  border-radius: 5px;
+  width: 150px;  /* Adjust as needed */
+  z-index: 1000;  /* Keep it on top of other elements */
+}
+
+.dropdown-item {
+  display: block;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+  cursor: pointer;
+  text-decoration: none;
+  color: #333;  /* Adjust as needed */
+}
+
+.dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.dropdown-item:hover {
+  background-color: #f7f7f7;  /* Adjust as needed */
+}
+
+.logout-button.dropdown-item {
+  background: none;
+  border: none;
+  width: 100%;
+}
