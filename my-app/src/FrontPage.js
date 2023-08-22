@@ -22,7 +22,19 @@ function HomePage() {
   const [logoHeight, setLogoHeight] = useState(null); // State for dynamic header height adjustment
   const [showDropdown, setShowDropdown] = useState(false);  // State for dropdown visibility
   const logoRef = useRef(null); // useRef for the logo element
+  const [notifications, setNotifications] = useState([]);
 
+  const getNotifications = useCallback(async () => {
+    const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-notifications`, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+    });
+    if (response.ok) {
+        const notificationsData = await response.json();
+        setNotifications(notificationsData);
+    }
+}, []);
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
@@ -52,7 +64,11 @@ function HomePage() {
     
     if (!initialLoad) setInitialLoad(true);
   }, [lastTimestamp, loading, initialLoad]);
-
+  useEffect(() => {
+    if (username) {
+        getNotifications();
+    }
+}, [username, getNotifications]);
   useEffect(() => {
     const onScroll = () => {
         // Check if the user has scrolled to 300px from the bottom of the page.
@@ -176,6 +192,19 @@ return (
                 />;
             })}
             {loading && <p>Loading...</p>}
+        </div>
+        {/* Add Notifications Column */}
+        <div className="notifications-column">
+            {username && 
+                <Link to="/post" className="create-post-button">
+                    <button className="post-button">Post</button>
+                </Link>
+            }
+            {notifications.map((notification, index) => (
+                <div key={index} className="notification-item">
+                    {notification.message} {/* Adjust based on your notification structure */}
+                </div>
+            ))}
         </div>
     </div>
 );

@@ -171,8 +171,9 @@ body {
   padding: 0 2vw;
   display: flex;
   justify-content: space-between;
-  flex-direction: column;
+  flex-direction: row;
   margin-top: 10vh;
+  
 }
 
 .posts-container {
@@ -345,4 +346,26 @@ body {
   background: none;
   border: none;
   width: 100%;
+}
+.notifications-column {
+  flex: 0 0 250px; /* Assuming a width of 250px for your notifications column, adjust as needed */
+  background-color: #f2f2f2; /* A light gray background, adjust color as needed */
+  padding: 20px;
+  border-left: 1px solid #ddd; /* Add a separating border */
+  height: calc(100vh - 10vh); /* Assuming your header is 10vh in height */
+  overflow-y: auto; /* Allows scrolling if there are many notifications */
+}
+
+.notification-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee; /* A separator for each notification */
+  cursor: pointer; /* Hand cursor for each notification item */
+}
+
+.notification-item:last-child {
+  border-bottom: none; /* Remove the border for the last item */
+}
+
+.notification-item:hover {
+  background-color: #e6e6e6; /* A hover effect for each notification */
 }
