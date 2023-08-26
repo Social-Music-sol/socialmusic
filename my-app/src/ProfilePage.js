@@ -72,11 +72,30 @@ export default function UserProfile() {
       const userData = await response.json();
       setFollowers(userData.followers);
       setFollowing(userData.following);
-      setProfilePic(PROFILE_PIC_BASE_URL + userData.pfp_url);
+      setProfilePic(userData.pfp_url);
       setIsFollowing(userData.requester_following);
     }
   }, [pageUsername]);
 
+  useEffect(() => {
+    if (!userId) return;  // Skip if 'userId' is not set yet
+    
+    const getProfilePicture = async () => {
+      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?id=${userId}`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+
+      if (response.ok) {
+        const userData = await response.json();
+        setProfilePic(PROFILE_PIC_BASE_URL + userData.pfp_url);  // Adding the base URL here, remove it if not needed
+      }
+    };
+    
+    getProfilePicture();
+  }, [userId]);
+  
   useEffect(() => {
     if (initialLoad) {
       getUserInfo();
