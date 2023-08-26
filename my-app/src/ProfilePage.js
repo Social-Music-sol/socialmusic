@@ -1,25 +1,50 @@
-import './FrontPage.css';
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { handleLogout } from './utils';
 import PostComponent from './PostComponent';
 import textlogo from './images/textlogo.png';
+import './ProfilePage.css';
+
 const PROFILE_PIC_BASE_URL = 'https://jamjar.live/profile-pictures/';
 
 export default function UserProfile() {
   const loggedInUser = localStorage.getItem('username');
   const { username: pageUsername } = useParams();
+  const [profilePic, setProfilePic] = useState('');
+  const [followers, setFollowers] = useState(0);
+  const [following, setFollowing] = useState(0);
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
   const [posts, setPosts] = useState([]);
   const [isCommentsExpanded, setIsCommentsExpanded] = useState({});
   const [lastTimestamp, setLastTimestamp] = useState(null);
   const [loading, setLoading] = useState(false);
   const [initialLoad, setInitialLoad] = useState(false);
-  const [profilePic, setProfilePic] = useState('');
+  const [userId, setUserId] = useState(localStorage.getItem('user_id'));
 
-  // Fetch posts for the user whose page we're on
+  const handleUpload = async () => {
+    const formData = new FormData();
+    formData.append('photo', selectedFile);
+
+    const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/profile/upload`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: formData,
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      setProfilePic(PROFILE_PIC_BASE_URL + data.pfp_url + `?t=${Date.now()}`);
+    } else {
+      alert('An error occurred while trying to upload your profile picture.');
+    }
+  };
+
   const getUserPosts = useCallback(async () => {
     if (loading) return;
     setLoading(true);
+
     const response = await fetch(
       `${process.env.REACT_APP_API_DOMAIN}/get-user-posts/${pageUsername}?limit=10` +
       (lastTimestamp ? `&timestamp=${lastTimestamp}` : '')
@@ -33,9 +58,7 @@ export default function UserProfile() {
         setLastTimestamp(postsData.timestamp);
       }
     }
-
     setLoading(false);
-
     if (!initialLoad) {
       setInitialLoad(true);
     }
@@ -59,6 +82,20 @@ export default function UserProfile() {
     };
   }, [getUserPosts]);
 
+  useEffect(() => {
+    // You can replace this with your server-side logic.
+    // I am setting mock values here.
+    setProfilePic(PROFILE_PIC_BASE_URL + pageUsername);
+    setFollowers(100);
+    setFollowing(50);
+    setIsFollowing(false);
+  }, [pageUsername]);
+
+  const handleFollow = async () => {
+    // Implement your follow logic here
+    setIsFollowing(!isFollowing);
+  };
+
   return (
     <div className="container">
       <div className="header">
@@ -72,18 +109,21 @@ export default function UserProfile() {
             </Link>
           )}
         </div>
-        <div className="header-right">
-          {loggedInUser && (
-            <div className="pfp-container">
-              <Link to={`/users/${loggedInUser}`} className="pfp-link">
-                <img src={profilePic} alt="Profile Icon" className="pfp" />
-              </Link>
-              <button className="logout-button" onClick={handleLogout}>Logout</button>
-            </div>
-          )}
-        </div>
       </div>
-      {/* Existing Profile Details and UI here */}
+      <div className="profile-info">
+        <img src={profilePic} alt="Profile" />
+        {loggedInUser === pageUsername && (
+          <>
+            <input type="file" onChange={(e) => setSelectedFile(e.target.files[0])} />
+            <button onClick={handleUpload}>Upload New Profile Picture</button>
+          </>
+        )}
+        {loggedInUser !== pageUsername && (
+          <button onClick={handleFollow}>{isFollowing ? 'Unfollow' : 'Follow'}</button>
+        )}
+        <p>Followers: {followers}</p>
+        <p>Following: {following}</p>
+      </div>
       <div className="posts-container">
         {posts.map((post, index) => (
           <PostComponent
@@ -93,10 +133,8 @@ export default function UserProfile() {
             setPosts={setPosts}
             isCommentsExpanded={isCommentsExpanded}
             setIsCommentsExpanded={setIsCommentsExpanded}
-            posts={posts}
           />
         ))}
-        {loading && <p>Loading...</p>}
       </div>
     </div>
   );
