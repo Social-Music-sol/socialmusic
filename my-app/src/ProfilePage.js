@@ -3,135 +3,109 @@ import { useParams, Link } from 'react-router-dom';
 import PostComponent from './PostComponent';
 import textlogo from './images/textlogo.png';
 
+// Initialize constants and URLs
 const PROFILE_PIC_BASE_URL = 'https://jamjar.live/profile-pictures/';
+const loggedInUser = localStorage.getItem('username');
 
 export default function UserProfile() {
-  const loggedInUser = localStorage.getItem('username');
-  const { username: pageUsername } = useParams();
-  const [profilePic, setProfilePic] = useState('');
-  const [followers, setFollowers] = useState(0);
-  const [following, setFollowing] = useState(0);
-  const [isFollowing, setIsFollowing] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(null);
+  const { username: viewedUsername } = useParams();
+
+  // State management
+  const [profilePicURL, setProfilePicURL] = useState('');
+  const [followerCount, setFollowerCount] = useState(0);
+  const [followingCount, setFollowingCount] = useState(0);
+  const [followStatus, setFollowStatus] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
   const [posts, setPosts] = useState([]);
-  const [isCommentsExpanded, setIsCommentsExpanded] = useState({});
-  const [lastTimestamp, setLastTimestamp] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [initialLoad, setInitialLoad] = useState(false);
-  const [userId, setUserId] = useState(localStorage.getItem('user_id'));
+  const [commentsToggle, setCommentsToggle] = useState({});
+  const [latestTimestamp, setLatestTimestamp] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [firstLoadComplete, setFirstLoadComplete] = useState(false);
+  const [currentUserId, setCurrentUserId] = useState(localStorage.getItem('user_id'));
 
-  const handleUpload = async () => {
+  // Upload image logic
+  const executeImageUpload = async () => {
     const formData = new FormData();
-    formData.append('photo', selectedFile);
+    formData.append('image', selectedImage);
 
-    const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/profile/upload`, {
+    const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/profile/upload-image`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
       },
       body: formData,
     });
 
     if (response.ok) {
-      const data = await response.json();
-      setProfilePic(PROFILE_PIC_BASE_URL + data.pfp_url + `?t=${Date.now()}`);
+      const responseData = await response.json();
+      setProfilePicURL(`${PROFILE_PIC_BASE_URL}${responseData.profilePicture}?timestamp=${Date.now()}`);
     } else {
-      alert('An error occurred while trying to upload your profile picture.');
+      alert('Failed to upload the profile picture.');
     }
   };
 
+  // Fetching user posts
   const getUserPosts = useCallback(async () => {
-    if (loading) return;
-    setLoading(true);
-
-    const response = await fetch(
-      `${process.env.REACT_APP_API_DOMAIN}/get-user-posts/${pageUsername}?limit=10` +
-      (lastTimestamp ? `&timestamp=${lastTimestamp}` : '')
-    );
+    if (isLoading) return;
+    setIsLoading(true);
+    const queryParams = latestTimestamp ? `&timestamp=${latestTimestamp}` : '';
+    const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-user-posts/${viewedUsername}?limit=10${queryParams}`);
 
     if (response.ok) {
-      const postsData = await response.json();
-      const newPosts = postsData.posts;
+      const responseData = await response.json();
+      const newPosts = responseData.posts;
       setPosts(prevPosts => [...prevPosts, ...newPosts]);
-      if (newPosts.length > 0) {
-        setLastTimestamp(postsData.timestamp);
+      if (newPosts.length) {
+        setLatestTimestamp(responseData.timestamp);
       }
     }
-    setLoading(false);
-    if (!initialLoad) {
-      setInitialLoad(true);
+    setIsLoading(false);
+    if (!firstLoadComplete) {
+      setFirstLoadComplete(true);
     }
-  }, [pageUsername, lastTimestamp, loading, initialLoad]);
+  }, [viewedUsername, latestTimestamp, isLoading, firstLoadComplete]);
 
-  useEffect(() => {
-    if (!initialLoad) {
-      getUserPosts();
-    }
-  }, [getUserPosts, initialLoad]);
+  // Effects
+  useEffect(() => { if (!firstLoadComplete) getUserPosts(); }, [getUserPosts, firstLoadComplete]);
+  useEffect(() => { window.addEventListener('scroll', () => { if (window.innerHeight + document.documentElement.scrollTop + 300 >= document.documentElement.offsetHeight) getUserPosts(); }); return () => { window.removeEventListener('scroll', getUserPosts); }; }, [getUserPosts]);
+  useEffect(() => { setProfilePicURL(`${PROFILE_PIC_BASE_URL}${viewedUsername}`); setFollowerCount(100); setFollowingCount(50); setFollowStatus(false); }, [viewedUsername]);
 
-  useEffect(() => {
-    const onScroll = () => {
-      if (window.innerHeight + document.documentElement.scrollTop + 300 >= document.documentElement.offsetHeight) {
-        getUserPosts();
-      }
-    };
-    window.addEventListener('scroll', onScroll);
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-    };
-  }, [getUserPosts]);
-
-  useEffect(() => {
-    // You can replace this with your server-side logic.
-    // I am setting mock values here.
-    setProfilePic(PROFILE_PIC_BASE_URL + pageUsername);
-    setFollowers(100);
-    setFollowing(50);
-    setIsFollowing(false);
-  }, [pageUsername]);
-
-  const handleFollow = async () => {
-    // Implement your follow logic here
-    setIsFollowing(!isFollowing);
+  // Follow button logic
+  const toggleFollowStatus = async () => {
+    setFollowStatus(!followStatus);
   };
 
   return (
-    <div className="container">
-      <div className="header">
-        <div className="header-left">
+    <div className="UserProfile">
+      {/* Header */}
+      <div className="Header">
+        <div className="Header-Left">
           <Link to="/">
-            <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
+            <img src={textlogo} alt="JamJar Text Logo" className="TextLogo" />
           </Link>
-          {loggedInUser && (
-            <Link to="/post" className="create-post-button">
-              <button className="post-button">Post</button>
-            </Link>
-          )}
+          {loggedInUser && <Link to="/post" className="CreatePostBtn"><button className="NewPostBtn">Post</button></Link>}
         </div>
       </div>
-      <div className="profile-info">
-        <img src={profilePic} alt="Profile" />
-        {loggedInUser === pageUsername && (
-          <>
-            <input type="file" onChange={(e) => setSelectedFile(e.target.files[0])} />
-            <button onClick={handleUpload}>Upload New Profile Picture</button>
-          </>
-        )}
-        {loggedInUser !== pageUsername && (
-          <button onClick={handleFollow}>{isFollowing ? 'Unfollow' : 'Follow'}</button>
-        )}
-        <p>Followers: {followers}</p>
-        <p>Following: {following}</p>
+      
+      {/* Profile Info */}
+      <div className="ProfileSection">
+        <img src={profilePicURL} alt="UserProfile" />
+        {loggedInUser === viewedUsername && <><input type="file" onChange={(e) => setSelectedImage(e.target.files[0])} /><button onClick={executeImageUpload}>Upload Profile Picture</button></>}
+        {loggedInUser !== viewedUsername && <button onClick={toggleFollowStatus}>{followStatus ? 'Unfollow' : 'Follow'}</button>}
+        <p>Followers: {followerCount}</p>
+        <p>Following: {followingCount}</p>
       </div>
-      <div className="posts-container">
+
+      {/* Posts */}
+      <div className="Posts">
         {posts.map((post, index) => (
           <PostComponent
             key={index}
             index={index}
             post={post}
             setPosts={setPosts}
-            isCommentsExpanded={isCommentsExpanded}
-            setIsCommentsExpanded={setIsCommentsExpanded}
+            isCommentsExpanded={commentsToggle}
+            setIsCommentsExpanded={setCommentsToggle}
           />
         ))}
       </div>
