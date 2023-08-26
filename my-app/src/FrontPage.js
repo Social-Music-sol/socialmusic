@@ -23,7 +23,7 @@ function HomePage() {
   const [showDropdown, setShowDropdown] = useState(false);  // State for dropdown visibility
   const logoRef = useRef(null); // useRef for the logo element
   const [notifications, setNotifications] = useState([]);
-  
+
   const getNotifications = useCallback(async () => {
     const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-notifications`, {
         headers: {
@@ -144,67 +144,69 @@ function HomePage() {
 
 
 return (
-  <div className="container">
-      <div className={`header ${headerHidden ? 'header-hide' : ''}`}>
-          <div className="header-left">
-              <Link to="/">
-                  <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
-              </Link>
-          </div>
-          <div className="header-right">
-              {username &&
-                  <div className="pfp-container">
-                      <img 
-                          src={userProfilePic || pfp} 
-                          alt="Profile Icon" 
-                          className="pfp" 
-                          onClick={toggleDropdown} 
-                      />
-                      {showDropdown && 
-                          <div className="dropdown-menu">
-                              <Link to={`/users/${username}`} className="dropdown-item">Profile</Link>
-                              <button className="logout-button dropdown-item" onClick={handleLogout}>Logout</button>
-                          </div>
-                      }
-                  </div>
-              }
-          </div>
-      </div>
-      {!username && <Link className="create-post-button post-button" to="/register">Register</Link>}
-      <br />
-      {!username && <Link className="create-post-button post-button" to="/login">Login</Link>}
-      <br />
-      
-      {/* Add Notifications Column on the Left */}
-      <div className="notifications-column">
-          {username && 
-              <Link to="/post" className="create-post-button">
-                  <button className="post-button">Post</button>
-              </Link>
-          }
-          {notifications.map((notification, index) => (
-              <div key={index} className="notification-item">
-                  {notification.message} {/* Adjust based on your notification structure */}
-              </div>
-          ))}
-      </div>
-
-      <div className="posts-container">
-          {posts.map((post, index) => {
-              return <PostComponent
-                  key={index}
-                  index={index}
-                  post={post}
-                  setPosts={setPosts}
-                  isCommentsExpanded={isCommentsExpanded}
-                  setIsCommentsExpanded={setIsCommentsExpanded}
-                  posts={posts}
-              />;
-          })}
-          {loading && <p>Loading...</p>}
-      </div>
-  </div>
+    <div className="container">
+        <div className={`header ${headerHidden ? 'header-hide' : ''}`}>
+            <div className="header-left">
+                <Link to="/">
+                    <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
+                </Link>
+                {username && 
+                    <Link to="/post" className="create-post-button">
+                        <button className="post-button">Post</button>
+                    </Link>
+                }
+            </div>
+            <div className="header-right">
+                {username &&
+                    <div className="pfp-container">
+                        <img 
+                            src={userProfilePic || pfp} 
+                            alt="Profile Icon" 
+                            className="pfp" 
+                            onClick={toggleDropdown} 
+                        />
+                        {showDropdown && 
+                            <div className="dropdown-menu">
+                                <Link to={`/users/${username}`} className="dropdown-item">Profile</Link>
+                                <button className="logout-button dropdown-item" onClick={handleLogout}>Logout</button>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+        {!username && <Link className="create-post-button post-button" to="/register">Register</Link>}
+        <br />
+        {!username && <Link className="create-post-button post-button" to="/login">Login</Link>}
+        <br />
+        <div className="posts-container">
+            {posts.map((post, index) => {
+                return <PostComponent
+                    key={index}
+                    index={index}
+                    post={post}
+                    setPosts={setPosts}
+                    isCommentsExpanded={isCommentsExpanded}
+                    setIsCommentsExpanded={setIsCommentsExpanded}
+                    posts={posts}
+                />;
+            })}
+            {loading && <p>Loading...</p>}
+        </div>
+        {/* Add Notifications Column */}
+        <div className="notifications-column">
+            {username && 
+                <Link to="/post" className="create-post-button">
+                    <button className="post-button">Post</button>
+                </Link>
+            }
+            {notifications.map((notification, index) => (
+                <div key={index} className="notification-item">
+                    {notification.message} {/* Adjust based on your notification structure */}
+                </div>
+            ))}
+        </div>
+    </div>
 );
 }
-
 export default HomePage;
