@@ -198,7 +198,6 @@ html, body {
 .main-content {
   flex: 1; /* takes up the remaining space after the header */
   display: flex;
-  margin-top:20px;
 }
 .page-wrapper {
   display: flex;
