@@ -9,8 +9,7 @@ import './FrontPage.css';
 import PostComponent from './PostComponent';
 
 function HomePage() {
-  const username = getLoggedInUser();
-  const [posts, setPosts] = useState([]);
+  const [username, setUsername] = useState(null);  const [posts, setPosts] = useState([]);
   const [userProfilePic, setUserProfilePic] = useState(null);
   const [isCommentsExpanded, setIsCommentsExpanded] = useState({});
   const [lastTimestamp, setLastTimestamp] = useState(null);
@@ -19,6 +18,17 @@ function HomePage() {
   const [userId, setUserId] = useState(localStorage.getItem('user_id'));
   const [headerHidden, setHeaderHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    if (!username) {
+      // Fetch username if not set
+      setUsername(getLoggedInUser());
+    }
+    if (username) {
+      getProfilePicture();
+    }
+  }, [username, getProfilePicture]);
+  
 
   const getRecentPosts = useCallback(async () => {
     if (loading) return; 
@@ -129,35 +139,19 @@ function HomePage() {
           }
         </div>
         <div className="header-right">
-          {username && 
+          {username ? (  // Conditional rendering here
             <div className="pfp-container">
               <Link to={`/users/${username}`} className="pfp-link">
-                <img src={userProfilePic || pfp} alt="Profile Icon" className="pfp" /> 
+                <img src={userProfilePic || pfp} alt={`${username}'s Profile Icon`} className="pfp" /> 
               </Link>
               <button className="logout-button" onClick={handleLogout}>Logout</button>
             </div>
-          }
+          ) : (
+            <p>Loading...</p>
+          )}
         </div>
       </div>
-      {!username && <Link className="create-post-button post-button" to="/register">Register</Link>}
-      <br />
-      {!username && <Link className="create-post-button post-button" to="/login">Login</Link>}
-      <br />
-      <div className="posts-container">
-        {posts.map((post, index) => {
-          console.log('Loading post. . . s');
-          return <PostComponent
-            key={index}
-            index={index}
-            post={post}
-            setPosts={setPosts}
-            isCommentsExpanded={isCommentsExpanded}
-            setIsCommentsExpanded={setIsCommentsExpanded}
-            posts={posts}
-            />;
-        })}
-        {loading && <p>Loading...</p>}
-      </div>
+      {/* ... rest of your code ... */}
     </div>
   );
 }
