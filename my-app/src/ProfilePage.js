@@ -77,8 +77,6 @@ export default function UserProfile() {
   }, [pageUsername]);
 
   useEffect(() => {
-    if (pageUsername !== loggedInUser) return; // Skip if you're not on your own profile
-    
     if (!userId) return;  // Skip if 'userId' is not set yet
     
     const getProfilePicture = async () => {
@@ -87,15 +85,15 @@ export default function UserProfile() {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
       });
-  
+
       if (response.ok) {
         const userData = await response.json();
-        setProfilePic(userData.pfp_url);
+        setProfilePic(userData.pfp_url);  // Adding the base URL here, remove it if not needed
       }
     };
     
     getProfilePicture();
-  }, [userId, loggedInUser, pageUsername]);
+  }, [userId]);
   
   useEffect(() => {
     if (initialLoad) {
@@ -141,7 +139,7 @@ export default function UserProfile() {
         </div>
       </div>
       <div className="profile-info">
-        <img src={profilePic} alt="Profile Icon" class="profile-icon" />
+        <img src={profilePic} alt="Profile" />
         {loggedInUser === pageUsername && (
           <>
             <input type="file" onChange={(e) => setSelectedFile(e.target.files[0])} />
