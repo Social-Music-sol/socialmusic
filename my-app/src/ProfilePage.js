@@ -120,9 +120,22 @@ export default function UserProfile() {
   }, [getUserPosts]);
 
   const handleFollow = async () => {
-    // Implement your follow logic here
-    setIsFollowing(!isFollowing);
+    const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/follow-user?id=${userId}`, {
+      method: isFollowing ? 'DELETE' : 'POST',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+
+    if (response.ok) {
+      setIsFollowing(!isFollowing);  // Invert the 'isFollowing' state
+      // Update followers count based on follow/unfollow action
+      setFollowers(isFollowing ? followers - 1 : followers + 1);
+    } else {
+      alert('An error occurred while trying to update your follow status.');
+    }
   };
+  
 
   return (
     <div className="container">
