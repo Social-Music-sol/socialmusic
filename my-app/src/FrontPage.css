@@ -227,15 +227,15 @@ body {
 }
 
 .pfp {
-  width: 80px;   /* Set to a fixed size */
-  height: 80px;  /* Set to a fixed size */
+  width: 40px;   /* Set to a fixed size */
+  height: 40px;  /* Set to a fixed size */
   object-fit: cover;
   border-radius: 50%;
 }
 
 .pfp-link {
   display: inline-block;
-  margin-right: 25px;
+  margin-right: 10px;
   cursor: pointer;
 }
 
