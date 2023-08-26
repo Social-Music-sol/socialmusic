@@ -78,6 +78,12 @@ export default function UserProfile() {
   }, [pageUsername]);
 
   useEffect(() => {
+    if (initialLoad) {
+      getUserInfo();
+    }
+  }, [initialLoad]);
+
+  useEffect(() => {
     if (!initialLoad) {
       getUserPosts();
     }
@@ -94,14 +100,6 @@ export default function UserProfile() {
       window.removeEventListener('scroll', onScroll);
     };
   }, [getUserPosts]);
-
-  useEffect(() => {
-
-    setProfilePic(PROFILE_PIC_BASE_URL + pageUsername);
-    setFollowers(followers);
-    setFollowing(50);
-    setIsFollowing(false);
-  }, [pageUsername]);
 
   const handleFollow = async () => {
     // Implement your follow logic here
