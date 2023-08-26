@@ -16,6 +16,13 @@ class PostRepository:
         if not user:
             raise NameError
         return user
+    
+    def userExists(self, username):
+        user = User.query.filter_by(username=username).first()
+        if not user:
+            raise NameError
+        return user
+
 
     def create(self, post_data):
         user_id = post_data['user_id']

@@ -94,14 +94,14 @@ def get_user_by_name(username):
     except NameError:
         return jsonify({'error': 'User not found'}, 404)
     
-@app.route('/get-user-posts/<user_id>', methods=['GET'])
+@app.route('/get-user-posts/<username>', methods=['GET'])
 @jwt_required()
-def get_posts(user_id):
+def get_posts(username):
     limit = request.args.get('limit', default=15, type=int)
     timestamp = request.args.get('timestamp', default=None, type=int)
     requester_id = get_jwt_identity()
     try:
-        posts, timestamp = post_repository.get_user_posts(user_id, amount=limit, requester_id=requester_id, timestamp=timestamp)
+        posts, timestamp = post_repository.get_user_posts(username, amount=limit, requester_id=requester_id, timestamp=timestamp)
         return jsonify({'posts': posts, 'timestamp': timestamp}), 200
     except NameError:
         return jsonify({'error': 'User not found'}), 404
