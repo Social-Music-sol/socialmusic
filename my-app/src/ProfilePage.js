@@ -77,6 +77,8 @@ export default function UserProfile() {
   }, [pageUsername]);
 
   useEffect(() => {
+    if (pageUsername !== loggedInUser) return; // Skip if you're not on your own profile
+    
     if (!userId) return;  // Skip if 'userId' is not set yet
     
     const getProfilePicture = async () => {
@@ -85,15 +87,15 @@ export default function UserProfile() {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
       });
-
+  
       if (response.ok) {
         const userData = await response.json();
-        setProfilePic(userData.pfp_url);  // Adding the base URL here, remove it if not needed
+        setProfilePic(PROFILE_PIC_BASE_URL + userData.pfp_url);
       }
     };
     
     getProfilePicture();
-  }, [userId]);
+  }, [userId, loggedInUser, pageUsername]);
   
   useEffect(() => {
     if (initialLoad) {
