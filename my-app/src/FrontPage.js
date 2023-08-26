@@ -23,9 +23,6 @@ function HomePage() {
   const [showDropdown, setShowDropdown] = useState(false);  // State for dropdown visibility
   const logoRef = useRef(null); // useRef for the logo element
   const [notifications, setNotifications] = useState([]);
-  const [headerHeight, setHeaderHeight] = useState(0);
-
-  
   
   const getNotifications = useCallback(async () => {
     const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-notifications`, {
@@ -126,13 +123,7 @@ function HomePage() {
       }
     }
   }, [userId]);
-  useEffect(() => {
-    if (logoRef.current) {
-        const calculatedHeight = logoRef.current.offsetHeight;
-        setLogoHeight(calculatedHeight);
-        setHeaderHeight(calculatedHeight);
-    }
-}, []);
+
   useEffect(() => {
     if (username) {
       getProfilePicture();
@@ -181,7 +172,7 @@ return (
           </div>
       </div>
 
-      <div className="main-content" style={{marginTop: headerHeight}}>
+      <div className="main-content">
 
           <div className="notifications-column">
               {username && 
