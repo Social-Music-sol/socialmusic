@@ -20,6 +20,8 @@ export default function UserProfile() {
   const [initialLoad, setInitialLoad] = useState(false);
   const [userId, setUserId] = useState(localStorage.getItem('user_id'));
 
+  
+
   const handleUpload = async () => {
     const formData = new FormData();
     formData.append('photo', selectedFile);
@@ -40,28 +42,75 @@ export default function UserProfile() {
     }
   };
 
+  useEffect(() => {
+    if (pageUsername) {
+      const getUserPageID = async () => {
+        const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/user-by-name/${pageUsername}`);
+        if (response.ok) {
+          const userData = await response.json();
+          setUserPageId(userData.user_id);
+          setFollowers(userData.followers);
+          setFollowing(userData.following);
+          setIsFollowing(userData.requester_following);
+          setProfilePic(userData.pfp_url)
+        }
+      };
+      getUserPageID();
+      setPosts([]);
+      getUserPosts();
+    }
+  }, [pageUsername]);
+
+  useEffect(() => {
+    if (!initialLoad) {
+      getUserPosts();
+    }
+  }, [getUserPosts, initialLoad]);
+
+  useEffect(() => {
+    if (!userPageId) return;
+    const getProfilePicture = async () => {
+      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?id=${userPageId}`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+
+      if (response.ok) {
+        const userData = await response.json();
+        setProfilePic(userData.pfp_url);
+      }
+    };
+    getProfilePicture();
+  }, [userPageId]);
+
+  // ... existing useEffect and other code
+  
   const getUserPosts = useCallback(async () => {
     if (loading) return;
+    if (!userPageId) return;
     setLoading(true);
-
+    
     const response = await fetch(
-      `${process.env.REACT_APP_API_DOMAIN}/get-user-posts/${pageUsername}?limit=10` +
+      `${process.env.REACT_APP_API_DOMAIN}/get-posts${userPageId}?limit=10` +
       (lastTimestamp ? `&timestamp=${lastTimestamp}` : '')
     );
-
+    
     if (response.ok) {
       const postsData = await response.json();
-      const newPosts = postsData.posts;
-      setPosts(prevPosts => [...prevPosts, ...newPosts]);
-      if (newPosts.length > 0) {
+      const posts = postsData.posts;
+      setPosts(prevPosts => [...prevPosts, ...posts]);
+      if (posts.length > 0) {
         setLastTimestamp(postsData.timestamp);
       }
     }
-    setLoading(false);
-    if (!initialLoad) {
-      setInitialLoad(true);
+    
+    if (response.status !== 418) {
+      setLoading(false);
     }
-  }, [pageUsername, lastTimestamp, loading, initialLoad]);
+
+    if (!initialLoad) setInitialLoad(true);
+  }, [lastTimestamp, loading, initialLoad, userPageId]);
 
   useEffect(() => {
     if (!initialLoad) {
@@ -91,8 +140,20 @@ export default function UserProfile() {
   }, [pageUsername]);
 
   const handleFollow = async () => {
-    // Implement your follow logic here
-    setIsFollowing(!isFollowing);
+    const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/follow-user?id=${userId}`, {
+      method: isFollowing ? 'DELETE' : 'POST',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+
+    if (response.ok) {
+      setIsFollowing(!isFollowing);  // Invert the 'isFollowing' state
+      // Update followers count based on follow/unfollow action
+      setFollowers(isFollowing ? followers - 1 : followers + 1);
+    } else {
+      alert('An error occurred while trying to update your follow status.');
+    }
   };
 
   return (
