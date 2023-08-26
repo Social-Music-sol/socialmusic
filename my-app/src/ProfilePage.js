@@ -80,7 +80,7 @@ export default function UserProfile() {
   }, [pageUsername]);
 
   useEffect(() => {
-    if (!profileId) return;  // Skip if 'userId' is not set yet
+    if (!userId) return;  // Skip if 'userId' is not set yet
     
     const getProfilePicture = async () => {
       const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?id=${profileId}`, {
