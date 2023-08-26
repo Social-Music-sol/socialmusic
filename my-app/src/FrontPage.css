@@ -130,6 +130,12 @@ html, body {
   margin: 0;
   padding: 0;
 }
+@media only screen and (max-width: 600px) {
+  .post-box, .container {
+    padding: 1em;
+  }
+  /* Add any other adjustments for small screens */
+}
 .header {
   display: flex;
   align-items: center;
