@@ -44,9 +44,9 @@ class PostRepository:
 
         return new_post.to_dict()
         
-    def get_user_posts(self, user_id, amount=5, requester_id=None, timestamp=None):
+    def get_user_posts(self, username, amount=5, requester_id=None, timestamp=None):
         self.exists(requester_id)
-        user = self.exists(user_id)
+        user = self.userExists(username)
         query = Post.query.filter_by(parent_id=None, user_id=user.id)
         if timestamp:
             timestamp = datetime.utcfromtimestamp(timestamp)
