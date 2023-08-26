@@ -44,103 +44,55 @@ export default function UserProfile() {
   };
 
   useEffect(() => {
-    if (pageUsername) {
-      const getUserPageID = async () => {
-        const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/user-by-name/${pageUsername}`);
-        if (response.ok) {
-          const userData = await response.json();
-          // Initialize userPageId here
-          setUserPageId(userData.user_id);
-          setFollowers(userData.followers);
-          setFollowing(userData.following);
-          setIsFollowing(userData.requester_following);
-          setProfilePic(userData.pfp_url);
-        }
-      };
-      getUserPageID();
-      setPosts([]);
-      getUserPosts();
-    }
-  }, [pageUsername]);
-
-  useEffect(() => {
-    if (!initialLoad) {
-      getUserPosts();
-    }
-  }, [getUserPosts, initialLoad]);
-
-  useEffect(() => {
-    if (!userPageId) return;
-    const getProfilePicture = async () => {
-      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?id=${userPageId}`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
-
-      if (response.ok) {
-        const userData = await response.json();
+    const fetchInitialData = async () => {
+      // Fetch userPageId and other user details
+      const userDataResponse = await fetch(`${process.env.REACT_APP_API_DOMAIN}/user-by-name/${pageUsername}`);
+      if (userDataResponse.ok) {
+        const userData = await userDataResponse.json();
+        setUserPageId(userData.user_id);
+        setFollowers(userData.followers);
+        setFollowing(userData.following);
+        setIsFollowing(userData.requester_following);
         setProfilePic(userData.pfp_url);
       }
     };
-    getProfilePicture();
-  }, [userPageId]);
-
-  // ... existing useEffect and other code
+  
+    if (pageUsername) {
+      fetchInitialData().then(() => {
+        // Only fetch posts once userPageId and other details are set
+        getUserPosts();
+      });
+    }
+  }, [pageUsername, getUserPosts]);
   
   const getUserPosts = useCallback(async () => {
-    if (loading) return;
-    if (!userPageId) return;
+    if (loading || !userPageId) return;
+  
     setLoading(true);
     
     const response = await fetch(
-      `${process.env.REACT_APP_API_DOMAIN}/get-posts${userPageId}?limit=10` +
+      `${process.env.REACT_APP_API_DOMAIN}/get-posts?id=${userPageId}&limit=10` +
       (lastTimestamp ? `&timestamp=${lastTimestamp}` : '')
     );
-    
+  
     if (response.ok) {
       const postsData = await response.json();
-      const posts = postsData.posts;
-      setPosts(prevPosts => [...prevPosts, ...posts]);
-      if (posts.length > 0) {
-        setLastTimestamp(postsData.timestamp);
+      const newPosts = postsData.posts;
+      setPosts(prevPosts => [...prevPosts, ...newPosts]);
+      if (newPosts.length > 0) {
+        setLastTimestamp(postsData.lastTimestamp);
       }
     }
     
     if (response.status !== 418) {
       setLoading(false);
     }
-
-    if (!initialLoad) setInitialLoad(true);
-  }, [lastTimestamp, loading, initialLoad, userPageId]);
-
-  useEffect(() => {
+  
     if (!initialLoad) {
-      getUserPosts();
+      setInitialLoad(true);
     }
-  }, [getUserPosts, initialLoad]);
-
-  useEffect(() => {
-    const onScroll = () => {
-      if (window.innerHeight + document.documentElement.scrollTop + 300 >= document.documentElement.offsetHeight) {
-        getUserPosts();
-      }
-    };
-    window.addEventListener('scroll', onScroll);
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-    };
-  }, [getUserPosts]);
-
-  useEffect(() => {
-    // You can replace this with your server-side logic.
-    // I am setting mock values here.
-    setProfilePic(PROFILE_PIC_BASE_URL + pageUsername);
-    setFollowers(100);
-    setFollowing(50);
-    setIsFollowing(false);
-  }, [pageUsername]);
-
+  }, [userPageId, lastTimestamp, loading, initialLoad]);
+  
   const handleFollow = async () => {
     const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/follow-user?id=${userId}`, {
       method: isFollowing ? 'DELETE' : 'POST',
