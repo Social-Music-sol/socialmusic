@@ -72,7 +72,6 @@ export default function UserProfile() {
       const userData = await response.json();
       setFollowers(userData.followers);
       setFollowing(userData.following);
-      setProfilePic(userData.pfp_url);
       setIsFollowing(userData.requester_following);
     }
   }, [pageUsername]);
@@ -89,7 +88,7 @@ export default function UserProfile() {
 
       if (response.ok) {
         const userData = await response.json();
-        setProfilePic(PROFILE_PIC_BASE_URL + userData.pfp_url);  // Adding the base URL here, remove it if not needed
+        setProfilePic(userData.pfp_url);  // Adding the base URL here, remove it if not needed
       }
     };
     
