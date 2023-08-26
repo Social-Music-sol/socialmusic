@@ -73,27 +73,28 @@ export default function UserProfile() {
       setFollowers(userData.followers);
       setFollowing(userData.following);
       setIsFollowing(userData.requester_following);
+      setProfilePic(userData.pfp_url); 
     }
-  }, [pageUsername]);
+  }, [pageUsername, userId]);
 
-  useEffect(() => {
-    if (!userId) return;  // Skip if 'userId' is not set yet
+  // useEffect(() => {
+  //   if (!userId) return;  // Skip if 'userId' is not set yet
     
-    const getProfilePicture = async () => {
-      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?id=${userId}`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
+  //   const getProfilePicture = async () => {
+  //     const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?id=${userId}`, {
+  //       headers: {
+  //         'Authorization': `Bearer ${localStorage.getItem('token')}`,
+  //       },
+  //     });
 
-      if (response.ok) {
-        const userData = await response.json();
-        setProfilePic(userData.pfp_url);  // Adding the base URL here, remove it if not needed
-      }
-    };
+  //     if (response.ok) {
+  //       const userData = await response.json();
+  //       setProfilePic(userData.pfp_url);  // Adding the base URL here, remove it if not needed
+  //     }
+  //   };
     
-    getProfilePicture();
-  }, [userId]);
+  //   getProfilePicture();
+  // }, [userId]);
   
   useEffect(() => {
     if (initialLoad) {
