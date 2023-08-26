@@ -164,10 +164,6 @@ body {
   font-size: 1em;
   cursor: pointer;
 }
-.content {
-  display: flex;
-  align-items: flex-start;
-}
 
 .container {
   max-width: 1200px;
@@ -185,8 +181,7 @@ body {
   flex-direction: column;
   align-items: center;
   margin-top: 0;
-  margin-left: 10px; /* Adjust this value based on the width of the notifications column to prevent overlap */
-  flex: 1;
+  margin-left: 220px; /* Adjust this value based on the width of the notifications column to prevent overlap */
 
 }
 
@@ -362,9 +357,7 @@ body {
   max-width: 200px; /* You can set a max width if needed */
   overflow-y: auto; /* Add a scrollbar if notifications overflow */
   height: 100vh; /* Take up the full height of the viewport */
-  margin-left: 10px;
 }
-
 
 .notification-item {
   padding: 10px;

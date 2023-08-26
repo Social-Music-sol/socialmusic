@@ -176,20 +176,18 @@ return (
       <br />
       
       {/* Add Notifications Column on the Left */}
-      <div className="content">
-
-        <div className="notifications-column">
-            {username && 
-                <Link to="/post" className="create-post-button">
-                    <button className="post-button">Post</button>
-                </Link>
-            }
-            {notifications.map((notification, index) => (
-                <div key={index} className="notification-item">
-                    {notification.message} {/* Adjust based on your notification structure */}
-                </div>
-            ))}
-        </div>
+      <div className="notifications-column">
+          {username && 
+              <Link to="/post" className="create-post-button">
+                  <button className="post-button">Post</button>
+              </Link>
+          }
+          {notifications.map((notification, index) => (
+              <div key={index} className="notification-item">
+                  {notification.message} {/* Adjust based on your notification structure */}
+              </div>
+          ))}
+      </div>
 
       <div className="posts-container">
           {posts.map((post, index) => {
@@ -205,7 +203,6 @@ return (
           })}
           {loading && <p>Loading...</p>}
       </div>
-  </div>
   </div>
 );
 }
