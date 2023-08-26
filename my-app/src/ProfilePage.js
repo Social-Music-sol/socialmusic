@@ -63,6 +63,20 @@ export default function UserProfile() {
     }
   }, [pageUsername, lastTimestamp, loading, initialLoad]);
 
+  const getUserInfo = useCallback(async () => {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_DOMAIN}/user-by-name/${pageUsername}`
+    );
+    
+    if (response.ok) {
+      const userData = await response.json();
+      setFollowers(userData.followers);
+      setFollowing(userData.following);
+      setProfilePic(userData.pfp_url);
+      setIsFollowing(userData.requester_following);
+    }
+  }, [pageUsername]);
+
   useEffect(() => {
     if (!initialLoad) {
       getUserPosts();
@@ -82,10 +96,9 @@ export default function UserProfile() {
   }, [getUserPosts]);
 
   useEffect(() => {
-    // You can replace this with your server-side logic.
-    // I am setting mock values here.
+
     setProfilePic(PROFILE_PIC_BASE_URL + pageUsername);
-    setFollowers(100);
+    setFollowers(followers);
     setFollowing(50);
     setIsFollowing(false);
   }, [pageUsername]);
