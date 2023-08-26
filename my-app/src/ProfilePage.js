@@ -19,7 +19,6 @@ export default function UserProfile() {
   const [loading, setLoading] = useState(false);
   const [initialLoad, setInitialLoad] = useState(false);
   const [userId, setUserId] = useState(localStorage.getItem('user_id'));
-  const [userPageId, setUserPageId] = useState(null);
 
   
 
@@ -49,12 +48,11 @@ export default function UserProfile() {
         const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/user-by-name/${pageUsername}`);
         if (response.ok) {
           const userData = await response.json();
-          // Initialize userPageId here
           setUserPageId(userData.user_id);
           setFollowers(userData.followers);
           setFollowing(userData.following);
           setIsFollowing(userData.requester_following);
-          setProfilePic(userData.pfp_url);
+          setProfilePic(userData.pfp_url)
         }
       };
       getUserPageID();
