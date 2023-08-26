@@ -231,7 +231,6 @@ body {
   height: 80px;  /* Set to a fixed size */
   object-fit: cover;
   border-radius: 50%;
-  cursor: pointer;
 }
 
 .pfp-link {
