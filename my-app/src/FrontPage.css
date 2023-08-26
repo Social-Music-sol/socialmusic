@@ -363,7 +363,6 @@ body {
   overflow-y: auto; /* Add a scrollbar if notifications overflow */
   height: 100vh; /* Take up the full height of the viewport */
   margin-left: 10px;
-  border: red 2px;
 }
 
 
