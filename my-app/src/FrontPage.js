@@ -151,8 +151,27 @@ function HomePage() {
           )}
         </div>
       </div>
-      {/* ... rest of your code ... */}
+      {!username && <Link className="create-post-button post-button" to="/register">Register</Link>}
+      <br />
+      {!username && <Link className="create-post-button post-button" to="/login">Login</Link>}
+      <br />
+      <div className="posts-container">
+        {posts.map((post, index) => {
+          console.log('Loading post. . . ');
+          return <PostComponent
+            key={index}
+            index={index}
+            post={post}
+            setPosts={setPosts}
+            isCommentsExpanded={isCommentsExpanded}
+            setIsCommentsExpanded={setIsCommentsExpanded}
+            posts={posts}
+            />;
+        })}
+        {loading && <p>Loading...</p>}
+      </div>
     </div>
   );
+  
 }
 export default HomePage;
