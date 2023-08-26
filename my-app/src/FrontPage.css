@@ -134,17 +134,19 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: fixed; /* Ensures it's at the top of the screen and stays there */
+  position: relative;
   top: 0;
   left: 0;
-  right: 0; /* Ensures it spans the entire width */
-  width: 100%; /* Takes the full width of its parent, which is the body */
-  padding: 1em 2vw; /* 2vw for side paddings for a bit of responsive design */
-  z-index: 1000; /* To keep it above other elements */
+  width: 100%; 
+  box-sizing: border-box;
+  height: inherit;
+  padding: 1em 2vw;
+  min-height: 10vh;
+  z-index: 1000;
   border-bottom: 1px solid black;
   background-color: white;
-  transition: transform 0.3s ease-in-out;
-}
+    transition: transform 0.3s ease-in-out;
+  }
   .header-hide {
     transform: translateY(-100%);
  }
@@ -202,7 +204,6 @@ html, body {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  padding-top:70px;
   width: 100%;
   overflow-x: hidden;
 
