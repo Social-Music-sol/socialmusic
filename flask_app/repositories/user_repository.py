@@ -80,6 +80,12 @@ class UserRepository:
             raise NameError
         return user 
 
+    def userExists(self, username):
+        user = User.query.filter_by(username=username).first()
+        if not user:
+            raise NameError
+        return user
+
     def set_pfp(self, user_id, pfp):
         user = self.exists(user_id)
         if not self.allowed_file(pfp.filename):
@@ -101,12 +107,15 @@ class UserRepository:
         self.photos.save(pfp, name=new_filename)
         return user.to_dict()
     
-    def get_pfp(self, requester_id, user_id):
+    def get_pfp(self, requester_id, user_id=None, username=None):
         self.exists(requester_id)
+        if username:
+            user_id = self.userExists(username).id
+        if user_id:
+            self.exists(user_id)
         user = self.exists(user_id)
         pfp_path = user.make_pfp_url()
         return {'pfp_url': pfp_path}
-        #return #send_from_directory(, )
 
 
 

@@ -184,6 +184,7 @@ def upload_profile_image():
 def get_image():
     requester_id = get_jwt_identity()
     user_id = request.args.get('id', default=None, type=str)
+    user_name = request.args.get('username', default=None, type=str)
     try:
         response = user_repository.get_pfp(requester_id, user_id)
     except NameError:
