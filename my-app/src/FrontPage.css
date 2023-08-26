@@ -16,7 +16,7 @@ body {
 
 .post-box {
   width: 600px; /* Fixed width */
-  max-width: 90%; /* Ensure that the width doesn't exceed the fixed value */
+  max-width: 600px; /* Ensure that the width doesn't exceed the fixed value */
   min-height: 400px;
   margin: 0 auto 3em;
   padding: 2em;
@@ -124,18 +124,7 @@ body {
   width: 50px;
   height: 50px;
 }
-html, body {
-  overflow-x: hidden;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
-@media only screen and (max-width: 600px) {
-  .post-box, .container {
-    padding: 1em;
-  }
-  /* Add any other adjustments for small screens */
-}
+
 .header {
   display: flex;
   align-items: center;
@@ -143,8 +132,7 @@ html, body {
   position: relative;
   top: 0;
   left: 0;
-  width: 100%; 
-  box-sizing: border-box;
+  width: 96vw;
   height: inherit;
   padding: 1em 2vw;
   min-height: 10vh;
@@ -182,10 +170,9 @@ html, body {
 }
 
 .container {
-  max-width: 1200px; /* or any preferred max-width */
-  width: 100%; /* full width but respects max-width */
-  padding: 0 2vw;
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 0 2vw;
   display: flex;
   justify-content: space-between;
   flex-direction: row;
