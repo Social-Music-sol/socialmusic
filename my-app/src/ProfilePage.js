@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import PostComponent from './PostComponent';
 import textlogo from './images/textlogo.png';
-import pfp from './images/circle.png';
+import pfp from './images/default.png';
 
 const PROFILE_PIC_BASE_URL = 'https://jamjar.live/profile-pictures/';
 
@@ -81,20 +81,28 @@ export default function UserProfile() {
     if (!userId) return;  // Skip if 'userId' is not set yet
     
     const getProfilePicture = async () => {
-      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?username=${pageUsername}`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
-
-      if (response.ok) {
-        const userData = await response.json();
-        setProfilePic(userData.pfp_url);  // Adding the base URL here, remove it if not needed
+      let cachedPfpUrl = localStorage.getItem('pfp_url');
+      if (cachedPfpUrl) {
+        setProfilePic(cachedPfpUrl);
+      } else {
+        const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?username=${pageUsername}`, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+  
+        if (response.ok) {
+          const userData = await response.json();
+          const newPfpUrl = userData.pfp_url;  // Adding the base URL here, remove it if not needed
+          setProfilePic(newPfpUrl);
+          localStorage.setItem('pfp_url', newPfpUrl);
+        }
       }
     };
     
     getProfilePicture();
   }, [userId]);
+  
   
   useEffect(() => {
     if (initialLoad) {
