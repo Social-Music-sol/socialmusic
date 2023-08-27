@@ -139,17 +139,16 @@ function HomePage() {
           }
         </div>
         <div className="header-right">
-          {username ? (  // Conditional rendering here
+          {username && (  // Conditional rendering here
             <div className="pfp-container">
               <Link to={`/users/${username}`} className="pfp-link">
                 <img src={userProfilePic || pfp} alt={`${username}'s Profile Icon`} className="pfp" /> 
               </Link>
               <button className="logout-button" onClick={handleLogout}>Logout</button>
             </div>
-          ) : (
-            <p>Loading...</p>
           )}
         </div>
+
       </div>
       {!username && <Link className="create-post-button post-button" to="/register">Register</Link>}
       <br />
