@@ -45,7 +45,7 @@ const PostForm = () => {
 
   // <input type="url" placeholder="Picture URL" value={pictureUrl} onChange={e => setPictureUrl(e.target.value)} />
   return (
-    <div>
+    <div className="registerPage-root">
       <form onSubmit={handleSubmit}>
         <input type="url" placeholder="Song Link" value={songLink} onChange={e => setSongLink(e.target.value)} required />
         <input type="text" placeholder="Caption" value={caption} onChange={e => setCaption(e.target.value)} />
