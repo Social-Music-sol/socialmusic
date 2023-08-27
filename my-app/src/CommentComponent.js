@@ -2,7 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
-import { handleLike} from './utils';
+import { handleCommetLike} from './utils';
 
 function CommentComponent(props) {
   const {reply, index, posts, setPosts} = props;

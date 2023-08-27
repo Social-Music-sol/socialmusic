@@ -45,6 +45,32 @@ export const handleLike = async (postId, posts, setPosts) => {
     }
   };
 
+  export const handleCommentLike = async (post, posts, setPosts) => {
+    const postIndex = posts.findIndex(post => post.id === postId);
+    const post = posts[postIndex];
+    const isAlreadyLiked = post.liked_by_requester;
+    
+    const newPosts = [...posts]; // Copy the posts array
+    if (isAlreadyLiked) {
+      newPosts[postIndex] = { ...post, liked_by_requester: false, like_count: post.like_count - 1 };
+    } else {
+      newPosts[postIndex] = { ...post, liked_by_requester: true, like_count: post.like_count + 1 };
+    }
+  
+    const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/like-post?post_id=${postId}`, {
+      method: isAlreadyLiked ? 'DELETE' : 'POST',
+      credentials: 'include',
+    });
+  
+    if (!response.ok) {
+      console.error(`Failed to ${isAlreadyLiked ? 'unlike' : 'like'} post ${postId}`);
+      // If the request failed, revert the like state
+      setPosts(posts);
+    } else {
+      setPosts(newPosts);
+    }
+  };
+
   export const handleCommentSubmit = async (e, postId, setPosts, setIsCommentsExpanded) => {
     e.preventDefault();
   

@@ -4,9 +4,13 @@ import { faHeart, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
 import { getLoggedInUser, handleLogout, handleLike, handleCommentSubmit, handleToggleComments} from './utils';
 import CommentComponent from './CommentComponent';
+import React, { useEffect, useState, useCallback } from 'react';
+
 
 function PostComponent(props) {
   const {post, isCommentsExpanded, setIsCommentsExpanded, setPosts, index, posts} = props;
+  
+  const [comments, setComments] = useState(post.replies);
 
   return (
     <div className="posts-container">
@@ -32,7 +36,7 @@ function PostComponent(props) {
                   </div>
                 )}
 <div className={`comments-section ${isCommentsExpanded[post.id] ? 'expanded' : ''}`}>
-    {post.replies.slice(0, 3).map((reply, index) => (
+    {comments.slice(0, 3).map((reply, index) => (
         <CommentComponent
         reply={reply}
         index={index}
@@ -41,7 +45,7 @@ function PostComponent(props) {
       />
     ))}
 
-    {isCommentsExpanded[post.id] && post.replies.slice(3).map((reply, index) => (
+    {isCommentsExpanded[post.id] && comments.slice(3).map((reply, index) => (
         <CommentComponent
           reply={reply}
           index={index}
