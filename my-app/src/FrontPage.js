@@ -7,7 +7,6 @@ import textlogo from './images/textlogo.png';
 import pfp from './images/circle.png';
 import './FrontPage.css';
 import PostComponent from './PostComponent';
-import  post_button from './src/images/post_button.png';
 
 
 function HomePage() {
@@ -135,9 +134,9 @@ function HomePage() {
             <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
           </Link>
           {username && 
-            <button className="create-post-button">
-              <img src={post_button} alt="Post" />
-            </button>
+            <Link to="/post" className="create-post-button">
+              <button className="post-button">Post</button>
+            </Link>
           }
         </div>
         <div className="header-right">
