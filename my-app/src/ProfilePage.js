@@ -20,6 +20,9 @@ export default function UserProfile() {
   const [loading, setLoading] = useState(false);
   const [initialLoad, setInitialLoad] = useState(false);
   const [userId, setUserId] = useState(localStorage.getItem('user_id'));
+  const [userProfilePic, setUserProfilePic] = useState(null);
+
+  
 
   const handleUpload = async () => {
     const formData = new FormData();
@@ -77,31 +80,32 @@ export default function UserProfile() {
     }
   }, [pageUsername]);
 
-  useEffect(() => {
-    if (!userId) return;  // Skip if 'userId' is not set yet
+  const getProfilePicture = useCallback(async () => {
+    let cachedPfpUrl = localStorage.getItem('pfp_url');
     
-    const getProfilePicture = async () => {
-      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?username=${pageUsername}`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
-      
-      if (response.ok) {
-        const userData = await response.json();
-        let finalUrl = userData.pfp_url.startsWith(PROFILE_PIC_BASE_URL)
-          ? userData.pfp_url
-          : PROFILE_PIC_BASE_URL + userData.pfp_url;
-        setProfilePic(finalUrl);
+    if (userId) {
+      if (!cachedPfpUrl) {
+        const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?username=${pageUsername}`, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+  
+        if (response.ok) {
+          const userData = await response.json();
+          setUserProfilePic(userData.pfp_url);
+          localStorage.setItem('pfp_url', userData.pfp_url);
+        }
       } else {
-        // Handle error (leave profilePic as empty)
-        setProfilePic('');
+        setUserProfilePic(cachedPfpUrl);
       }
-    };
-    
-    
+    }
+  }, [userId, pageUsername]);
+  
+  useEffect(() => {
     getProfilePicture();
-  }, [userId]);
+  }, [userId, pageUsername, getProfilePicture]);
+  
   
   useEffect(() => {
     if (initialLoad) {
@@ -160,7 +164,7 @@ export default function UserProfile() {
         </div>
       </div>
       <div className="profile-info">
-      <img src={profilePic ? profilePic : pfp} alt="Profile Icon" className="profile-icon" />
+      <img src={userProfilePic || pfp} alt="Profile Icon" className="profile-icon" />
         {loggedInUser === pageUsername && (
           <>
             <input type="file" onChange={(e) => setSelectedFile(e.target.files[0])} />
