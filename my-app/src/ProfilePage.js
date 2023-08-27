@@ -35,7 +35,7 @@ export default function UserProfile() {
 
     if (response.ok) {
       const data = await response.json();
-      setProfilePic(PROFILE_PIC_BASE_URL + data.pfp_url + `?t=${Date.now()}`);
+      setProfilePic(data.pfp_url + `?t=${Date.now()}`);
     } else {
       alert('An error occurred while trying to upload your profile picture.');
     }
