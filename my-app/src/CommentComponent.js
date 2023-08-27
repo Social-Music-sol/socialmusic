@@ -10,10 +10,12 @@ function CommentComponent(props) {
     return (
       <div key={index + 3} className="reply-box">
         <div className="reply-header">
-          <Link to={`/users/${reply.username}`} className="profile-link">
-            <img src={reply.poster_pfp_url} alt={`${reply.username}'s profile`} className="profile-icon" />
-          </Link>
-          <h3>{reply.username}</h3>
+          <div className="user-info"> 
+            <Link to={`/users/${reply.username}`} className="profile-link">
+              <img src={reply.poster_pfp_url} alt={`${reply.username}'s profile`} className="profile-icon" />
+            </Link>
+            <h3>{reply.username}</h3>
+          </div>
   
           <div className="comment-like-container">
             <FontAwesomeIcon 
@@ -28,7 +30,6 @@ function CommentComponent(props) {
         <p>{reply.content}</p>
       </div>
     );
-  }
-  
+}
 
 export default CommentComponent;

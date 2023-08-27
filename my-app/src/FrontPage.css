@@ -277,21 +277,27 @@ body {
 .reply-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;  /* This spreads out the child elements */
+  justify-content: space-between;
   margin-right: 10px;
   margin-left: 15px;
   position: relative;
   right: 0.5em;
 }
 
+.user-info { 
+  display: flex;
+  align-items: center;
+}
+
 .comment-like-container {
-  align-self: flex-start; /* Align to the top */
+  align-self: flex-start;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   z-index: 10;
 }
+
 
 
 .profile-link {
