@@ -13,7 +13,6 @@
     margin-bottom: 1em;
     color: #333;
     text-align: center;
-    padding: 3em;
   }
   
   /* Form */
@@ -54,6 +53,7 @@
     margin-top: 1em;
     color: #007bff;
     text-decoration: none;
+    padding: 3em;
   }
   
   .registerPage-root Link:hover, a:hover {
