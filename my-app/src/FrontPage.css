@@ -92,6 +92,16 @@ body {
   z-index: 10;
 }
 
+.comment-like-container {
+  left: 18em;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 2em;
+  z-index: 10;
+}
+
 .logout-button{
   position: relative;
   top: 0.5em;

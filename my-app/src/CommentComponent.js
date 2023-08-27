@@ -16,7 +16,7 @@ function CommentComponent(props) {
                 <h3>{reply.username}</h3>
             </div>
             <p>{reply.content}</p>
-        <div className="like-container">
+        <div className="comment-like-container">
             <FontAwesomeIcon 
             icon={reply.liked_by_requester ? faHeart : faHeart} 
             className="like-button" 
