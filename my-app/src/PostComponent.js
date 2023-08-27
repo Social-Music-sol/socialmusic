@@ -4,7 +4,7 @@ import { faHeart, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
 import { getLoggedInUser, handleLogout, handleLike, handleCommentSubmit, handleToggleComments} from './utils';
 import CommentComponent from './CommentComponent';
-import React, { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 
 function PostComponent(props) {
