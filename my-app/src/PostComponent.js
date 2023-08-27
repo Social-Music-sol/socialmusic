@@ -33,15 +33,12 @@ function PostComponent(props) {
                 )}
 <div className={`comments-section ${isCommentsExpanded[post.id] ? 'expanded' : ''}`}>
     {post.replies.slice(0, 3).map((reply, index) => (
-        <div key={index} className="reply-box">
-            <div className="reply-header">
-                <Link to={`/users/${reply.username}`} className="profile-link">
-                    <img src={reply.poster_pfp_url} alt={`${reply.username}'s profile`} className="profile-icon" />
-                </Link>
-                <h3>{reply.username}</h3>
-            </div>
-            <p>{reply.content}</p>
-        </div>
+        <CommentComponent
+        reply={reply}
+        index={index}
+        posts={posts}
+        setPosts={setPosts}
+      />
     ))}
 
     {isCommentsExpanded[post.id] && post.replies.slice(3).map((reply, index) => (
