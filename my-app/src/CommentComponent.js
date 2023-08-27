@@ -18,14 +18,14 @@ function CommentComponent(props) {
           </div>
   
           <div className="comment-like-container">
+            <p className="like-count">{reply.like_count}</p> 
             <FontAwesomeIcon 
-              icon={reply.liked_by_requester ? faHeart : faHeart} 
-              className="like-button" 
-              style={{ color: reply.liked_by_requester ? 'red' : 'pink' }}
-              onClick={() => handleLike(reply.id, comments, setComments)}
-            />
-            <p className="like-count">{reply.like_count}</p>
-          </div>
+                icon={reply.liked_by_requester ? faHeart : faHeart} 
+                className="like-button" 
+                style={{ color: reply.liked_by_requester ? 'red' : 'pink' }}
+                onClick={() => handleLike(reply.id, comments, setComments)}
+            /> 
+        </div>
         </div>
         <p>{reply.content}</p>
       </div>

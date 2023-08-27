@@ -292,13 +292,17 @@ body {
 .comment-like-container {
   align-self: flex-start;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: row;  /* Changed from column to row */
+  align-items: center; /* Vertically centers the items */
+  justify-content: flex-end;
   z-index: 10;
+  margin-top: 0.2em;  /* Move down a bit */
+  margin-left: -0.5em; /* Move to the left a bit */
 }
 
-
+.like-button {
+  margin-left: 0.5em; /* Adds space between the count and the button */
+}
 
 .profile-link {
   margin-right: 5px;
