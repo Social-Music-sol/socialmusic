@@ -86,10 +86,11 @@ export default function UserProfile() {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
       });
-
+    
       if (response.ok) {
         const userData = await response.json();
-        setProfilePic(userData.pfp_url);  // Adding the base URL here, remove it if not needed
+        console.log("Profile Picture URL: ", userData.pfp_url);  // Debugging line
+        setProfilePic(PROFILE_PIC_BASE_URL + userData.pfp_url);
       }
     };
     
