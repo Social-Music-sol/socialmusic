@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import PostComponent from './PostComponent';
 import textlogo from './images/textlogo.png';
-import pfp from './images/default.png';
+import pfp from './images/circle.png';
 
 const PROFILE_PIC_BASE_URL = 'https://jamjar.live/profile-pictures/';
 
@@ -20,9 +20,6 @@ export default function UserProfile() {
   const [loading, setLoading] = useState(false);
   const [initialLoad, setInitialLoad] = useState(false);
   const [userId, setUserId] = useState(localStorage.getItem('user_id'));
-  const [userProfilePic, setUserProfilePic] = useState(null);
-
-  
 
   const handleUpload = async () => {
     const formData = new FormData();
@@ -80,32 +77,24 @@ export default function UserProfile() {
     }
   }, [pageUsername]);
 
-  const getProfilePicture = useCallback(async () => {
-    let cachedPfpUrl = localStorage.getItem('pfp_url');
-    
-    if (userId) {
-      if (!cachedPfpUrl) {
-        const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?username=${pageUsername}`, {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
-  
-        if (response.ok) {
-          const userData = await response.json();
-          setUserProfilePic(userData.pfp_url);
-          localStorage.setItem('pfp_url', userData.pfp_url);
-        }
-      } else {
-        setUserProfilePic(cachedPfpUrl);
-      }
-    }
-  }, [userId, pageUsername]);
-  
   useEffect(() => {
+    if (!userId) return;  // Skip if 'userId' is not set yet
+    
+    const getProfilePicture = async () => {
+      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?username=${pageUsername}`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+
+      if (response.ok) {
+        const userData = await response.json();
+        setProfilePic(userData.pfp_url);  // Adding the base URL here, remove it if not needed
+      }
+    };
+    
     getProfilePicture();
-  }, [userId, pageUsername, getProfilePicture]);
-  
+  }, [userId]);
   
   useEffect(() => {
     if (initialLoad) {
@@ -164,7 +153,7 @@ export default function UserProfile() {
         </div>
       </div>
       <div className="profile-info">
-      <img src={userProfilePic || pfp} alt="Profile Icon" className="profile-icon" />
+      <img src={profilePic || pfp} alt="Profile Icon" className="profile-icon" />
         {loggedInUser === pageUsername && (
           <>
             <input type="file" onChange={(e) => setSelectedFile(e.target.files[0])} />
