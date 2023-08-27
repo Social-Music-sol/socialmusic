@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import PostComponent from './PostComponent';
 import textlogo from './images/textlogo.png';
-import pfp from './images/circle.png';
+import pfp from './images/default.png';
 
 const PROFILE_PIC_BASE_URL = 'https://jamjar.live/profile-pictures/';
 
