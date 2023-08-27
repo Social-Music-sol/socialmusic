@@ -92,17 +92,6 @@ body {
   z-index: 10;
 }
 
-.comment-like-container {
-  top: 5em;
-  right: 5em;
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin-top: 2em;
-  z-index: 10;
-}
-
 .logout-button{
   position: relative;
   top: 0.5em;
@@ -288,11 +277,22 @@ body {
 .reply-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;  /* This spreads out the child elements */
   margin-right: 10px;
   margin-left: 15px;
   position: relative;
   right: 0.5em;
 }
+
+.comment-like-container {
+  align-self: flex-start; /* Align to the top */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 10;
+}
+
 
 .profile-link {
   margin-right: 5px;
