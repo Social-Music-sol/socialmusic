@@ -38,7 +38,7 @@ function LoginPage() {
   };
   
   return (
-    <div>
+    <div className="registerPage-root">
       <h2>Login</h2>
       <form onSubmit={handleLogin}>
         <input
