@@ -107,7 +107,7 @@ export default function UserProfile() {
   
       if (response.ok) {
         const userData = await response.json();
-        setProfilePic(PROFILE_PIC_BASE_URL + userData.pfp_url + `?t=${Date.now()}`);
+        setProfilePic(userData.pfp_url + `?t=${Date.now()}`);
       }
     };
   
