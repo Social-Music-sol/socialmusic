@@ -81,24 +81,25 @@ export default function UserProfile() {
     if (!userId) return;  // Skip if 'userId' is not set yet
     
     const getProfilePicture = async () => {
-      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?username=${pageUsername}`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
-      
-      if (response.ok) {
-        const userData = await response.json();
-        if (userData.pfp_url && !userData.pfp_url.startsWith("http")) {
-          setProfilePic(PROFILE_PIC_BASE_URL + userData.pfp_url);
-        } else {
-          setProfilePic(userData.pfp_url || pfp);
-        }
-      } else {
-        setProfilePic(pfp);  // use the local path for your default picture
-      }      
-    };
-    
+  const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?username=${pageUsername}`, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    },
+  });
+  
+  if (response.ok) {
+    const userData = await response.json();
+    let finalUrl = userData.pfp_url.startsWith(PROFILE_PIC_BASE_URL)
+      ? userData.pfp_url
+      : PROFILE_PIC_BASE_URL + userData.pfp_url;
+    setProfilePic(finalUrl);
+  } else {
+    // Handle error (leave profilePic as empty)
+    setProfilePic('');
+  }
+  
+};
+
     
     getProfilePicture();
   }, [userId]);
