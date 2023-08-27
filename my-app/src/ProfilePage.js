@@ -81,25 +81,24 @@ export default function UserProfile() {
     if (!userId) return;  // Skip if 'userId' is not set yet
     
     const getProfilePicture = async () => {
-  const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?username=${pageUsername}`, {
-    headers: {
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    },
-  });
-  
-  if (response.ok) {
-    const userData = await response.json();
-    let finalUrl = userData.pfp_url.startsWith(PROFILE_PIC_BASE_URL)
-      ? userData.pfp_url
-      : PROFILE_PIC_BASE_URL + userData.pfp_url;
-    setProfilePic(finalUrl);
-  } else {
-    // Handle error (leave profilePic as empty)
-    setProfilePic('');
-  }
-  
-};
-
+      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?username=${pageUsername}`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      
+      if (response.ok) {
+        const userData = await response.json();
+        let finalUrl = userData.pfp_url.startsWith(PROFILE_PIC_BASE_URL)
+          ? userData.pfp_url
+          : PROFILE_PIC_BASE_URL + userData.pfp_url;
+        setProfilePic(finalUrl);
+      } else {
+        // Handle error (leave profilePic as empty)
+        setProfilePic('');
+      }
+    };
+    
     
     getProfilePicture();
   }, [userId]);
@@ -161,7 +160,7 @@ export default function UserProfile() {
         </div>
       </div>
       <div className="profile-info">
-      <img src={profilePic || pfp} alt="Profile Icon" className="profile-icon" />
+      <img src={profilePic ? profilePic : pfp} alt="Profile Icon" className="profile-icon" />
         {loggedInUser === pageUsername && (
           <>
             <input type="file" onChange={(e) => setSelectedFile(e.target.files[0])} />
