@@ -86,13 +86,19 @@ export default function UserProfile() {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
       });
-    
+      
       if (response.ok) {
         const userData = await response.json();
-        console.log("Profile Picture URL: ", userData.pfp_url);  // Debugging line
-        setProfilePic(PROFILE_PIC_BASE_URL + userData.pfp_url);
+        let finalUrl = userData.pfp_url.startsWith(PROFILE_PIC_BASE_URL)
+          ? userData.pfp_url
+          : PROFILE_PIC_BASE_URL + userData.pfp_url;
+        setProfilePic(finalUrl);
+      } else {
+        // Handle error (for example, set to default picture)
+        setProfilePic(pfp);
       }
     };
+    
     
     getProfilePicture();
   }, [userId]);
