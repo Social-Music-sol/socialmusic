@@ -284,9 +284,10 @@ body {
   right: 0.5em;
 }
 
-.user-info { 
+.user-info {
   display: flex;
   align-items: center;
+  margin-top: -0.2em;
 }
 
 .comment-like-container {
