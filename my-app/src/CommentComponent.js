@@ -23,8 +23,8 @@ function CommentComponent(props) {
                 onClick={() => handleLike(reply.id, comments, setComments)}
                 />
             <p className="like-count">{reply.like_count}</p>
-            </div>
-            <p>{reply.content}</p> */}
+            </div> */}
+            <p>{reply.content}</p>
         
     </div>
     );
