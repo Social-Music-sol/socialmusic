@@ -45,7 +45,7 @@ export const handleLike = async (postId, posts, setPosts) => {
     }
   };
 
-  export const handleCommentSubmit = async (e, postId, setPosts, setIsCommentsExpanded) => {
+  export const handleCommentSubmit = async (e, postId, setPosts, setIsCommentsExpanded, setComments) => {
     e.preventDefault();
   
     const commentContent = e.target.comment.value;
@@ -74,11 +74,14 @@ export const handleLike = async (postId, posts, setPosts) => {
           ? { ...post, replies: [...post.replies, newComment] }
           : post
       ));
+
+      setComments(prevComments => [...prevComments, newComment]);
   
       setIsCommentsExpanded(prevState => ({
         ...prevState,
         [postId]: true
       }));
+      
     }
   };
 
