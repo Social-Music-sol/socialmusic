@@ -48,6 +48,8 @@ function PostComponent(props) {
         <CommentComponent
           reply={reply}
           index={index}
+          posts={posts}
+          setPosts={setPosts}
         />
     ))}
     

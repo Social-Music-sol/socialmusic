@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { handleLike} from './utils';
 
 function CommentComponent(props) {
-  const {reply, index} = props;
+  const {reply, index, posts, setPosts} = props;
 
   return (
     <div key={index + 3} className="reply-box"> {/* added +3 to avoid potential key conflicts */}
