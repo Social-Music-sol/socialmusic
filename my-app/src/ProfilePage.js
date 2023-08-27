@@ -19,7 +19,23 @@ export default function UserProfile() {
   const [lastTimestamp, setLastTimestamp] = useState(null);
   const [loading, setLoading] = useState(false);
   const [initialLoad, setInitialLoad] = useState(false);
-  const [userId, setUserId] = useState(localStorage.getItem('user_id'));
+  const [userId, setUserId] = useState(null);  // Add this line
+
+  useEffect(() => {
+    const getUserID = async () => {
+      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/user-by-name/${pageUsername}`);
+  
+      if (response.ok) {
+        const userData = await response.json();
+        setUserId(userData.user_id);
+        setFollowers(userData.followers);
+        setFollowing(userData.following);
+        setIsFollowing(userData.requester_following);
+      }
+    };
+  
+    getUserID();
+  }, [pageUsername]);
 
   const handleUpload = async () => {
     const formData = new FormData();
@@ -81,26 +97,20 @@ export default function UserProfile() {
 
   useEffect(() => {
     if (!userId) return;  // Skip if 'userId' is not set yet
-    
+
     const getProfilePicture = async () => {
-      let cachedPfpUrl = localStorage.getItem('pfp_url');
-      if (cachedPfpUrl) {
-        setProfilePic(cachedPfpUrl);
-      } else {
-        const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?username=${pageUsername}`, {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
+      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?id=${userId}`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
   
-        if (response.ok) {
-          const userData = await response.json();
-          const newPfpUrl = `${userData.pfp_url}?t=${Date.now()}`;
-          setProfilePic(newPfpUrl);  // Adding timestamp to URL to avoid caching
-        }
+      if (response.ok) {
+        const userData = await response.json();
+        setProfilePic(PROFILE_PIC_BASE_URL + userData.pfp_url + `?t=${Date.now()}`);
       }
     };
-    
+  
     getProfilePicture();
   }, [userId]);
   
