@@ -2,7 +2,7 @@
   --primary-color: rgb(240, 239, 239);
   --secondary-color: #e6e5e5;
   --primary-text-color: black;
-  --secondary-text-color: #e6e5e5;
+  --secondary-text-color: rgb(230, 229, 229);
   --border-color: rgb(0, 0, 0);
   --small-font-size: 0.8em;
   --normal-font-size: 1em;
@@ -137,7 +137,7 @@ body {
   min-height: 10vh;
   z-index: 1000;
   border-bottom: 1px solid black;
-  background-color: rgb(190, 190, 190);
+  background-color: rgb(230, 229, 229);
     transition: transform 0.3s ease-in-out;
   }
   .header-hide {
