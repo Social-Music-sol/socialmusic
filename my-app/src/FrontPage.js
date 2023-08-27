@@ -7,6 +7,8 @@ import textlogo from './images/textlogo.png';
 import pfp from './images/circle.png';
 import './FrontPage.css';
 import PostComponent from './PostComponent';
+import  post_button from './src/images/post_button.png';
+
 
 function HomePage() {
   const [username, setUsername] = useState(null);  const [posts, setPosts] = useState([]);
@@ -133,9 +135,9 @@ function HomePage() {
             <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
           </Link>
           {username && 
-            <Link to="/post" className="create-post-button">
-              <button className="post-button">Post</button>
-            </Link>
+            <button className="create-post-button">
+              <img src={post_button} alt="Post" />
+            </button>
           }
         </div>
         <div className="header-right">

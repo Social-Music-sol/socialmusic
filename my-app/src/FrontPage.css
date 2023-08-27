@@ -267,7 +267,7 @@ body {
   padding: 10px;
   border: 1px solid var(--border-color);
   border-radius: 12px;
-  background-color: #f9f9f9;
+  background-color: #ffffff;
 }
 
 .reply-box:last-child {
