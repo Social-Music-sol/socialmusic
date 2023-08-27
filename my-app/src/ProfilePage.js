@@ -35,11 +35,13 @@ export default function UserProfile() {
 
     if (response.ok) {
       const data = await response.json();
-      setProfilePic(data.pfp_url + `?t=${Date.now()}`);
+      const newPfpUrl = `${data.pfp_url}?t=${Date.now()}`;
+      setProfilePic(newPfpUrl);  // Adding timestamp to URL to avoid caching
+      localStorage.setItem('pfp_url', newPfpUrl);
     } else {
       alert('An error occurred while trying to upload your profile picture.');
     }
-  };
+};
 
   const getUserPosts = useCallback(async () => {
     if (loading) return;
@@ -93,8 +95,8 @@ export default function UserProfile() {
   
         if (response.ok) {
           const userData = await response.json();
-          const newPfpUrl = userData.pfp_url;  // Adding the base URL here, remove it if not needed
-          setProfilePic(newPfpUrl);
+          const newPfpUrl = `${userData.pfp_url}?t=${Date.now()}`;
+          setProfilePic(newPfpUrl);  // Adding timestamp to URL to avoid caching
           localStorage.setItem('pfp_url', newPfpUrl);
         }
       }
