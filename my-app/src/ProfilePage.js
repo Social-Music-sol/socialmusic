@@ -20,8 +20,6 @@ export default function UserProfile() {
   const [loading, setLoading] = useState(false);
   const [initialLoad, setInitialLoad] = useState(false);
   const [userId, setUserId] = useState(localStorage.getItem('user_id'));
-  const [viewedUserProfilePic, setViewedUserProfilePic] = useState('');  // New state variable
-
 
   const handleUpload = async () => {
     const formData = new FormData();
@@ -82,27 +80,29 @@ export default function UserProfile() {
   }, [pageUsername]);
 
   useEffect(() => {
+    if (!userId) return;  // Skip if 'userId' is not set yet
+    
     const getProfilePicture = async () => {
-      const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?username=${pageUsername}`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
-
-      if (response.ok) {
-        const userData = await response.json();
-        const newPfpUrl = `${userData.pfp_url}?t=${Date.now()}`;
-        if (loggedInUser === pageUsername) {
-          setProfilePic(newPfpUrl);  // Set the profile pic for logged-in user
-          localStorage.setItem('pfp_url', newPfpUrl);
-        } else {
-          setViewedUserProfilePic(newPfpUrl);  // Set the profile pic for the user being viewed
+      let cachedPfpUrl = localStorage.getItem('pfp_url');
+      if (cachedPfpUrl) {
+        setProfilePic(cachedPfpUrl);
+      } else {
+        const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/get-pfp?username=${pageUsername}`, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+  
+        if (response.ok) {
+          const userData = await response.json();
+          const newPfpUrl = `${userData.pfp_url}?t=${Date.now()}`;
+          setProfilePic(newPfpUrl);  // Adding timestamp to URL to avoid caching
         }
       }
     };
-
+    
     getProfilePicture();
-  }, [pageUsername, loggedInUser]);
+  }, [userId]);
   
   
   useEffect(() => {
@@ -162,7 +162,7 @@ export default function UserProfile() {
         </div>
       </div>
       <div className="profile-info">
-      <img src={loggedInUser === pageUsername ? profilePic : viewedUserProfilePic || pfp} alt="Profile Icon" className="profile-icon" />
+      <img src={profilePic || pfp} alt="Profile Icon" className="profile-icon" />
         {loggedInUser === pageUsername && (
           <>
             <input type="file" onChange={(e) => setSelectedFile(e.target.files[0])} />
