@@ -15,16 +15,17 @@ function CommentComponent(props) {
                 </Link>
                 <h3>{reply.username}</h3>
             </div>
-            <p>{reply.content}</p>
-        <div className="comment-like-container">
-            <FontAwesomeIcon 
-            icon={reply.liked_by_requester ? faHeart : faHeart} 
-            className="like-button" 
-            style={{ color: reply.liked_by_requester ? 'red' : 'pink' }}
-            onClick={() => handleLike(reply.id, comments, setComments)}
-            />
+            {/* <div className="comment-like-container">
+                <FontAwesomeIcon 
+                icon={reply.liked_by_requester ? faHeart : faHeart} 
+                className="like-button" 
+                style={{ color: reply.liked_by_requester ? 'red' : 'pink' }}
+                onClick={() => handleLike(reply.id, comments, setComments)}
+                />
             <p className="like-count">{reply.like_count}</p>
-        </div>
+            </div>
+            <p>{reply.content}</p> */}
+        
     </div>
     );
 }
