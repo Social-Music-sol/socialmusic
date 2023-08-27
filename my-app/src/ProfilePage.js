@@ -89,14 +89,14 @@ export default function UserProfile() {
       
       if (response.ok) {
         const userData = await response.json();
-        let finalUrl = userData.pfp_url.startsWith(PROFILE_PIC_BASE_URL)
-          ? userData.pfp_url
-          : PROFILE_PIC_BASE_URL + userData.pfp_url;
-        setProfilePic(finalUrl);
+        if (userData.pfp_url && !userData.pfp_url.startsWith("http")) {
+          setProfilePic(PROFILE_PIC_BASE_URL + userData.pfp_url);
+        } else {
+          setProfilePic(userData.pfp_url || pfp);
+        }
       } else {
-        // Handle error (for example, set to default picture)
-        setProfilePic(pfp);
-      }
+        setProfilePic(pfp);  // use the local path for your default picture
+      }      
     };
     
     
