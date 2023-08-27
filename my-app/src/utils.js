@@ -45,31 +45,31 @@ export const handleLike = async (postId, posts, setPosts) => {
     }
   };
 
-  export const handleCommentLike = async (post, posts, setPosts) => {
-    const postIndex = posts.findIndex(post => post.id === postId);
-    const post = posts[postIndex];
-    const isAlreadyLiked = post.liked_by_requester;
+  // export const handleCommentLike = async (commentId, comments, setComments) => {
+  //   const postIndex = comments.findIndex(comment => comment.id === commentId);
+  //   const comment = comments[postIndex];
+  //   const isAlreadyLiked = post.liked_by_requester;
     
-    const newPosts = [...posts]; // Copy the posts array
-    if (isAlreadyLiked) {
-      newPosts[postIndex] = { ...post, liked_by_requester: false, like_count: post.like_count - 1 };
-    } else {
-      newPosts[postIndex] = { ...post, liked_by_requester: true, like_count: post.like_count + 1 };
-    }
+  //   const newComments = [...comments]; // Copy the posts array
+  //   if (isAlreadyLiked) {
+  //     newComments[postIndex] = { ...comment, liked_by_requester: false, like_count: comment.like_count - 1 };
+  //   } else {
+  //     newComments[postIndex] = { ...comment, liked_by_requester: true, like_count: comment.like_count + 1 };
+  //   }
   
-    const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/like-post?post_id=${postId}`, {
-      method: isAlreadyLiked ? 'DELETE' : 'POST',
-      credentials: 'include',
-    });
+  //   const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/like-post?post_id=${commentId}`, {
+  //     method: isAlreadyLiked ? 'DELETE' : 'POST',
+  //     credentials: 'include',
+  //   });
   
-    if (!response.ok) {
-      console.error(`Failed to ${isAlreadyLiked ? 'unlike' : 'like'} post ${postId}`);
-      // If the request failed, revert the like state
-      setPosts(posts);
-    } else {
-      setPosts(newPosts);
-    }
-  };
+  //   if (!response.ok) {
+  //     console.error(`Failed to ${isAlreadyLiked ? 'unlike' : 'like'} post ${postId}`);
+  //     // If the request failed, revert the like state
+  //     setComments(comments);
+  //   } else {
+  //     setComments(newComments);
+  //   }
+  // };
 
   export const handleCommentSubmit = async (e, postId, setPosts, setIsCommentsExpanded) => {
     e.preventDefault();

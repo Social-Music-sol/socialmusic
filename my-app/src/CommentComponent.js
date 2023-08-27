@@ -2,10 +2,10 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
-import { handleCommetLike} from './utils';
+import { handleLike } from './utils';
 
 function CommentComponent(props) {
-  const {reply, index, posts, setPosts} = props;
+  const {reply, index, comments, setComments} = props;
 
   return (
     <div key={index + 3} className="reply-box"> {/* added +3 to avoid potential key conflicts */}
@@ -21,7 +21,7 @@ function CommentComponent(props) {
             icon={reply.liked_by_requester ? faHeart : faHeart} 
             className="like-button" 
             style={{ color: reply.liked_by_requester ? 'red' : 'pink' }}
-            onClick={() => handleLike(reply.id, posts, setPosts)}
+            onClick={() => handleLike(reply.id, comments, setComments)}
             />
             <p className="like-count">{reply.like_count}</p>
         </div>

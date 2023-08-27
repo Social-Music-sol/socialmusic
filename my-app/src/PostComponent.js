@@ -40,8 +40,8 @@ function PostComponent(props) {
         <CommentComponent
         reply={reply}
         index={index}
-        posts={posts}
-        setPosts={setPosts}
+        comments={comments}
+        setComments={setComments}
       />
     ))}
 
@@ -49,8 +49,8 @@ function PostComponent(props) {
         <CommentComponent
           reply={reply}
           index={index}
-          posts={posts}
-          setPosts={setPosts}
+          comments={comments}
+          setComments={setComments}
         />
     ))}
     
