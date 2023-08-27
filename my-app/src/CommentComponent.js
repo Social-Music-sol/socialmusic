@@ -19,3 +19,5 @@ function CommentComponent(props) {
         </div>
     );
 }
+
+export default CommentComponent;
