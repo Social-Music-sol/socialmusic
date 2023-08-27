@@ -58,7 +58,7 @@ function RegisterPage() {
   };
 
   return (
-    <div>
+    <div className="registerPage-root">
       <h2>Register</h2>
       <form onSubmit={handleSubmit}>
         <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} required />

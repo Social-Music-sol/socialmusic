@@ -1,14 +1,21 @@
-
+/* Container */
+.registerPage-root div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
   
   /* Title */
-  h2 {
+  .registerPage-root h2 {
     font-size: 2.5em;
     margin-bottom: 1em;
     color: #333;
   }
   
   /* Form */
-  form {
+  .registerPage-root form {
     background-color: #ffffff;
     border-radius: 8px;
     padding: 2em;
@@ -16,7 +23,7 @@
   }
   
   /* Input fields */
-  input {
+  .registerPage-root input {
     display: block;
     margin-bottom: 1em;
     padding: 0.5em;
@@ -26,7 +33,7 @@
   }
   
   /* Button */
-  button {
+  .registerPage-root button {
     padding: 0.5em 1em;
     background-color: #007bff;
     color: white;
@@ -36,18 +43,18 @@
     transition: background-color 0.2s ease;
   }
   
-  button:hover {
+  .registerPage-root button:hover {
     background-color: #0056b3;
   }
   
   /* Homepage link */
-  Link, a {
+  .registerPage-root Link, a {
     margin-top: 1em;
     color: #007bff;
     text-decoration: none;
   }
   
-  Link:hover, a:hover {
+  .registerPage-root Link:hover, a:hover {
     text-decoration: underline;
   }
   
