@@ -66,8 +66,8 @@ export const handleLike = async (postId, posts, setPosts) => {
     if (response.ok) {
       const newComment = await response.json();
   
-      newComment.username = getLoggedInUser;
-      newComment.poster_pfp_url = userProfilePic;
+      newComment.username = getLoggedInUser();
+      newComment.poster_pfp_url = localStorage.getItem('pfp_url'); 
   
       setPosts((prevPosts) => prevPosts.map(post =>
         post.id === postId
