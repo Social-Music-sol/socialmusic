@@ -160,7 +160,7 @@ def follow_user():
     except NameError:
         return jsonify({'error': 'follower_id or followed_id not found'}), 404
     except ValueError:
-        return jsonify({'error': 'follow cannot be deleted/created because it doesn\'t/does exist'})
+        return jsonify({'error': 'follow cannot be deleted/created because it doesn\'t/does exist'}), 401
     
     
 @app.route('/profile/upload', methods=['POST'])
