@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import PostComponent from './PostComponent';
 import textlogo from './images/textlogo.png';
+import pfp from './images/circle.png';
 
 const PROFILE_PIC_BASE_URL = 'https://jamjar.live/profile-pictures/';
 
@@ -152,7 +153,7 @@ export default function UserProfile() {
         </div>
       </div>
       <div className="profile-info">
-      <img src={profilePic} alt="Profile Icon" class="profile-icon" />
+      <img src={profilePic || pfp} alt="Profile Icon" className="profile-icon" />
         {loggedInUser === pageUsername && (
           <>
             <input type="file" onChange={(e) => setSelectedFile(e.target.files[0])} />
