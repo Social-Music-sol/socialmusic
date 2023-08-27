@@ -62,7 +62,7 @@ function PostComponent(props) {
         )}
         
         {/* Comment form */}
-        <form onSubmit={(e) => handleCommentSubmit(e, post.id, setPosts, setIsCommentsExpanded, setComments)} className="comment-form">
+        <form onSubmit={(e) => handleCommentSubmit(e, post.id, setPosts, setIsCommentsExpanded)} className="comment-form">
             <input type="text" name="comment" placeholder="Add a comment..." />
             <button type="submit">Comment</button>
         </form>
