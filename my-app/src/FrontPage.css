@@ -132,7 +132,7 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  width: 96vw;
+  width: 100%;
   padding: 1em 2vw;
   min-height: 10vh;
   z-index: 1000;
