@@ -52,7 +52,7 @@ const PostForm = () => {
         <input type="text" placeholder="Caption" value={caption} onChange={e => setCaption(e.target.value)} />
         <button type="submit">Post</button>
     </form>
-    <Link to="/">Go To Homepage</Link>
+    <Link to="/" style="padding:3em;">Go To Homepage</Link>
   </div>
   );
 };
