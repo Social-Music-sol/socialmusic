@@ -53,12 +53,8 @@
     margin-top: 1em;
     color: #007bff;
     text-decoration: none;
-    padding: 1em;
   }
   
-  hyperspecific {
-    padding: 3em;
-  }
 
   .registerPage-root Link:hover, a:hover {
     text-decoration: underline;

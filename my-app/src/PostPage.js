@@ -52,9 +52,7 @@ const PostForm = () => {
         <input type="text" placeholder="Caption" value={caption} onChange={e => setCaption(e.target.value)} />
         <button type="submit">Post</button>
     </form>
-    <div className="hyperspecific">
-      <Link to="/">Go To Homepage</Link>
-    </div>
+    <Link to="/">Go To Homepage</Link>
   </div>
   );
 };
