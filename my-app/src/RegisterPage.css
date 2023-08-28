@@ -49,11 +49,11 @@
   }
   
   /* Homepage link */
-  .registerPage-root Link {
+  .registerPage-root Link, a {
     margin-top: 1em;
     color: #007bff;
     text-decoration: none;
-    padding: 3em;
+    padding: 1em;
   }
   
   .registerPage-root Link:hover, a:hover {
