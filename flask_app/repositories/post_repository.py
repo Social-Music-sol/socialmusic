@@ -99,8 +99,7 @@ class PostRepository:
             post_data['parent_id'] = None
 
         replies = post.replies.all()
-        print(type(replies))
-        replies = replies.sorted(lambda reply: reply.created_at)
+        replies = sorted(replies, key=lambda reply: reply.created_at)
         post_data['replies'] = []
         if replies:
             post_data['replies'] = [self.full_post_data(requester_id=requester_id, post=reply) for reply in replies]
