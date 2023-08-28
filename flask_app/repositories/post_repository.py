@@ -70,7 +70,7 @@ class PostRepository:
         return post_data, int(post_data[-1]['created_at']) - 1
     
     def full_post_data(self, requester_id, post_id=None, post=None):
-        requester = User.query.get(requester_id)
+        requester = self.exists(requester_id)
         if post_id:
             post = Post.query.get(post_id)
         else:
@@ -80,7 +80,7 @@ class PostRepository:
         
         post_data = post.to_dict()
         poster_id = post_data['user_id']
-        user =  User.query.get(poster_id)
+        user =  self.exists(poster_id)
         post_data['username'] = user.username
         post_data['poster_pfp_url'] = user.make_pfp_url()
 
@@ -99,6 +99,7 @@ class PostRepository:
             post_data['parent_id'] = None
 
         replies = post.replies.all()
+        replies = sorted(replies, lambda reply: reply.created_at)
         post_data['replies'] = []
         if replies:
             post_data['replies'] = [self.full_post_data(requester_id=requester_id, post=reply) for reply in replies]
