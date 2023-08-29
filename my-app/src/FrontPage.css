@@ -15,7 +15,7 @@ body {
 }
 
 .post-box {
-  width: 600px; /* Fixed width */
+  width: 100%; /* Fixed width */
   max-width: 600px; /* Ensure that the width doesn't exceed the fixed value */
   min-height: 400px;
   margin: 0 auto 3em;
@@ -104,7 +104,8 @@ body {
 }
 
 .textlogo {
-  width: 200px;
+  max-width: 200px;
+  width: 100%;
   height: auto;
   margin-right: 10px;
 }
@@ -166,7 +167,7 @@ body {
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 0 2vw;
   display: table;
