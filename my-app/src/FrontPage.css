@@ -335,3 +335,31 @@ body {
   display: flex;
   align-items: center;
 }
+/* Style for the dropdown */
+.dropdown-menu {
+  display: none; /* hidden by default */
+  position: absolute;
+  top: 100%; /* place it below the pfp-link */
+  right: 0; /* align it to the right side */
+  border: 1px solid var(--border-color);
+  background-color: var(--primary-color);
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* optional drop shadow */
+  z-index: 100; /* to ensure it appears on top */
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 10px 20px;
+  color: var(--primary-text-color);
+  text-decoration: none;
+}
+
+.dropdown-menu a:hover {
+  background-color: var(--secondary-color);
+}
+
+/* Show the dropdown when pfp-container is hovered */
+.pfp-container:hover .dropdown-menu {
+  display: block;
+}
