@@ -140,16 +140,18 @@ function HomePage() {
           }
         </div>
         <div className="header-right">
-          {username && (  // Conditional rendering here
-            <div class="pfp-container">
-            <a href="#" class="pfp-link"></a>
-            <div class="dropdown-menu">
-              <a href="/user-profile">Profile</a>
-              <a href="/logout">Log out</a>
+    {username && (
+        <div className="pfp-container">
+            <a href="#" className="pfp-link">
+                <img src="path_to_your_profile_picture.jpg" alt="Profile" className="pfp"/>  {/* Assuming an img tag for PFP */}
+            </a>
+            <div className="dropdown-menu">
+                <a href="/user-profile">Profile</a>
+                <a href="/logout">Log out</a>
             </div>
-          </div>
-          )}
         </div>
+    )}
+</div>
 
       </div>
       {!username && <Link className="create-post-button post-button" to="/register">Register</Link>}
