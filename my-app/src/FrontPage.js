@@ -141,13 +141,12 @@ function HomePage() {
         </div>
         <div className="header-right">
           {username && (  // Conditional rendering here
-            <div class="pfp-container">
-            <a href="#" class="pfp-link"></a>
-            <div class="dropdown-menu">
-              <a href="/user-profile">Profile</a>
-              <a href="/logout">Log out</a>
+            <div className="pfp-container">
+              <Link to={`/users/${username}`} className="pfp-link">
+                <img src={userProfilePic || pfp} alt={`${username}'s Profile Icon`} className="pfp" /> 
+              </Link>
+              <button className="logout-button" onClick={handleLogout}>Logout</button>
             </div>
-          </div>
           )}
         </div>
 
