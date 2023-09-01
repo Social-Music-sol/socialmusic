@@ -20,7 +20,7 @@ body {
   min-height: 400px;
   margin: 0 auto 3em;
   padding: 2em;
-  border-radius: 1.25em;
+  border-radius: 1.6em;
   background-color: var(--secondary-color);
   border: 1px solid var(--border-color);
   display: flex;
