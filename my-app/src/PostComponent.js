@@ -63,17 +63,8 @@ function PostComponent(props) {
         
         {/* Comment form */}
         <form onSubmit={(e) => handleCommentSubmit(e, post.id, setPosts, setIsCommentsExpanded, setComments)} className="comment-form">
-        <input 
-  type="text" 
-  name="comment" 
-  placeholder="Add a comment..." 
-  onKeyPress={(event) => {
-    if (event.key === 'Enter') {
-      event.preventDefault(); // Stop the Enter key from creating a new line
-      handleCommentSubmit(event, post.id, setPosts, setIsCommentsExpanded, setComments); // Use your function to handle the comment submission
-    }
-  }}
-/>
+            <input type="text" name="comment" placeholder="Add a comment..." />
+            <button type="submit">Comment</button>
         </form>
     </div>
 </div>
