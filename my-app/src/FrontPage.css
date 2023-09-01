@@ -253,7 +253,15 @@ body {
 .comment-box {
   z-index: 10;
   position: relative;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 10px; /* add padding for better look */
+  background-color: #ffffff; /* Background color for cleanliness */
+  outline: none; /* Remove browser default outline */
+  width: 100%; /* Full-width box */
+  resize: vertical; /* Allow only vertical resizing */
 }
+
 
 .comments-section {
   margin-top: 10px;
