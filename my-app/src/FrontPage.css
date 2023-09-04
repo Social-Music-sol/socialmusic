@@ -140,19 +140,17 @@ body {
   display: none;
 }
 .create-post-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 20px;
-  text-decoration: none;
-  padding-left: 150px; 
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+  display: inline-block;
 }
 
 .post-button {
-  font-size: 1em;
-  cursor: pointer;
-  width: 50px;  /* Adjust as per your needs */
-  height: 50px; /* Adjust as per your needs */
+  width: auto;
+  height: auto;
+  display: block;
 }
 
 .container {

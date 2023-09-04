@@ -173,10 +173,10 @@ function HomePage() {
             <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
           </Link>
           {username && 
-            <button onClick={togglePostForm} className="create-post-button">
-              <img src={postbutton} alt="Post Button" className="post-button" />
-            </button>
-          }
+    <div className="create-post-button" onClick={togglePostForm}>
+        <img src={postbutton} alt="Post Button" className="post-button" />
+    </div>
+}
         </div>
         <div className="header-right">
           {username && (  // Conditional rendering here
