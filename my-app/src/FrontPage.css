@@ -47,8 +47,7 @@ body {
 .create-post-button.post-button {
   text-decoration: none; /* To remove the underline */
   color: var(--primary-text-color); /* Or any other color you want */
-  display: inline-block;  /* Helps in retaining the block-like structure */
-  background: #e6e5e5;
+
   text-align: center;
   font-size: larger;
 }
