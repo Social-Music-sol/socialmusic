@@ -8,7 +8,7 @@ import postbutton from './images/post_button.png';
 import pfp from './images/circle.png';
 import './FrontPage.css';
 import PostComponent from './PostComponent';
-import PostForm from './PostPage'; // import the PostForm component
+import PostForm from './PostForm'; // import the PostForm component
 import Modal from 'react-modal';
 
 
