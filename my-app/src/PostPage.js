@@ -6,11 +6,10 @@ import { useNavigate } from 'react-router-dom';
 
 
 const PostForm = () => {
-    const [songLink, setSongLink] = useState('');
-    const [pictureUrl, setPictureUrl] = useState('');
-    const [caption, setCaption] = useState('');
-    const [isDropdownVisible, setIsDropdownVisible] = useState(false); // State for dropdown visibility
-    const navigate = useNavigate();
+  const [songLink, setSongLink] = useState('');
+  const [pictureUrl, setPictureUrl] = useState('');
+  const [caption, setCaption] = useState('');
+  const navigate = useNavigate();
 
 
   const handlePost = async (songLink, pictureUrl, caption) => {
@@ -47,22 +46,15 @@ const PostForm = () => {
   // <input type="url" placeholder="Picture URL" value={pictureUrl} onChange={e => setPictureUrl(e.target.value)} />
   return (
     <div className="registerPage-root">
-      <button onClick={() => setIsDropdownVisible(!isDropdownVisible)}>Create Post</button> {/* Button to toggle dropdown */}
-
-      {isDropdownVisible && (  // Conditional rendering of dropdown
-        <div className="post-dropdown">
-          <h2>Post</h2>
-          <form onSubmit={handleSubmit}>
-            <input type="url" placeholder="Song Link" value={songLink} onChange={e => setSongLink(e.target.value)} required />
-            <input type="text" placeholder="Caption" value={caption} onChange={e => setCaption(e.target.value)} />
-            <button type="submit">Post</button>
-          </form>
-          <Link to="/">Go To Homepage</Link>
-        </div>
-      )}
-    </div>
+      <h2>Post</h2>
+      <form onSubmit={handleSubmit}>
+        <input type="url" placeholder="Song Link" value={songLink} onChange={e => setSongLink(e.target.value)} required />
+        <input type="text" placeholder="Caption" value={caption} onChange={e => setCaption(e.target.value)} />
+        <button type="submit">Post</button>
+    </form>
+    <Link to="/">Go To Homepage</Link>
+  </div>
   );
 };
-
 
 export default PostForm;
