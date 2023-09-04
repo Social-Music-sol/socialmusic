@@ -151,6 +151,8 @@ body {
   width: auto;
   height: auto;
   display: block;
+  width: 50px;  /* Adjust as per your needs */
+  height: 50px; /* Adjust as per your needs */
 }
 
 .container {
