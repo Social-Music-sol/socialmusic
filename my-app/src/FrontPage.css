@@ -159,10 +159,9 @@ body {
 }
 
 .post-button {
-  border: none;
   font-size: 1em;
   cursor: pointer;
-  width: 100px;  /* Adjust as per your needs */
+  width: 50px;  /* Adjust as per your needs */
   height: 50px; /* Adjust as per your needs */
 }
 
@@ -338,4 +337,16 @@ body {
 .header-left {
   display: flex;
   align-items: center;
+}
+.post-button:hover {
+  opacity: 0.8;  /* Making the button slightly transparent on hover */
+}
+
+.post-button:active {
+  transform: scale(0.98);  /* Slightly reducing the size when clicked */
+}
+
+.post-button:focus {
+  outline: none;  /* Removing the default outline */
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);  /* Adding a custom focus style */
 }
