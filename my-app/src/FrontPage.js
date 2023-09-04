@@ -8,10 +8,6 @@ import postbutton from './images/post_button.png';
 import pfp from './images/circle.png';
 import './FrontPage.css';
 import PostComponent from './PostComponent';
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import PostForm from './PostForm'; // import the PostForm component
-import Modal from 'react-modal';
 
 
 function HomePage() {
@@ -24,7 +20,6 @@ function HomePage() {
   const [userId, setUserId] = useState(localStorage.getItem('user_id'));
   const [headerHidden, setHeaderHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const [isPostModalOpen, setIsPostModalOpen] = useState(false);
 
   useEffect(() => {
     if (!username) {
@@ -140,44 +135,36 @@ function HomePage() {
             <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
           </Link>
           {username && 
-            <button className="create-post-button" onClick={() => setIsPostModalOpen(true)}>
+            <Link to="/post" className="create-post-button">
               <img src={postbutton} alt="Post Button" className="post-button" />
-            </button>
+            </Link>
           }
         </div>
         <div className="header-right">
-        {username && (  
-            <div className="pfp-container">
-                <div className="pfp-dropdown">
-                    <Link to={`/users/${username}`} className="pfp-link">
-                        <img src={userProfilePic || pfp} alt={`${username}'s Profile Icon`} className="pfp" />
-                    </Link>
-                    <div className="pfp-dropdown-content">
-                        <Link to={`/users/${username}`}>Profile</Link>
-                        <a href="#" onClick={handleLogout}>Logout</a> {/* Changed button to a link */}
-                    </div>
+    {username && (  // Conditional rendering here
+        <div className="pfp-container">
+            <div className="pfp-dropdown">
+                <Link to={`/users/${username}`} className="pfp-link">
+                    <img src={userProfilePic || pfp} alt={`${username}'s Profile Icon`} className="pfp" />
+                </Link>
+                <div className="pfp-dropdown-content">
+                    <Link to={`/users/${username}`}>Profile</Link>
+                    <a href="#" onClick={handleLogout}>Logout</a> {/* Changed button to a link */}
                 </div>
             </div>
-        )}
         </div>
+    )}
+</div>
+
+
       </div>
-
-      {/* Modal containing Post Form */}
-      <Modal
-        isOpen={isPostModalOpen}
-        onRequestClose={() => setIsPostModalOpen(false)}
-        contentLabel="Post Form"
-      >
-        <PostForm />
-        <button onClick={() => setIsPostModalOpen(false)}>Close</button>
-      </Modal>
-
       {!username && <Link className="create-post-button post-button" to="/register">Register</Link>}
       <br />
       {!username && <Link className="create-post-button post-button" to="/login">Login</Link>}
       <br />
       <div className="posts-container">
         {posts.map((post, index) => {
+          console.log('Loading post. . . ');
           return <PostComponent
             key={index}
             index={index}
@@ -192,5 +179,6 @@ function HomePage() {
       </div>
     </div>
   );
+  
 }
 export default HomePage;
