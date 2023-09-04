@@ -111,7 +111,7 @@ body {
   justify-content: flex-end;
   flex-direction: column;
   align-items: center;
-  padding-right: 2em;
+  padding-right: 17em;
 }
 
 
@@ -226,6 +226,7 @@ body {
   height: 100%;
   object-fit: cover;
   border-radius: 50%;
+  border: 1px solid black;  /* Added this line */
 }
 
 .pfp-link {

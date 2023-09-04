@@ -149,7 +149,7 @@ function HomePage() {
                 </Link>
                 <div className="pfp-dropdown-content">
                     <Link to={`/users/${username}`}>Profile</Link>
-                    <button onClick={handleLogout}>Logout</button>
+                    <a href="#" onClick={handleLogout}>Logout</a> {/* Changed button to a link */}
                 </div>
             </div>
         </div>
