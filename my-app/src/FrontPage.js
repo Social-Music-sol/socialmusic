@@ -8,6 +8,8 @@ import postbutton from './images/post_button.png';
 import pfp from './images/circle.png';
 import './FrontPage.css';
 import PostComponent from './PostComponent';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import PostForm from './PostForm'; // import the PostForm component
 import Modal from 'react-modal';
 
