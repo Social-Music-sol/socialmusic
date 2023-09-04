@@ -173,7 +173,7 @@ function HomePage() {
             <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
           </Link>
           {username && 
-            <button onClick={togglePostForm} className="post-button">
+            <button onClick={togglePostForm} className="create-post-button">
               <img src={postbutton} alt="Post Button" className="post-button" />
             </button>
           }
