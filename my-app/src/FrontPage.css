@@ -243,12 +243,43 @@ body {
 }
 
 .comment-box {
-  z-index: 10;
-  position: relative;
-  border-radius: 1.6em;
-  background-color: var(--secondary-color);
-  border: 1px solid var(--border-color);
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: #f9f9f9; /* Light grey to subtly differentiate from the surrounding content */
+  border: 1px solid #ddd; /* Light border to define the box */
 }
+
+.comment-input {
+  width: 80%; /* Leaving space for the submit button */
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  transition: border-color 0.3s; /* Smooth transition for a better user experience */
+}
+
+.comment-input:focus {
+  border-color: #007BFF; /* Highlight border when focused */
+  outline: none;
+}
+
+.comment-submit {
+  width: 18%;
+  margin-left: 2%; /* Spacing between the input and the button */
+  padding: 8px 10px;
+  background-color: #007BFF; /* Using blue as the primary color, but you can replace it with any color of your choice */
+  border: none;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s; /* Smooth transition for a better user experience */
+}
+
+.comment-submit:hover {
+  background-color: #0056b3; /* Darker shade of blue for hover */
+}
+
 
 .comments-section {
   margin-top: 10px;
