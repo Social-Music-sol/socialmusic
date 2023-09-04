@@ -46,8 +46,6 @@ body {
 
 .create-post-button.post-button {
   text-decoration: none; /* To remove the underline */
-  color: var(--primary-text-color); /* Or any other color you want */
-
   text-align: center;
   font-size: larger;
 }
@@ -150,7 +148,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--primary-color);
   padding: 10px 20px;
   text-decoration: none;
 }
