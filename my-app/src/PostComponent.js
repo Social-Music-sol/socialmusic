@@ -8,7 +8,7 @@ import { useEffect, useState, useCallback } from 'react';
 
 
 function PostComponent(props) {
-  const {post, isCommentsExpanded, setIsCommentsExpanded, setPosts, index, posts, color} = props;
+  const {post, isCommentsExpanded, setIsCommentsExpanded, setPosts, index, posts} = props;
   
   const [comments, setComments] = useState(post.replies);
 
