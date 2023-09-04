@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { getLoggedInUser, handleLogout, handleLike, handleCommentSubmit, handleToggleComments} from './utils';
 import textlogo from './images/textlogo.png';
+import postbutton from './images/post_button.png';
 import pfp from './images/circle.png';
 import './FrontPage.css';
 import PostComponent from './PostComponent';
@@ -135,7 +136,7 @@ function HomePage() {
           </Link>
           {username && 
             <Link to="/post" className="create-post-button">
-              <button className="post-button">Post</button>
+              <img src={postbutton} alt="Post Button" className="post-button" />
             </Link>
           }
         </div>

@@ -159,10 +159,11 @@ body {
 }
 
 .post-button {
-  background: transparent;
   border: none;
   font-size: 1em;
   cursor: pointer;
+  width: 100px;  /* Adjust as per your needs */
+  height: 50px; /* Adjust as per your needs */
 }
 
 .container {
