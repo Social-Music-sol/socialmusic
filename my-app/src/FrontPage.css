@@ -50,9 +50,6 @@ body {
   font-size: larger;
 }
 
-.create-post-button.post-button:hover {
-  background: #f0efef;
-}
 
 
 .post-content {
