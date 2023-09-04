@@ -20,6 +20,44 @@ function HomePage() {
   const [userId, setUserId] = useState(localStorage.getItem('user_id'));
   const [headerHidden, setHeaderHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [showPostForm, setShowPostForm] = useState(false); // New state for toggling post form
+  const togglePostForm = () => {
+    setShowPostForm(prevState => !prevState);
+  };
+  // PostForm inner logic...
+  const [songLink, setSongLink] = useState('');
+  const [caption, setCaption] = useState('');
+
+  const navigate = useNavigate();
+
+  const handlePost = async (songLink, caption) => {
+    const response = await fetch(`${process.env.REACT_APP_API_DOMAIN}/post`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify({
+        content: caption,
+        song_url: songLink
+      })
+    });
+
+    const data = await response.json();
+
+    if (data.message) {
+      alert(data.message);
+    }
+    navigate('/');
+    togglePostForm(); // Close the form after posting
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    handlePost(songLink, caption);
+    setSongLink('');
+    setCaption('');
+  };
 
   useEffect(() => {
     if (!username) {
@@ -135,36 +173,43 @@ function HomePage() {
             <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
           </Link>
           {username && 
-            <Link to="/post" className="create-post-button">
+            <button onClick={togglePostForm} className="create-post-button">
               <img src={postbutton} alt="Post Button" className="post-button" />
-            </Link>
+            </button>
           }
         </div>
         <div className="header-right">
-    {username && (  // Conditional rendering here
-        <div className="pfp-container">
-            <div className="pfp-dropdown">
-                <Link to={`/users/${username}`} className="pfp-link">
-                    <img src={userProfilePic || pfp} alt={`${username}'s Profile Icon`} className="pfp" />
-                </Link>
-                <div className="pfp-dropdown-content">
-                    <Link to={`/users/${username}`}>Profile</Link>
-                    <a href="#" onClick={handleLogout}>Logout</a> {/* Changed button to a link */}
+          {username && (  // Conditional rendering here
+            <div className="pfp-container">
+                <div className="pfp-dropdown">
+                    <Link to={`/users/${username}`} className="pfp-link">
+                        <img src={userProfilePic || pfp} alt={`${username}'s Profile Icon`} className="pfp" />
+                    </Link>
+                    <div className="pfp-dropdown-content">
+                        <Link to={`/users/${username}`}>Profile</Link>
+                        <a href="#" onClick={handleLogout}>Logout</a> {/* Changed button to a link */}
+                    </div>
                 </div>
             </div>
+          )}
         </div>
-    )}
-</div>
-
-
       </div>
+      {showPostForm && 
+        <div className="post-dropdown">
+          <h2>Post</h2>
+          <form onSubmit={handleSubmit}>
+            <input type="url" placeholder="Song Link" value={songLink} onChange={e => setSongLink(e.target.value)} required />
+            <input type="text" placeholder="Caption" value={caption} onChange={e => setCaption(e.target.value)} />
+            <button type="submit">Post</button>
+          </form>
+        </div>
+      }
       {!username && <Link className="create-post-button post-button" to="/register">Register</Link>}
       <br />
       {!username && <Link className="create-post-button post-button" to="/login">Login</Link>}
       <br />
       <div className="posts-container">
         {posts.map((post, index) => {
-          console.log('Loading post. . . ');
           return <PostComponent
             key={index}
             index={index}
@@ -179,6 +224,5 @@ function HomePage() {
       </div>
     </div>
   );
-  
 }
 export default HomePage;
