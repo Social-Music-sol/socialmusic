@@ -7,9 +7,12 @@ import textlogo from './images/textlogo.png';
 import pfp from './images/circle.png';
 import './FrontPage.css';
 import PostComponent from './PostComponent';
+import UIComponent from './UIComponent'; // Adjust the path as necessary
+
 
 
 function HomePage() {
+  const [color, setColor] = useState("#FFFFFF"); // Default color is white
   const [username, setUsername] = useState(null);  const [posts, setPosts] = useState([]);
   const [userProfilePic, setUserProfilePic] = useState(null);
   const [isCommentsExpanded, setIsCommentsExpanded] = useState({});
@@ -128,7 +131,7 @@ function HomePage() {
 
   return (
     <div className="container">
-      <div className={`header ${headerHidden ? 'header-hide' : ''}`}>
+      <div className={`header ${headerHidden ? 'header-hide' : ''}`} style={{backgroundColor: color}}>
         <div className="header-left">
           <Link to="/">
             <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
@@ -159,6 +162,7 @@ function HomePage() {
         {posts.map((post, index) => {
           console.log('Loading post. . . ');
           return <PostComponent
+            color={color}
             key={index}
             index={index}
             post={post}
@@ -170,6 +174,8 @@ function HomePage() {
         })}
         {loading && <p>Loading...</p>}
       </div>
+      <UIComponent onColorChange={setColor} />
+
     </div>
   );
   
