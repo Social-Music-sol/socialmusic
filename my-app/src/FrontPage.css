@@ -398,7 +398,6 @@ img.post-button {
   width: 300px; /* Adjust based on your needs */
 
 }
-button:focus {
-  outline: none;
-  border: 2px solid #007BFF; /* or any color you prefer */
+.create-post-button {
+  border: none;
 }
