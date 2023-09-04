@@ -14,7 +14,7 @@ function PostComponent(props) {
 
   return (
     <div className="posts-container">
-      <div key={index} className="post-box" style={{backgroundColor: color}}>
+            <div key={index} className="post-box">
               <div className="post-header">
                 <Link to={`/users/${post.username}`} className="profile-link">
                   <img src={post.poster_pfp_url} alt={`${post.username}'s profile`} className="profile-icon" />
