@@ -6,7 +6,7 @@ function UIComponent(props) {
   };
 
   return (
-    <div>
+    <div className="color-picker-container">
       <label htmlFor="colorPicker">Choose a color:</label>
       <input
         type="color"

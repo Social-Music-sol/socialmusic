@@ -352,3 +352,7 @@ body {
   border-radius: 5px;
   padding: 10px;
 }
+.color-picker-container {
+  padding-right: 15px; /* Adjust as necessary */
+  display: inline-block; /* Ensure it displays inline with other header elements */
+}

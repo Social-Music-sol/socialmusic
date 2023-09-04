@@ -143,17 +143,16 @@ function HomePage() {
           }
         </div>
         <div className="header-right">
-          <UIComponent onColorChange={setColor} /> {/* Place it here */}
-          
-          {username && (  // Conditional rendering here
-            <div className="pfp-container">
-              <Link to={`/users/${username}`} className="pfp-link">
-                <img src={userProfilePic || pfp} alt={`${username}'s Profile Icon`} className="pfp" /> 
-              </Link>
-              <button className="logout-button" onClick={handleLogout}>Logout</button>
-            </div>
-          )}
-        </div>
+  {username && (  // Conditional rendering here
+    <div className="pfp-container">
+      <Link to={`/users/${username}`} className="pfp-link">
+        <img src={userProfilePic || pfp} alt={`${username}'s Profile Icon`} className="pfp" /> 
+      </Link>
+      <button className="logout-button" onClick={handleLogout}>Logout</button>
+    </div>
+  )}
+  <UIComponent onColorChange={setColor} style={{ paddingRight: "10px" }} />
+</div>
       </div>
       {!username && <Link className="create-post-button post-button" to="/register">Register</Link>}
       <br />
