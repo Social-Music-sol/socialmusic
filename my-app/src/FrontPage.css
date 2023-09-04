@@ -349,3 +349,8 @@ body {
   outline: none;  /* Removing the default outline */
   box-shadow: 0 0 5px rgba(0,0,0,0.5);  /* Adding a custom focus style */
 }
+button {
+  padding: 0;
+  border: none;
+  background: none;
+}
