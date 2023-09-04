@@ -50,9 +50,6 @@ body {
   font-size: larger;
 }
 
-.create-post-button.post-button:hover {
-  background: #f0efef;
-}
 
 
 .post-content {
@@ -154,9 +151,10 @@ body {
 }
 
 .post-button {
-  display: block;
-  width: 100%;
-  height: 100%;
+  font-size: 1em;
+  cursor: pointer;
+  width: 50px;  /* Adjust as per your needs */
+  height: 50px; /* Adjust as per your needs */
 }
 
 .container {
@@ -399,8 +397,4 @@ img.post-button {
 }
 .create-post-button {
   border: none;
-  padding: 0;
-  margin: 0;
-  display: inline-block;
-  overflow: hidden;
 }
