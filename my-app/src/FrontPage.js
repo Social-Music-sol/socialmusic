@@ -143,6 +143,8 @@ function HomePage() {
           }
         </div>
         <div className="header-right">
+          <UIComponent onColorChange={setColor} /> {/* Place it here */}
+          
           {username && (  // Conditional rendering here
             <div className="pfp-container">
               <Link to={`/users/${username}`} className="pfp-link">
@@ -152,7 +154,6 @@ function HomePage() {
             </div>
           )}
         </div>
-
       </div>
       {!username && <Link className="create-post-button post-button" to="/register">Register</Link>}
       <br />
@@ -174,10 +175,8 @@ function HomePage() {
         })}
         {loading && <p>Loading...</p>}
       </div>
-      <UIComponent onColorChange={setColor} />
-
     </div>
   );
-  
+   
 }
 export default HomePage;
