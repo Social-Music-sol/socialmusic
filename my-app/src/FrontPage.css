@@ -390,3 +390,62 @@ img.post-button {
 .pfp-dropdown-content a:hover {
   background-color: var(--primary-color);
 }
+
+.post-container {
+  position: relative;
+}
+
+.post-button {
+  cursor: pointer;
+  background-color: #333;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: background-color 0.2s ease;
+}
+
+.post-button:hover {
+  background-color: #555;
+}
+
+.post-dropdown {
+  position: absolute;
+  top: 100%;  /* Display it below the button */
+  right: 0;  /* Align it to the right edge of the button */
+  width: 300px; /* Or adjust to your preferred width */
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+  padding: 15px;
+  z-index: 1;
+}
+
+.post-dropdown h2 {
+  margin-top: 0;
+}
+
+.post-dropdown form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.post-dropdown form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.post-dropdown form button:hover {
+  background-color: #555;
+}
