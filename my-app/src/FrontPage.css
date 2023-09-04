@@ -1,6 +1,6 @@
 :root {
   --primary-color: rgb(240, 239, 239);
-  --secondary-color: #e6e5e5;
+  --secondary-color: #e1e1e1;
   --primary-text-color: black;
   --secondary-text-color: rgb(230, 229, 229);
   --border-color: rgb(0, 0, 0);
@@ -111,7 +111,7 @@ body {
   justify-content: flex-end;
   flex-direction: column;
   align-items: center;
-  padding-right: 17em;
+  padding-right: 13em;
 }
 
 
