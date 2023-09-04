@@ -395,6 +395,9 @@ img.post-button {
   top: 60px; /* Adjust based on your header height */
   right: 10px; /* Adjust to set the dropdown to right side of screen */
   padding: 10px;
+  border-radius: 1.6em;
+  background-color: var(--secondary-color);
+  border: 1px solid var(--border-color);
   width: 300px; /* Adjust based on your needs */
 
 }
