@@ -133,7 +133,7 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  padding: 1em 2vw;
+  padding: 0em 2vw;
   min-height: 10vh;
   z-index: 1000;
   border-bottom: 1px solid black;
@@ -151,8 +151,6 @@ body {
   align-items: center;
   justify-content: center;
   background-color: var(--primary-color);
-  border: 1px solid var(--secondary-color);
-  border-radius: 20px;
   padding: 10px 20px;
   text-decoration: none;
 }
@@ -348,9 +346,4 @@ body {
 .post-button:focus {
   outline: none;  /* Removing the default outline */
   box-shadow: 0 0 5px rgba(0,0,0,0.5);  /* Adding a custom focus style */
-}
-button {
-  padding: 0;
-  border: none;
-  background: none;
 }
