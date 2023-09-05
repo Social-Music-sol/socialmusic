@@ -45,9 +45,6 @@ body {
 }
 
 
-.create-post-button.post-button:hover {
-  background: #f0efef;
-}
 
 
 .post-content {
@@ -138,13 +135,6 @@ body {
  }
  .comment-container:nth-child(n+4) {
   display: none;
-}
-.create-post-button {
-  cursor: pointer;
-  border: none;
-  background: none;
-  padding: 0;
-  display: inline-block;
 }
 
 .post-button {
@@ -427,7 +417,4 @@ img.post-button {
   border: 1px solid var(--border-color);
   width: 300px; /* Adjust based on your needs */
 
-}
-.create-post-button {
-  border: none;
 }
