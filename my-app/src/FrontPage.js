@@ -50,6 +50,7 @@ function HomePage() {
     }
     navigate('/');
     togglePostForm(); // Close the form after posting
+    getRecentPosts(); // Refresh the posts
   };
 
   const handleSubmit = (event) => {
@@ -57,7 +58,6 @@ function HomePage() {
     handlePost(songLink, caption);
     setSongLink('');
     setCaption('');
-    navigate('/');
   };
 
   useEffect(() => {
