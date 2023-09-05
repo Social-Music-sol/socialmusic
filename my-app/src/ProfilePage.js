@@ -164,11 +164,6 @@ export default function UserProfile() {
           <Link to="/">
             <img src={textlogo} alt="JamJar Text Logo" className="textlogo" />
           </Link>
-          {loggedInUser && (
-            <Link to="/post" className="create-post-button">
-              <button className="post-button">Post</button>
-            </Link>
-          )}
         </div>
       </div>
       <div className="profile-info">
