@@ -57,6 +57,7 @@ function HomePage() {
     handlePost(songLink, caption);
     setSongLink('');
     setCaption('');
+    navigate('/');
   };
 
   useEffect(() => {
