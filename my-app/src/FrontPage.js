@@ -48,9 +48,17 @@ function HomePage() {
     if (data.message) {
       alert(data.message);
     }
+    
+    // Reset state to initial values
+    setPosts([]);
+    setLastTimestamp(null);
+
+    // Fetch new data
+    getRecentPosts();
+
+    // Navigate or toggle form as needed
+    togglePostForm(); 
     navigate('/');
-    togglePostForm(); // Close the form after posting
-    getRecentPosts(); // Refresh the posts
   };
 
   const handleSubmit = (event) => {
